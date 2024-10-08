@@ -11,7 +11,7 @@ interface Props {
 
 export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 	return (
-		<div className="fixed top-0 left-0 bottom-0 z-10 md:border-r-2 border-menu-separator bg-layout-primary/90">
+		<div className="fixed top-0 left-0 bottom-0 z-10 md:border-r-2 border-menu-separator bg-layout-primary">
 			<header className="flex items-top py-2 md:py-4 px-4 md:gap-x-4 relative h-full w-[18rem] overflow-y-auto">
 				<ul className={`flex-col hidden flex-1 md:flex lg:gap-[2rem] scroll-auto mt-2`}>
 					<Link className="grid justify-items-center" href={'/'}>
@@ -23,6 +23,13 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 						</svg>
 					</button>
+
+					<div
+						className={`fixed inset-0 h-screen w-full ml-[18rem] bg-black/70 backdrop-blur-sm ${
+							isNavBarOpen ? 'block' : 'hidden'
+						}`}
+						onClick={() => setIsNavBarOpen(false)}
+					></div>
 
 					<menu className="grid grid-cols-1 gap-6 place-content-stretch" onClick={() => setIsNavBarOpen(false)}>
 						<NavElementTree />

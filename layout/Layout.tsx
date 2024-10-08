@@ -18,7 +18,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 			<div className="h-main pt-32 max-md:pt-28">
 				<main className="block min-h-content p-4 xl:px-20">{children}</main>
-				<Footer />
+
+				<div className="pb-1">
+					<Footer />
+				</div>
 			</div>
 		</>
 	);

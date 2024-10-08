@@ -8,7 +8,7 @@ export default function MenuBar() {
 	return (
 		<>
 			<div className="fixed top-0 left-0 right-0 z-10 m-4 md:m-6 md:mx-10 xl:mx-20">
-				<div className="backdrop-blur bg-card-body-primary border-b-2 border-menu-separator rounded-3xl shadow-lg p-4 flex items-center">
+				<div className="backdrop-blur bg-card-body-primary border-b-2 border-menu-separator rounded-3xl shadow-lg py-4 px-6 xl:px-10 flex items-center">
 					<div className="flex items-center space-x-4 w-full">
 						<div onClick={() => setIsNavBarOpen(!isNavBarOpen)} className={`cursor-pointer`}>
 							<svg

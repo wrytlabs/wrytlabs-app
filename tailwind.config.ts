@@ -28,11 +28,7 @@ const config: Config = {
 				layout: {
 					primary: '#ffffff',
 					secondary: '#092f62',
-				},
-				menu: {
-					text: '#092f62',
-					active: '#092f62',
-					hover: '#b7bfd1',
+					menu: '#092f62',
 					separator: '#f7f7f9',
 				},
 				card: {
@@ -50,9 +46,9 @@ const config: Config = {
 				text: {
 					header: '#092f62',
 					subheader: '#677180',
-					active: '#ff44dd',
+					hover: '#b7bfd1',
 					primary: '#092f62',
-					secondary: '#e2e8f0',
+					secondary: '#ffffff',
 					warning: '#ef4444',
 					success: '#22c55e',
 				},

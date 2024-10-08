@@ -1,6 +1,6 @@
 import AppCard from '@components/AppCard';
 
-export default function CommingSoonPage() {
+export default function CommingSoon() {
 	return (
 		<div className="flex items-center justify-center h-[70vh]">
 			<AppCard>

@@ -16,10 +16,10 @@ export default function NavElement({ item, external }: NavElementProps) {
 	const childs = item.childs || [];
 	return (
 		<div className="rounded-2xl p-3 shadow-lg bg-card-body-primary/70">
-			<Link className={`btn btn-nav hover:text-menu-hover`} href={item.to ?? ''} target={external ? '_blank' : '_self'}>
+			<Link className={`btn btn-nav hover:text-text-hover`} href={item.to ?? ''} target={external ? '_blank' : '_self'}>
 				<div className="flex flex-row items-center">
 					<div className="mx-5 w-[2rem] flex items-center justify-center">{item.icon}</div>
-					<span className={active ? 'text-menu-active font-semibold' : 'font-semibold'}>{item.name}</span>
+					<span className={active ? 'text-text-active font-semibold' : 'font-semibold'}>{item.name}</span>
 				</div>
 			</Link>
 
@@ -31,7 +31,7 @@ export default function NavElement({ item, external }: NavElementProps) {
 						{childs.length > 0
 							? childs.map((c) => (
 									<Link
-										className={`btn btn-nav hover:text-menu-hover`}
+										className={`btn btn-nav hover:text-text-hover`}
 										key={item.name + c.name}
 										href={c.to ?? ''}
 										target={external ? '_blank' : '_self'}

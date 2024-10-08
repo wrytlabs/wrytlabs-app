@@ -25,7 +25,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 					</button>
 
 					<div
-						className={`fixed inset-0 h-screen w-full ml-[18rem] bg-black/70 backdrop-blur-sm ${
+						className={`fixed inset-0 h-screen w-full ml-[18rem] bg-black/30 backdrop-blur-sm ${
 							isNavBarOpen ? 'block' : 'hidden'
 						}`}
 						onClick={() => setIsNavBarOpen(false)}
@@ -49,13 +49,13 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 								</svg>
 							</div>
 							<div
-								className={`fixed inset-0 h-screen w-full bg-black/70 backdrop-blur-sm ${
+								className={`fixed inset-0 h-screen w-full bg-black/30 backdrop-blur-sm ${
 									isNavBarOpen ? 'block' : 'hidden'
 								}`}
 								onClick={() => setIsNavBarOpen(false)}
 							></div>
 							<div
-								className={`fixed top-0 left-0 h-screen w-64 transition-transform duration-200 overflow-y-auto overscroll-y-auto  ${
+								className={`fixed top-0 left-0 h-screen w-[18rem] transition-transform duration-200 overflow-y-auto overscroll-y-auto  ${
 									isNavBarOpen ? 'translate-x-0' : 'translate-x-full'
 								}`}
 							>

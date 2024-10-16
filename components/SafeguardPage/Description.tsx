@@ -18,7 +18,7 @@ export default function SafeguardDescription() {
 					<a href="https://www.deribit.com/kb/about-us" target="_blank" className="underline cursor-pointer">
 						<Image
 							className="rounded-lg opacity-90"
-							src="/deribit.png"
+							src="/assets/deribit.png"
 							width={100}
 							height={100}
 							alt="Picture of the author"

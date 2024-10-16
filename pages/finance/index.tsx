@@ -1,9 +1,5 @@
-import AppCard from '@components/AppCard';
+import CommingSoon from '@components/CommingSoon';
 
 export default function FinanceToolsPage() {
-	return (
-		<AppCard>
-			<p>Hi</p>
-		</AppCard>
-	);
+	return <CommingSoon />;
 }

@@ -15,7 +15,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 			<header className="flex items-top py-2 md:py-4 px-4 md:gap-x-4 relative h-full w-[18rem] overflow-y-auto">
 				<ul className={`flex-col hidden flex-1 md:flex lg:gap-[2rem] scroll-auto mt-2`}>
 					<Link className="grid justify-items-center" href={'/'}>
-						<Image className="rounded-xl" src="/wrytlabs.png" alt="Logo" width={120} height={100} />
+						<Image className="rounded-xl" src="/assets/wrytlabs.png" alt="Logo" width={120} height={100} />
 					</Link>
 
 					<button className="absolute top-4 right-4" onClick={() => setIsNavBarOpen(false)}>
@@ -60,6 +60,10 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 								}`}
 							>
 								<div className="min-h-full w-full bg-card-body-primary px-6 pt-12 relative">
+									<Link className="grid justify-items-center" href={'/'}>
+										<Image className="rounded-xl" src="/assets/wrytlabs.png" alt="Logo" width={120} height={100} />
+									</Link>
+
 									<button className="absolute top-4 right-4" onClick={() => setIsNavBarOpen(false)}>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -71,6 +75,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 										</svg>
 									</button>
+
 									<menu
 										className="grid grid-cols-1 gap-6 place-content-stretch mt-5"
 										onClick={() => setIsNavBarOpen(false)}

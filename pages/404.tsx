@@ -1,5 +1,3 @@
-import AppCard from '@components/AppCard';
-
 export default function custom404() {
 	return (
 		<div className="flex items-center justify-center h-[70vh] w-full">

@@ -1,6 +1,7 @@
 import NavElement from './NavElement';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+	faArrowRightArrowLeft,
 	faArrowUpShortWide,
 	faBuilding,
 	faCampground,
@@ -61,28 +62,6 @@ export const NavTree: NavBarTree[] = [
 		],
 	},
 	{
-		name: 'Server Tools',
-		to: '/server',
-		icon: <FontAwesomeIcon icon={faComputer} className="cursor-pointer" size={'xl'} />,
-		childs: [
-			{
-				name: 'Hosting',
-				to: '/server/hosting',
-				icon: <FontAwesomeIcon icon={faServer} className="cursor-pointer" />,
-			},
-			{
-				name: 'Storage',
-				to: '/server/storage',
-				icon: <FontAwesomeIcon icon={faDatabase} className="cursor-pointer" />,
-			},
-			{
-				name: 'Deployment',
-				to: '/server/deployment',
-				icon: <FontAwesomeIcon icon={faLaptopCode} className="cursor-pointer" />,
-			},
-		],
-	},
-	{
 		name: 'Finance Tools',
 		to: '/finance',
 		icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
@@ -93,24 +72,24 @@ export const NavTree: NavBarTree[] = [
 				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
 			},
 			{
-				name: 'Invest',
-				to: '/finance/invest',
+				name: 'Earn',
+				to: '/finance/earn',
 				icon: <FontAwesomeIcon icon={faSeedling} className="cursor-pointer" />,
 			},
 			{
-				name: 'Lend',
-				to: '/finance/lend',
+				name: 'Collect',
+				to: '/finance/collect',
 				icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
 			},
+			// {
+			// 	name: 'Commit',
+			// 	to: '/finance/commit',
+			// 	icon: <FontAwesomeIcon icon={faFileInvoice} className="cursor-pointer" />,
+			// },
 			{
 				name: 'Borrow',
 				to: '/finance/borrow',
 				icon: <FontAwesomeIcon icon={faMoneyBill1Wave} className="cursor-pointer" />,
-			},
-			{
-				name: 'Invoice',
-				to: '/finance/invoice',
-				icon: <FontAwesomeIcon icon={faFileInvoice} className="cursor-pointer" />,
 			},
 		],
 	},
@@ -129,11 +108,11 @@ export const NavTree: NavBarTree[] = [
 				to: '/governance/contribute',
 				icon: <FontAwesomeIcon icon={faHandHoldingHeart} className="cursor-pointer" />,
 			},
-			{
-				name: 'Research Hub',
-				to: '/governance/deployment',
-				icon: <FontAwesomeIcon icon={faLaptopCode} className="cursor-pointer" />,
-			},
+			// {
+			// 	name: 'Research Hub',
+			// 	to: '/governance/deployment',
+			// 	icon: <FontAwesomeIcon icon={faLaptopCode} className="cursor-pointer" />,
+			// },
 		],
 	},
 	{

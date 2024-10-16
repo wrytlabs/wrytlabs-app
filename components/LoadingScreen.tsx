@@ -14,7 +14,7 @@ export default function LoadingScreen() {
 				<div className="flex flex-col items-center gap-8">
 					<div className="flex flex-col items-center -mt-20">
 						<picture>
-							<Image className="h-20 rounded-xl" src="/wrytlabs.png" alt="Logo" width={200} height={150} />
+							<Image className="h-20 rounded-xl" src="/assets/wrytlabs.png" alt="Logo" width={200} height={150} />
 						</picture>
 						<h1 className="mt-10">App is loading...</h1>
 					</div>

@@ -1,6 +1,9 @@
 import AppCard from '@components/AppCard';
 import { ResponsePortfolio } from '../../mock/ResponsePortfolio';
 import { useState } from 'react';
+import AppBox from '@components/AppBox';
+import { formatCurrency, FormatType } from '@utils';
+import TokenLogo from '@components/TokenLogo';
 
 export default function SafeguardPortfolioBalance() {
 	const [portfolio, setPortfolio] = useState(ResponsePortfolio);
@@ -12,7 +15,7 @@ export default function SafeguardPortfolioBalance() {
 
 	return (
 		<AppCard>
-			<div className="mt-3 mb-5 px-3 text-xl font-semibold">Your Safeguard Balances</div>
+			<div className="text-xl font-semibold">Your Safeguard Balances</div>
 			<div className={`grid lg:grid-cols-2 gap-4`}>{matching.map((p) => SafeguardPortfolioBalanceItem(p))}</div>
 		</AppCard>
 	);
@@ -33,10 +36,22 @@ export type SafeguardPortfolioBalanceItemProps = {
 
 export function SafeguardPortfolioBalanceItem({ currency, balance, equity }: SafeguardPortfolioBalanceItemProps) {
 	return (
-		<div className="bg-yellow-200 hover:bg-yellow-300 cursor-pointer rounded-xl shadow-md px-5 py-2 mx-2">
-			<div>Symbol: {currency.toUpperCase()}</div>
-			<div>Equity: {equity}</div>
-			<div>Balance: {balance}</div>
-		</div>
+		<AppBox>
+			<div className="flex flex-row gap-4">
+				<div className="flex items-center">
+					<TokenLogo currency={currency} />
+				</div>
+
+				<div className="flex-1 font-semibold">
+					<div className="flex justify-end">{formatCurrency(equity, 4, 4, FormatType.us)}</div>
+					<div className="flex justify-end">{formatCurrency(equity, 4, 4, FormatType.us)}</div>
+				</div>
+
+				<div className="flex flex-col w-12">
+					<div className="flex">{currency.toUpperCase()}</div>
+					<div className="flex">USD</div>
+				</div>
+			</div>
+		</AppBox>
 	);
 }

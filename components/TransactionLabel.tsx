@@ -1,22 +1,25 @@
 import { Hash } from 'viem';
-import { useTxUrl } from '../hooks/useContractUrl';
+import { useBitcoinTxUrl, useTxUrl } from '../hooks/useContractUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { mainnet, polygon } from 'viem/chains';
 
-type TxLabelSimpleProps = {
+type Props = {
 	label: string;
-	tx: Hash;
+	hash: string;
 	showLink?: boolean;
+	blockchain?: 'bitcoin' | 'ethereum' | 'polygon';
 	className?: string;
 };
 
-// TODO: blockchain btc/evm
-export function TxLabelSimple({ label, tx, showLink, className }: TxLabelSimpleProps) {
-	const link = useTxUrl(tx);
+export function TransactionLabel({ label, hash, showLink, blockchain, className }: Props) {
+	const linkEth = useTxUrl(hash, blockchain === 'ethereum' ? mainnet : polygon);
+	const linkBtc = useBitcoinTxUrl(hash);
+	const isBitcoin = blockchain === 'bitcoin';
 
 	const openExplorer = (e: any) => {
 		e.preventDefault();
-		window.open(link, '_blank');
+		window.open(isBitcoin ? linkBtc : linkEth, '_blank');
 	};
 
 	return (

@@ -14,7 +14,11 @@ export default function SafeguardPortfolio() {
 	return (
 		<AppCard>
 			<div className="text-xl font-semibold">Your Safeguard Balances</div>
-			<div className={`grid lg:grid-cols-2 gap-4`}>{matching.map((p) => PortfolioBalanceBox(p))}</div>
+			<div className={`grid lg:grid-cols-2 gap-4`}>
+				{matching.map((p) => (
+					<PortfolioBalanceBox key={p.currency} currency={p.currency} amount={p.equity} value={p.equity} />
+				))}
+			</div>
 		</AppCard>
 	);
 }

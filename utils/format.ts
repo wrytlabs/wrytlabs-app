@@ -144,3 +144,7 @@ export const isDateUpcoming = (timestamp: number | bigint): boolean => {
 	const date = dayjs(Number(timestamp) * 1000);
 	return date.isAfter();
 };
+
+export function capLetter(data: string) {
+	return data.charAt(0).toUpperCase() + data.slice(1);
+}

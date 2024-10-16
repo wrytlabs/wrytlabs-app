@@ -15,7 +15,7 @@ export default function SafeguardDescription() {
 				</a>
 			</div>
 
-			<div className="relative w-full h-10 max-md:h-16">
+			<div className="relative w-full h-10">
 				<div className="absolute bottom-0 right-0 rounded-lg">
 					<a href="https://www.deribit.com/kb/about-us" target="_blank" className="underline cursor-pointer">
 						<Image

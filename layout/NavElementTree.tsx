@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faArrowRightArrowLeft,
 	faArrowUpShortWide,
+	faBank,
 	faBuilding,
 	faCampground,
 	faCoins,
@@ -71,6 +72,11 @@ export const NavTree: NavBarTree[] = [
 				to: '/finance/safeguard',
 				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
 			},
+			// {
+			// 	name: 'Banking',
+			// 	to: '/finance/banking',
+			// 	icon: <FontAwesomeIcon icon={faBank} className="cursor-pointer" />,
+			// },
 			{
 				name: 'Earn',
 				to: '/finance/earn',

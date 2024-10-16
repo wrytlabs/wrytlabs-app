@@ -1,27 +1,8 @@
-import AppCard from '@components/AppCard';
-import { ResponsePortfolio } from '../../mock/ResponsePortfolio';
-import { useState } from 'react';
 import AppBox from '@components/AppBox';
 import { formatCurrency, FormatType } from '@utils';
 import TokenLogo from '@components/TokenLogo';
 
-export default function SafeguardPortfolioBalance() {
-	const [portfolio, setPortfolio] = useState(ResponsePortfolio);
-
-	const currencies = ['btc', 'eth', 'usdt', 'usdc'];
-	const matching = Object.values(portfolio)
-		.filter((p) => currencies.includes(p.currency))
-		.sort((a, b) => currencies.indexOf(a.currency) - currencies.indexOf(b.currency));
-
-	return (
-		<AppCard>
-			<div className="text-xl font-semibold">Your Safeguard Balances</div>
-			<div className={`grid lg:grid-cols-2 gap-4`}>{matching.map((p) => SafeguardPortfolioBalanceItem(p))}</div>
-		</AppCard>
-	);
-}
-
-export type SafeguardPortfolioBalanceItemProps = {
+export interface PortfolioBalanceBoxProps {
 	additional_reserve: number;
 	spot_reserve: number;
 	available_withdrawal_funds: number;
@@ -32,9 +13,9 @@ export type SafeguardPortfolioBalanceItemProps = {
 	margin_balance: number;
 	currency: string;
 	balance: number;
-};
+}
 
-export function SafeguardPortfolioBalanceItem({ currency, balance, equity }: SafeguardPortfolioBalanceItemProps) {
+export function PortfolioBalanceBox({ currency, balance, equity }: PortfolioBalanceBoxProps) {
 	return (
 		<AppBox>
 			<div className="flex flex-row gap-4">

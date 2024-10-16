@@ -1,13 +1,15 @@
-import SafeguardDepositCollateral from '@components/SafeguardPage/DepositCollateral';
+import SafeguardDeposit from '@components/SafeguardPage/Deposit';
 import SafeguardDescription from '@components/SafeguardPage/Description';
-import SafeguardPortfolioBalance from '@components/SafeguardPage/PortfolioBalance';
+import SafeguardPortfolio from '@components/SafeguardPage/Portfolio';
 
 export default function FinanceToolsSafeguardPage() {
 	return (
 		<div className="grid gap-5 max-md:gap-8">
 			<SafeguardDescription />
-			<SafeguardPortfolioBalance />
-			<SafeguardDepositCollateral />
+
+			<SafeguardPortfolio />
+
+			<SafeguardDeposit />
 		</div>
 	);
 }

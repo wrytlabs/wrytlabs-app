@@ -55,11 +55,6 @@ export const NavTree: NavBarTree[] = [
 				to: '/home/goals',
 				icon: <FontAwesomeIcon icon={faLightbulb} className="cursor-pointer" />,
 			},
-			{
-				name: 'Membership',
-				to: '/home/membership',
-				icon: <FontAwesomeIcon icon={faUnlockKeyhole} className="cursor-pointer" />,
-			},
 		],
 	},
 	{
@@ -105,6 +100,11 @@ export const NavTree: NavBarTree[] = [
 		icon: <FontAwesomeIcon icon={faPeopleGroup} className="cursor-pointer" size={'xl'} />,
 		childs: [
 			{
+				name: 'Membership',
+				to: '/governance/membership',
+				icon: <FontAwesomeIcon icon={faUnlockKeyhole} className="cursor-pointer" />,
+			},
+			{
 				name: 'Voting',
 				to: '/governance/voting',
 				icon: <FontAwesomeIcon icon={faRankingStar} className="cursor-pointer" />,
@@ -114,11 +114,6 @@ export const NavTree: NavBarTree[] = [
 				to: '/governance/contribute',
 				icon: <FontAwesomeIcon icon={faHandHoldingHeart} className="cursor-pointer" />,
 			},
-			// {
-			// 	name: 'Research Hub',
-			// 	to: '/governance/deployment',
-			// 	icon: <FontAwesomeIcon icon={faLaptopCode} className="cursor-pointer" />,
-			// },
 		],
 	},
 	{

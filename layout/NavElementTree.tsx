@@ -58,9 +58,31 @@ export const NavTree: NavBarTree[] = [
 		],
 	},
 	{
+		name: 'Stablecoin',
+		to: '/stablecoin',
+		icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
+		childs: [
+			{
+				name: 'Mint',
+				to: '/stablecoin/mint',
+				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
+			},
+			{
+				name: 'Vote',
+				to: '/stablecoin/votes',
+				icon: <FontAwesomeIcon icon={faLightbulb} className="cursor-pointer" />,
+			},
+			{
+				name: 'Savings',
+				to: '/stablecoin/savings',
+				icon: <FontAwesomeIcon icon={faLightbulb} className="cursor-pointer" />,
+			},
+		],
+	},
+	{
 		name: 'Finance Tools',
 		to: '/finance',
-		icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
+		icon: <FontAwesomeIcon icon={faBank} className="cursor-pointer" size={'xl'} />,
 		childs: [
 			{
 				name: 'Safeguard',

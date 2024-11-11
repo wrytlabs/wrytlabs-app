@@ -1,3 +1,4 @@
+import AppPage from '@components/AppPage';
 import SafeguardDeposit from '@components/SafeguardPage/Deposit';
 import SafeguardDepositTable from '@components/SafeguardPage/DepositTable';
 import SafeguardDescription from '@components/SafeguardPage/Description';
@@ -5,7 +6,7 @@ import SafeguardPortfolio from '@components/SafeguardPage/Portfolio';
 
 export default function FinanceToolsSafeguardPage() {
 	return (
-		<div className="grid gap-5 max-md:gap-8">
+		<AppPage>
 			<SafeguardDescription />
 
 			<SafeguardPortfolio />
@@ -13,6 +14,6 @@ export default function FinanceToolsSafeguardPage() {
 			<SafeguardDeposit />
 
 			<SafeguardDepositTable />
-		</div>
+		</AppPage>
 	);
 }

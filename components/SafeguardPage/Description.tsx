@@ -23,7 +23,7 @@ export default function SafeguardDescription() {
 							src="/assets/deribit.png"
 							width={100}
 							height={100}
-							alt="Picture of the author"
+							alt="Deribit Logo"
 						></Image>
 					</a>
 				</div>

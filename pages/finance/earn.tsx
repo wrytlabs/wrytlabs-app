@@ -1,5 +1,10 @@
-import CommingSoon from '@components/CommingSoon';
+import AppPage from '@components/AppPage';
+import EarnDescription from '@components/EarnPage/Description';
 
 export default function FinanceToolsEarnPage() {
-	return <CommingSoon />;
+	return (
+		<AppPage>
+			<EarnDescription />
+		</AppPage>
+	);
 }

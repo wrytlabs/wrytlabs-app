@@ -19,7 +19,7 @@ export default function NavElement({ item, external }: NavElementProps) {
 			<Link className={`btn btn-nav hover:text-text-hover`} href={item.to ?? ''} target={external ? '_blank' : '_self'}>
 				<div className="flex flex-row items-center">
 					<div className="mx-5 w-[2rem] flex items-center justify-center">{item.icon}</div>
-					<span className={active ? 'text-text-active font-semibold' : 'font-semibold'}>{item.name}</span>
+					<span className={active ? 'text-text-active font-semibold' : ''}>{item.name}</span>
 				</div>
 			</Link>
 
@@ -36,7 +36,11 @@ export default function NavElement({ item, external }: NavElementProps) {
 										href={c.to ?? ''}
 										target={external ? '_blank' : '_self'}
 									>
-										<div className="flex">
+										<div
+											className={`flex ${
+												c.to && pathname.includes(c.to) ? 'bg-card-content-primary rounded-2xl py-1' : ''
+											}`}
+										>
 											<div className="mx-5 w-[2rem] flex items-center justify-center">{c.icon}</div>
 											<div className={c.to && pathname.includes(c.to) ? 'font-semibold' : ''}>{c.name}</div>
 										</div>

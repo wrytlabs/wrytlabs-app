@@ -1,18 +1,27 @@
 import AppBox from '@components/AppBox';
 import { formatCurrency, FormatType } from '@utils';
 import TokenLogo from '@components/TokenLogo';
+import { ResponseGetIndexBTC, ResponseGetIndexETH } from '../../mock/ResponseGetIndex';
 
 export interface PortfolioBalanceBoxProps {
 	currency: string;
 	amount?: number;
-	value?: number;
 	deposit?: number;
 	withdrawal?: number;
 	sent?: number;
 	received?: number;
 }
 
-export function PortfolioBalanceBox({ currency, amount, value, deposit, withdrawal, sent, received }: PortfolioBalanceBoxProps) {
+export function PortfolioBalanceBox({ currency, amount, deposit, withdrawal, sent, received }: PortfolioBalanceBoxProps) {
+	const prices: { [key: string]: number } = {
+		BTC: ResponseGetIndexBTC.result.BTC,
+		ETH: ResponseGetIndexETH.result.ETH,
+		USDC: 1,
+		USDT: 1,
+	};
+
+	const value: number = (amount ?? 0) * prices[currency.toUpperCase()];
+
 	return (
 		<div>
 			<AppBox>

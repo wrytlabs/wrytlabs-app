@@ -62,7 +62,7 @@ export class WebSocketClient {
 					client_secret: this.options.clientSecret,
 					grant_type: 'client_credentials',
 				},
-				(data) => console.log(data?.error ?? data?.result)
+				(data) => console.log(data?.error ?? (data?.result as any)?.scope)
 			);
 		};
 	}
@@ -76,6 +76,12 @@ export class WebSocketClient {
 			const requestId = this.id;
 			this.id += 1;
 
+			// reconnect if not open
+			if (this.socket?.readyState !== WebSocket.OPEN) {
+				this.connect();
+			}
+
+			// action if open
 			if (this.socket?.readyState === WebSocket.OPEN) {
 				this.requests.set(requestId, (data: RequestQuery<ApiResult>) => {
 					if (callback != undefined) resolve(callback(data));
@@ -106,6 +112,7 @@ export class WebSocketClient {
 					10000
 				);
 			} else {
+				// reject if not open
 				reject({
 					jsonrpc: '2.0',
 					id: requestId,

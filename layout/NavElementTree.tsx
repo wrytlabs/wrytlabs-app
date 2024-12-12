@@ -8,6 +8,7 @@ import {
 	faBuilding,
 	faCampground,
 	faCoins,
+	faCommentDollar,
 	faMoneyBills,
 	faComputer,
 	faDatabase,
@@ -73,6 +74,11 @@ export const NavTree: NavBarTree[] = [
 				name: 'Auctions',
 				to: '/stablecoin/auctions',
 				icon: <FontAwesomeIcon icon={faGavel} className="cursor-pointer" />,
+			},
+			{
+				name: 'Makers',
+				to: '/stablecoin/makers',
+				icon: <FontAwesomeIcon icon={faCommentDollar} className="cursor-pointer" />,
 			},
 			{
 				name: 'Savings',

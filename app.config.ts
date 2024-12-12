@@ -5,10 +5,15 @@ import { cookieStorage, createConfig, createStorage, http } from '@wagmi/core';
 import { injected, coinbaseWallet, walletConnect } from '@wagmi/connectors';
 import { mainnet, polygon, Chain } from '@wagmi/core/chains';
 import axios from 'axios';
+import { createWebSocketClient } from './utils/WebSocketClient';
 
 if (process.env.NEXT_PUBLIC_WAGMI_ID === undefined) throw new Error('NEXT_PUBLIC_WAGMI_ID not available');
 if (process.env.NEXT_PUBLIC_RPC_URL_MAINNET === undefined) throw new Error('NEXT_PUBLIC_RPC_URL_MAINNET not available');
 if (process.env.NEXT_PUBLIC_RPC_URL_POLYGON === undefined) throw new Error('NEXT_PUBLIC_RPC_URL_POLYGON not available');
+
+// Deribit
+if (process.env.NEXT_PUBLIC_CLIENT_ID === undefined) throw new Error('NEXT_PUBLIC_CLIENT_ID not available');
+if (process.env.NEXT_PUBLIC_CLIENT_SECRET === undefined) throw new Error('NEXT_PUBLIC_CLIENT_SECRET not available');
 
 // Config
 export type ConfigEnv = { landing: string; app: string; api: string; indexer: string; rpc: string; wagmiId: string; chain: Chain };
@@ -37,6 +42,18 @@ export const PONDER_CLIENT = new ApolloClient({
 // API CLIENT
 export const API_CLIENT = axios.create({
 	baseURL: CONFIG.api,
+});
+
+// DERIBIT API CLIENT
+export const DERIBIT_API_CLIENT = axios.create({
+	baseURL: 'https://www.deribit.com/api/v2',
+});
+
+// DERIBIT WS API CLIENT
+export const DERIBIT_WS_CLIENT = createWebSocketClient({
+	baseUrl: 'wss://www.deribit.com/ws/api/v2',
+	clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+	clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
 });
 
 // WAGMI CONFIG

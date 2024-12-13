@@ -1,39 +1,25 @@
 import { useState } from 'react';
-import { DERIBIT_WS_CLIENT } from '../../app.config';
-
-type ApiTransferResult = {
-	count: number;
-	data: ApiTransferResultItem[];
-};
-
-type ApiTransferResultItem = {
-	amount: number;
-	created_timestamp: number;
-	currency: string;
-	direction: string;
-	id: number;
-	other_side: string;
-	state: string;
-	type: string;
-	updated_timestamp: number;
-};
+import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
+import { Currency } from '@wrytlabs/deribit-api-client';
 
 export default function FinanceBorrowPage() {
-	const [tx, setTx] = useState<ApiTransferResultItem[]>([]);
+	const [tx, setTx] = useState<[]>([]);
 
 	const handleApiTransferResult = () => {
-		DERIBIT_WS_CLIENT.send<ApiTransferResult>(
-			'/private/get_transfers',
-			{
-				currency: 'BTC',
-				count: 10,
-			},
-			(data) => {
-				if (data?.result?.data) {
-					setTx(data.result.data);
+		deribit.wallet
+			.getTransfers(
+				{
+					currency: Currency.BTC,
+				},
+				(d) => {
+					console.log(d);
+					return d.testnet;
 				}
-			}
-		);
+			)
+			.then((data) => {
+				console.log(data);
+			})
+			.catch(console.log);
 	};
 
 	return (

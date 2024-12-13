@@ -1,49 +1,51 @@
-import { useState } from 'react';
-import { DERIBIT_WS_CLIENT } from '../../app.config';
-
-type ApiTransferResult = {
-	count: number;
-	data: ApiTransferResultItem[];
-};
-
-type ApiTransferResultItem = {
-	amount: number;
-	created_timestamp: number;
-	currency: string;
-	direction: string;
-	id: number;
-	other_side: string;
-	state: string;
-	type: string;
-	updated_timestamp: number;
-};
+import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
+import { Currency, GetInstrumentKind, MarketGetDeliveryPricesNames } from '@wrytlabs/deribit-api-client';
 
 export default function FinanceBankingPage() {
-	const [tx, setTx] = useState<ApiTransferResultItem[]>([]);
-
-	const handleApiTransferResult = () => {
-		DERIBIT_WS_CLIENT.send<ApiTransferResult>(
-			'/private/get_transfers',
-			{
-				currency: 'BTC',
-				count: 10,
-			},
-			(data) => {
-				if (data?.result?.data) {
-					setTx(data.result.data);
-				}
-			}
-		);
-	};
-
 	return (
-		<div>
-			<h1>RPC Example</h1>
-			<button onClick={handleApiTransferResult}>Send Message</button>
+		<div className="grid grid-cols-4 gap-5 text-sm">
+			<button
+				className="bg-blue-400 p-5 rounded-2xl"
+				onClick={async () => console.log(await deribit.market.getBookSummaryByCurrency({ currency: Currency.BTC }))}
+			>
+				getBookSummaryByCurrency
+			</button>
 
-			{tx.map((t, idx) => (
-				<div key={`tx-${idx}`}>{JSON.stringify(t)}</div>
-			))}
+			<button
+				className="bg-blue-400 p-5 rounded-2xl"
+				onClick={async () =>
+					console.log(await deribit.market.getBookSummaryByInstrument({ instrument_name: 'BTC-27DEC24-100000-P' }))
+				}
+			>
+				getBookSummaryByInstrument
+			</button>
+
+			<button className="bg-blue-400 p-5 rounded-2xl" onClick={async () => console.log(await deribit.market.getCurrencies({}))}>
+				getCurrencies
+			</button>
+
+			<button
+				className="bg-blue-400 p-5 rounded-2xl"
+				onClick={async () =>
+					console.log(await deribit.market.getDeliveryPrices({ index_name: MarketGetDeliveryPricesNames.btc_usd }))
+				}
+			>
+				getDeliveryPrices:btc_usd
+			</button>
+
+			<button
+				className="bg-blue-400 p-5 rounded-2xl"
+				onClick={async () => {
+					const position = await deribit.account.getPosition({ instrument_name: 'BTC-27DEC24-110000-C' });
+					if ('result' in position) {
+						if (position.result.kind === GetInstrumentKind.option) {
+							console.log(position.result);
+						}
+					}
+				}}
+			>
+				getPosition
+			</button>
 		</div>
 	);
 }

@@ -4,8 +4,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { cookieStorage, createConfig, createStorage, http } from '@wagmi/core';
 import { injected, coinbaseWallet, walletConnect } from '@wagmi/connectors';
 import { mainnet, polygon, Chain } from '@wagmi/core/chains';
+import { createDeribitClient, createDeribitClientPublic, GrantType } from '@wrytlabs/deribit-api-client';
 import axios from 'axios';
-import { createWebSocketClient } from './utils/WebSocketClient';
 
 if (process.env.NEXT_PUBLIC_WAGMI_ID === undefined) throw new Error('NEXT_PUBLIC_WAGMI_ID not available');
 if (process.env.NEXT_PUBLIC_RPC_URL_MAINNET === undefined) throw new Error('NEXT_PUBLIC_RPC_URL_MAINNET not available');
@@ -50,11 +50,14 @@ export const DERIBIT_API_CLIENT = axios.create({
 });
 
 // DERIBIT WS API CLIENT
-export const DERIBIT_WS_CLIENT = createWebSocketClient({
+export const DERIBIT_WS_CLIENT = createDeribitClient({
+	type: GrantType.client_credentials,
 	baseUrl: 'wss://www.deribit.com/ws/api/v2',
 	clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
 	clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
 });
+
+export const DERIBIT_WS_CLIENT_PUBLIC = createDeribitClientPublic();
 
 // WAGMI CONFIG
 export const WAGMI_CHAIN = CONFIG.chain;

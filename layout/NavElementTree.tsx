@@ -60,38 +60,38 @@ export const NavTree: NavBarTree[] = [
 			},
 		],
 	},
-	{
-		name: 'Stablecoin',
-		to: '/stablecoin',
-		icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
-		childs: [
-			{
-				name: 'Mint',
-				to: '/stablecoin/mint',
-				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
-			},
-			{
-				name: 'Auctions',
-				to: '/stablecoin/auctions',
-				icon: <FontAwesomeIcon icon={faGavel} className="cursor-pointer" />,
-			},
-			{
-				name: 'Makers',
-				to: '/stablecoin/makers',
-				icon: <FontAwesomeIcon icon={faCommentDollar} className="cursor-pointer" />,
-			},
-			{
-				name: 'Savings',
-				to: '/stablecoin/savings',
-				icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
-			},
-			{
-				name: 'Votes',
-				to: '/stablecoin/votes',
-				icon: <FontAwesomeIcon icon={faRankingStar} className="cursor-pointer" />,
-			},
-		],
-	},
+	// {
+	// 	name: 'Stablecoin',
+	// 	to: '/stablecoin',
+	// 	icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
+	// 	childs: [
+	// 		{
+	// 			name: 'Mint',
+	// 			to: '/stablecoin/mint',
+	// 			icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
+	// 		},
+	// 		{
+	// 			name: 'Auctions',
+	// 			to: '/stablecoin/auctions',
+	// 			icon: <FontAwesomeIcon icon={faGavel} className="cursor-pointer" />,
+	// 		},
+	// 		{
+	// 			name: 'Makers',
+	// 			to: '/stablecoin/makers',
+	// 			icon: <FontAwesomeIcon icon={faCommentDollar} className="cursor-pointer" />,
+	// 		},
+	// 		{
+	// 			name: 'Savings',
+	// 			to: '/stablecoin/savings',
+	// 			icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
+	// 		},
+	// 		{
+	// 			name: 'Votes',
+	// 			to: '/stablecoin/votes',
+	// 			icon: <FontAwesomeIcon icon={faRankingStar} className="cursor-pointer" />,
+	// 		},
+	// 	],
+	// },
 	{
 		name: 'Finance Tools',
 		to: '/finance',

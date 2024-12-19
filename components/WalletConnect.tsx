@@ -3,6 +3,7 @@
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
+import Button from './AppButton';
 
 export default function WalletConnect() {
 	const [isLoaded, setLoaded] = useState<boolean>(false);
@@ -21,12 +22,9 @@ export default function WalletConnect() {
 		);
 	} else {
 		return (
-			<div
-				className="bg-layout-secondary text-text-secondary h-8 md:h-10 flex items-center rounded-3xl px-4 font-semibold"
-				onClick={() => Web3Modal.open()}
-			>
+			<Button width="w-36" onClick={() => Web3Modal.open()}>
 				Connect Wallet
-			</div>
+			</Button>
 		);
 	}
 }

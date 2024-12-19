@@ -1,4 +1,3 @@
-import CommingSoon from '@components/CommingSoon';
 import { WAGMI_CONFIG } from '../../app.config';
 import { signTypedData, verifyTypedData } from '@wagmi/core';
 

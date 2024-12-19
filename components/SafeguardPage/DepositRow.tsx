@@ -4,23 +4,25 @@ import { capLetter, formatCurrency, FormatType } from '../../utils/format';
 import AppBox from '@components/AppBox';
 import { Address } from 'viem';
 import { ResponseDepositUSDT } from '../../mock/ResponseDeposit';
-import Button from '@components/Button';
+import Button from '@components/AppButton';
 import { TransactionLabel } from '@components/TransactionLabel';
 import TokenLogo from '@components/TokenLogo';
 import { PortfolioBalanceBox } from './PortfolioBalanceBox';
 
 interface Props {
 	headers: string[];
+	tab: string;
 	deposit: (typeof ResponseDepositUSDT.result.data)[0];
 }
 
-export default function SafeguardDepositRow({ headers, deposit }: Props) {
+export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
 	const navigate = useNavigation();
 	const d = new Date(deposit.received_timestamp).toLocaleString();
 
 	return (
 		<TableRow
 			headers={headers}
+			tab={tab}
 			// actionCol={
 			// 	<Button className="h-10" >
 			// 		View

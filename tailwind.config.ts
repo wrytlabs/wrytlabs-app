@@ -31,6 +31,14 @@ const config: Config = {
 					menu: '#092f62',
 					separator: '#f7f7f9',
 				},
+				menu: {
+					text: '#272B38',
+					textactive: '#272B38',
+					active: '#F0F1F5',
+					hover: '#B7BFD1',
+					back: '#FFFFFF',
+					separator: '#EAEBF0',
+				},
 				card: {
 					body: {
 						primary: '#f7f7f9',
@@ -48,7 +56,7 @@ const config: Config = {
 					subheader: '#677180',
 					hover: '#b7bfd1',
 					primary: '#092f62',
-					secondary: '#ffffff',
+					secondary: '#677180',
 					warning: '#ef4444',
 					success: '#22c55e',
 				},
@@ -62,6 +70,12 @@ const config: Config = {
 						secondary: '#d1d5db',
 						hover: '#d1d5db',
 					},
+				},
+				button: {
+					default: '#092F62',
+					hover: '#0A80A0',
+					disabled: '#EAEBF0',
+					textdisabled: '#ADB2C2',
 				},
 			},
 		},

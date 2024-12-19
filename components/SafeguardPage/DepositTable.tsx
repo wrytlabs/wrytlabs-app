@@ -29,7 +29,7 @@ export default function SafeguardDepositTable() {
 				{sorted.length == 0 ? (
 					<TableRowEmpty>{'There are no deposits yet.'}</TableRowEmpty>
 				) : (
-					sorted.map((d) => <SafeguardDepositRow key={d.transaction_id} headers={headers} deposit={d} />)
+					sorted.map((d) => <SafeguardDepositRow headers={headers} tab={tab} deposit={d} key={d.transaction_id} />)
 				)}
 			</TableBody>
 		</Table>

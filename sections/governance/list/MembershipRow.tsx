@@ -33,7 +33,11 @@ export default function MembershipRow({ headers, tab, membership }: Props) {
 	}
 
 	return (
-		<TableRow headers={headers} tab={tab} actionCol={<AppButton>Edit</AppButton>}>
+		<TableRow
+			headers={headers}
+			tab={tab}
+			actionCol={<AppButton onClick={() => navigate.push(`/governance/edit/${membership.address}`)}>Edit</AppButton>}
+		>
 			<div className="text-left">{d.split(', ')[0]}</div>
 
 			<div>{shortenAddress(membership.address)}</div>

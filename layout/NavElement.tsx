@@ -17,19 +17,20 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 	const pathname = usePathname();
 	const isElement = Object.keys(item).includes('to');
 
+	const verifyPathname = (s: string): boolean => {
+		return pathname.match(s.toLowerCase()) ? true : false;
+	};
+
 	// @dev: only for elements, to show active childs
 	useEffect(() => {
 		if (!isElement) {
 			const tos = (item as NavBarElements).childs.map((c) => c.to);
-			if (tos.includes(pathname)) {
+			const verify = tos.map((t) => (pathname.match(t.toLowerCase()) ? true : false));
+			if (verify.includes(true)) {
 				setShowChilds(true);
 			}
 		}
 	}, [isElement, item, pathname]);
-
-	const verifyPathname = (s: string): boolean => {
-		return pathname.includes(s.toLowerCase());
-	};
 
 	// @dev: referencing an element without childs
 	if (isElement) {

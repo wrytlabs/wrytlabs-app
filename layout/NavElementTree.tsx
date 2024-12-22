@@ -71,24 +71,46 @@ export const NavTree: NavBarTree[] = [
 		title: 'Management',
 		items: [
 			{
+				name: 'Governance',
+				icon: <FontAwesomeIcon icon={faPeopleGroup} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/governance/list',
+					},
+					{
+						name: 'Details',
+						to: '/governance/details',
+					},
+					{
+						name: 'Create',
+						to: '/governance/create',
+					},
+					{
+						name: 'Edit',
+						to: '/governance/edit',
+					},
+				],
+			},
+			{
 				name: 'Environment',
 				icon: <FontAwesomeIcon icon={faServer} className="cursor-pointer" />,
 				childs: [
 					{
 						name: 'List',
-						to: '/infrastructure/environment/list',
+						to: '/environment/list',
 					},
 					{
 						name: 'Details',
-						to: '/infrastructure/environment/details',
+						to: '/environment/details',
 					},
 					{
 						name: 'Create',
-						to: '/infrastructure/environment/create',
+						to: '/environment/create',
 					},
 					{
 						name: 'Edit',
-						to: '/infrastructure/environment/edit',
+						to: '/environment/edit',
 					},
 				],
 			},

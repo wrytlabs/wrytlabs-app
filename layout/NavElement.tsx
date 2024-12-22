@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NavBarElement, NavBarElements } from './NavElementTree';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleRight, faCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,10 +13,25 @@ export type NavElementProps = {
 };
 
 export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
-	const [showChilds, setShowChilds] = useState<boolean>(true);
+	const [showChilds, setShowChilds] = useState<boolean>(false);
 	const pathname = usePathname();
 	const isElement = Object.keys(item).includes('to');
 
+	// @dev: only for elements, to show active childs
+	useEffect(() => {
+		if (!isElement) {
+			const tos = (item as NavBarElements).childs.map((c) => c.to);
+			if (tos.includes(pathname)) {
+				setShowChilds(true);
+			}
+		}
+	}, [isElement, item, pathname]);
+
+	const verifyPathname = (s: string): boolean => {
+		return pathname.includes(s.toLowerCase());
+	};
+
+	// @dev: referencing an element without childs
 	if (isElement) {
 		const element = item as NavBarElement;
 		return (
@@ -29,7 +44,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 				>
 					<div
 						className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl ${
-							pathname.includes(element.to) ? 'bg-menu-active/20 text-menu-textactive' : 'hover:bg-menu-hover text-menu-text'
+							verifyPathname(element.to) ? 'bg-menu-active/20 text-menu-textactive' : 'hover:bg-menu-hover text-menu-text'
 						}`}
 					>
 						<div className="w-[2rem] flex items-center justify-center">{element.icon}</div>
@@ -40,6 +55,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 		);
 	}
 
+	// @dev: referencing an element with childs[] as elements
 	if (!isElement) {
 		const elements = item as NavBarElements;
 		const childs = elements.childs;
@@ -69,7 +85,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 								>
 									<div
 										className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl ${
-											pathname.includes(c.to)
+											verifyPathname(c.to)
 												? 'bg-menu-active/20 text-menu-textactive'
 												: 'hover:bg-menu-hover text-menu-text'
 										}`}

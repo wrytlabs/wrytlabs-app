@@ -55,7 +55,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 								onClick={() => setIsNavBarOpen(false)}
 							></div>
 							<div
-								className={`fixed top-0 left-0 h-screen w-[18rem] transition-transform duration-200 overflow-y-auto overscroll-y-auto  ${
+								className={`fixed top-0 left-0 h-screen w-[20rem] transition-transform duration-200 overflow-y-auto overscroll-y-auto  ${
 									isNavBarOpen ? 'translate-x-0' : 'translate-x-full'
 								}`}
 							>
@@ -77,7 +77,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 									</button>
 
 									<menu
-										className="grid grid-cols-1 gap-6 place-content-stretch mt-5"
+										className="grid grid-cols-1 gap-6 place-content-stretch mt-8"
 										onClick={() => setIsNavBarOpen(false)}
 									>
 										<NavElementTree setIsNavBarOpen={setIsNavBarOpen} />

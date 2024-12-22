@@ -1,5 +1,5 @@
 import CommingSoon from '@components/CommingSoon';
 
-export default function GovernanceContributePage() {
+export default function GovernanceCreate() {
 	return <CommingSoon />;
 }

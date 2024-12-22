@@ -1,3 +1,5 @@
+'use client';
+
 import AppPage from '@components/AppPage';
 import AppTitle from '@components/AppTitle';
 import BorrowInteraction from '@components/BorrowPage/BorrowInteraction';

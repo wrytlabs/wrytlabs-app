@@ -1,3 +1,5 @@
+'use client';
+
 import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
 import { Currency, GetInstrumentKind, MarketGetDeliveryPricesNames } from '@wrytlabs/deribit-api-client';
 

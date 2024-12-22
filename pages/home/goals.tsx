@@ -1,3 +1,5 @@
+'use client';
+
 import AppCard from '@components/AppCard';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

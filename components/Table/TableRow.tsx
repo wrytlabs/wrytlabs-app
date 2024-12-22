@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
 	children: React.ReactElement[];
@@ -19,14 +19,14 @@ export default function TableRow({
 	link,
 	headers = [],
 	subHeaders = [],
-	tab = "",
+	tab = '',
 	className,
-	classNameMobile = "",
+	classNameMobile = '',
 }: Props) {
 	return (
 		<div
 			className={`${
-				className ?? "bg-table-row-primary md:hover:bg-table-row-hover"
+				className ?? 'bg-table-row-primary md:hover:bg-table-row-hover'
 			} cursor-default px-8  xl:px-12 py-4 border-t border-table-row-hover last:rounded-b-xl duration-300`}
 		>
 			<div className="flex sm:pl-8 flex-col justify-between gap-y-5 md:flex-row">
@@ -65,12 +65,12 @@ function TableRowMobile({ children, headers, subHeaders, tab, className }: Table
 					<div className="mt-2 flex" key={c.key}>
 						<div className="flex-1 text-left">
 							{idx === 0 ? (
-								<div className={`${headers[idx] == tab ? "text-text-primary font-semibold" : "text-text-subheader"}`}>
+								<div className={`${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
 									{c}
 								</div>
 							) : subHeaders.length === 0 ? (
 								<div
-									className={`text-md ${headers[idx] == tab ? "text-text-primary font-semibold" : "text-text-subheader"}`}
+									className={`text-md ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}
 								>
 									{headers[idx]}
 								</div>
@@ -78,7 +78,7 @@ function TableRowMobile({ children, headers, subHeaders, tab, className }: Table
 								<div>
 									<div
 										className={`text-md ${
-											headers[idx] == tab ? "text-md text-text-primary font-semibold" : "text-text-subheader"
+											headers[idx] == tab ? 'text-md text-text-primary font-semibold' : 'text-text-subheader'
 										}`}
 									>
 										{headers[idx]}
@@ -87,8 +87,8 @@ function TableRowMobile({ children, headers, subHeaders, tab, className }: Table
 								</div>
 							)}
 						</div>
-						<div className={`text-right ${headers[idx] == tab ? "text-text-primary font-semibold" : "text-text-subheader"}`}>
-							{idx === 0 ? "" : c}
+						<div className={`text-right ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
+							{idx === 0 ? '' : c}
 						</div>
 					</div>
 				))}

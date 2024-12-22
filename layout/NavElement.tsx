@@ -44,7 +44,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 				>
 					<div
 						className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl ${
-							verifyPathname(element.to) ? 'bg-menu-active/20 text-menu-textactive' : 'hover:bg-menu-hover text-menu-text'
+							verifyPathname(element.to) ? 'bg-menu-active/20 text-menu-textactive' : 'md:hover:bg-menu-hover text-menu-text'
 						}`}
 					>
 						<div className="w-[2rem] flex items-center justify-center">{element.icon}</div>
@@ -63,7 +63,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 			<div className="py-1" onClick={() => setShowChilds(!showChilds)}>
 				<div
 					className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl cursor-pointer ${
-						showChilds ? 'bg-menu-active/5' : 'hover:bg-menu-hover text-menu-text'
+						showChilds ? 'bg-menu-active/5' : 'md:hover:bg-menu-hover text-menu-text'
 					}`}
 				>
 					<div className="w-[2rem] flex items-center justify-center">{elements.icon}</div>
@@ -87,7 +87,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 										className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl ${
 											verifyPathname(c.to)
 												? 'bg-menu-active/20 text-menu-textactive'
-												: 'hover:bg-menu-hover text-menu-text'
+												: 'md:hover:bg-menu-hover text-menu-text'
 										}`}
 									>
 										<div className="w-[2rem] flex items-center justify-center">

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useMembershipFactory } from '../../../hooks/useMembershipFactory';
+import { MembershipFactory, useMembershipFactory } from '../../../hooks/useMembershipFactory';
 import Table from '@components/Table';
 import TableHeader from '@components/Table/TableHead';
 import TableRowEmpty from '@components/Table/TableRowEmpty';
 import TableBody from '@components/Table/TableBody';
 import MembershipRow from './MembershipRow';
+import { zeroAddress } from 'viem';
 
 export default function MembershipTable() {
 	const headers: string[] = ['Date', 'Contract', 'Creator', 'Tx'];
@@ -21,6 +22,15 @@ export default function MembershipTable() {
 		}
 	};
 
+	const createMembership: MembershipFactory = {
+		address: zeroAddress,
+		createdAt: 0,
+		creator: zeroAddress,
+		txHash: '',
+	};
+
+	const sortedList: MembershipFactory[] = [createMembership, ...membershipFactory];
+
 	return (
 		<Table>
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
@@ -30,7 +40,7 @@ export default function MembershipTable() {
 				) : membershipFactory.length == 0 ? (
 					<TableRowEmpty>{'There are no deposits yet.'}</TableRowEmpty>
 				) : (
-					membershipFactory.map((m) => <MembershipRow key={m.address} headers={headers} tab={tab} membership={m} />)
+					sortedList.map((m) => <MembershipRow key={m.address} headers={headers} tab={tab} membership={m} />)
 				)}
 			</TableBody>
 		</Table>

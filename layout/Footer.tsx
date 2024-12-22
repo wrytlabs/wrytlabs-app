@@ -3,6 +3,7 @@ import {} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faTelegram, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
+import { SOCIAL } from '@utils';
 
 interface FooterItemProps {
 	link: string;
@@ -24,13 +25,13 @@ export default function Footer() {
 		<>
 			<ul className="mt-6 mb-4 flex items-center justify-center gap-8">
 				<li>
-					<FooterItem link={''} text="Github" icon={faGithub} />
+					<FooterItem link={SOCIAL.Github_user} text="Github" icon={faGithub} />
 				</li>
 				<li>
-					<FooterItem link={''} text="Twitter" icon={faXTwitter} />
+					<FooterItem link={SOCIAL.Twitter} text="Twitter" icon={faXTwitter} />
 				</li>
 				<li>
-					<FooterItem link={''} text="Telegram" icon={faTelegram} />
+					<FooterItem link={SOCIAL.Telegram} text="Telegram" icon={faTelegram} />
 				</li>
 			</ul>
 		</>

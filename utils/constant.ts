@@ -1,7 +1,9 @@
 export const SOCIAL = {
-	Github_contract: 'https://github.com/...',
-	Github_dapp: 'https://github.com/...',
-	Github_dapp_new_issue: 'https://github.com/.../issues/new/choose',
-	Telegram: 'https://t.me/...',
-	Twitter: 'https://twitter.com/...',
+	Github_contract: 'https://github.com/wrytlabs',
+	Github_user: 'https://github.com/wrytlabs',
+	Github_app: 'https://github.com/wrytlabs/app',
+	Github_app_new_issue: 'https://github.com/wrytlabs/app/issues/new',
+	Telegram: 'https://t.me/wrytlabs',
+	Twitter: 'https://twitter.com/wrytlabs',
+	Email: 'mailto:wrytlabs@proton.me',
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import AppPage from '@components/AppPage';
-import MembershipTable from '../../sections/governance/list/MembershipTable';
+import MembershipListTable from '../../sections/governance/list/MembershipListTable';
 import AppTitle from '@components/AppTitle';
 import CommingSoon from '@components/CommingSoon';
 
@@ -14,7 +14,7 @@ export default function GovernanceList() {
 				</div>
 			</AppTitle>
 
-			<MembershipTable />
+			<MembershipListTable />
 
 			<CommingSoon
 				className="mt-10 text-text-secondary"

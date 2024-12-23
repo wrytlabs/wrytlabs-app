@@ -1,20 +1,27 @@
 import { gql, useQuery } from '@apollo/client';
 import { Address } from 'viem';
 
-export interface MembershipPermissionContract {
+export enum MembershipRoles {
+	Admin = '0xa49807205ce4d355092ef5a8a18f56e8913cf4a201fbe287825b095693c21775',
+	Executor = '0xd8aa0f3194971a2a116679f7c2090f6939c8d4e01a2a8d7e41d55e5351469e63',
+	Member = '0x829b824e2329e205435d941c9f13baf578548505283d29261236d8e6596d4636',
+}
+
+export interface MembershipPermission {
 	address: Address;
 	createdAt: number;
 	updatedAt: number;
+	txHash: string;
 	role: string;
 	account: Address;
-	txHash: string;
+	permission: boolean;
 }
 
 export const useMembershipPermissionContract = (
 	contract: Address
 ): {
 	loading: boolean;
-	MembershipPermission: MembershipPermissionContract[];
+	membershipPermissionContract: MembershipPermission[];
 } => {
 	const { data, loading, client } = useQuery(
 		gql`
@@ -44,34 +51,25 @@ export const useMembershipPermissionContract = (
 	if (loading || !data || !data.membershipRolePermissions) {
 		return {
 			loading,
-			MembershipPermission: [],
+			membershipPermissionContract: [],
 		};
 	}
 
 	return {
 		loading,
-		MembershipPermission: data.MembershipPermission.items,
+		membershipPermissionContract: data.membershipRolePermissions.items,
 	};
 };
 
 // ---------------------------------------------------------------------------------------
 
-export interface MembershipPermissionAccount {
-	address: Address;
-	createdAt: number;
-	updatedAt: number;
-	role: string;
-	account: Address;
-	txHash: string;
-}
-
 export const useMembershipPermissionAccount = (
 	account: Address
 ): {
 	loading: boolean;
-	MembershipPermission: MembershipPermissionAccount[];
+	membershipPermissionAccount: MembershipPermission[];
 } => {
-	const { data, loading, client } = useQuery(
+	const { data, loading } = useQuery(
 		gql`
 			{
 				membershipRolePermissions(
@@ -99,12 +97,12 @@ export const useMembershipPermissionAccount = (
 	if (loading || !data || !data.membershipRolePermissions) {
 		return {
 			loading,
-			MembershipPermission: [],
+			membershipPermissionAccount: [],
 		};
 	}
 
 	return {
 		loading,
-		MembershipPermission: data.MembershipPermission.items,
+		membershipPermissionAccount: data.membershipRolePermissions.items,
 	};
 };

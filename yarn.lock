@@ -2874,6 +2874,11 @@
   dependencies:
     tslib "^2.3.0"
 
+"@wrytlabs/deribit-api-client@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@wrytlabs/deribit-api-client/-/deribit-api-client-1.0.1.tgz#e7aae94697e2948b3af4d5f13131aec82a878443"
+  integrity sha512-rgF0OUl1XrdxYXygB9qq+B+fpriDXBGLtP2+wlHGLQXAQoxLEvRyxbP1DvDrDiHs5hMZwoqxrZ0DOVG+idXbZA==
+
 "@wrytlabs/manager-core@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@wrytlabs/manager-core/-/manager-core-0.0.4.tgz#1ff13faf06fda3ef6f88720de33f09e2872425c4"

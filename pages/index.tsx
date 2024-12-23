@@ -6,6 +6,6 @@ import { useEffect } from 'react';
 export default function MainPage() {
 	const router = useRouter();
 	useEffect(() => {
-		router.push('/home');
+		router.replace('/home');
 	}, [router]);
 }

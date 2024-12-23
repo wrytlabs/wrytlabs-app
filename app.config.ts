@@ -44,11 +44,6 @@ export const API_CLIENT = axios.create({
 	baseURL: CONFIG.api,
 });
 
-// DERIBIT API CLIENT
-export const DERIBIT_API_CLIENT = axios.create({
-	baseURL: 'https://www.deribit.com/api/v2',
-});
-
 // DERIBIT WS API CLIENT
 export const DERIBIT_WS_CLIENT = createDeribitClient({
 	type: GrantType.client_credentials,

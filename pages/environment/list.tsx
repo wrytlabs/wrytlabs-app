@@ -1,5 +1,7 @@
+'use client';
+
 import CommingSoon from '@components/CommingSoon';
 
-export default function GovernancePage() {
+export default function EnvironmentList() {
 	return <CommingSoon />;
 }

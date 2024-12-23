@@ -12,9 +12,20 @@ interface Props {
 	showLink?: boolean;
 	blockchain?: 'bitcoin' | 'ethereum' | 'polygon';
 	className?: string;
+	isOverflow?: boolean;
+	isTextRight?: boolean;
 }
 
-export default function AddressLabel({ address, label, showCopy, showLink, blockchain, className }: Props) {
+export default function AddressLabel({
+	address,
+	label,
+	showCopy,
+	showLink,
+	blockchain,
+	className,
+	isOverflow = false,
+	isTextRight = false,
+}: Props) {
 	const linkEth = useContractUrl(address || zeroAddress, blockchain === 'ethereum' ? mainnet : polygon);
 	const linkBtc = useBitcoinUrl(address);
 
@@ -30,7 +41,7 @@ export default function AddressLabel({ address, label, showCopy, showLink, block
 
 	return (
 		<div className="flex items-center">
-			<div className="overflow-x-scroll max-md:w-52 flex-1 text-center">
+			<div className={`${isOverflow ? 'overflow-x-scroll max-md:w-52' : ''} ${isTextRight ? 'flex-1 text-right' : ''}`}>
 				<div className={showLink ? 'cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
 					{label ?? address}
 				</div>

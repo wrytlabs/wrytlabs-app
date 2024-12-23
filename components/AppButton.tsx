@@ -12,20 +12,24 @@ interface Props {
 }
 
 export default function Button({ size = 'md', width, className, onClick, isLoading, children, disabled, error }: Props) {
-	const sizeClass = size == 'sm' ? 'text-sm px-2 py-1 md:px-3 md:py-1' : 'px-3 py-3';
+	const sizeClass = size == 'sm' ? 'text-sm px-2 py-1 md:px-3 md:py-1' : 'px-2 py-2';
 
 	return (
 		<>
 			{error && <div className="mb-2 px-1 text-text-warning text-center">{error}</div>}
 			<button
-				className={`btn ${className} ${sizeClass} ${
+				className={`btn rounded-xl ${className} ${sizeClass} ${
 					disabled || isLoading
-						? 'cursor-not-allowed bg-card-content-primary text-layout-secondary'
-						: 'bg-layout-secondary text-card-content-primary'
-				} ${width ?? 'w-full'}`}
+						? 'cursor-not-allowed bg-button-disabled text-button-textdisabled'
+						: 'bg-button-default text-white'
+				} ${width ?? 'w-full'} hover:bg-button-hover`}
 				onClick={(e) => !disabled && !isLoading && onClick?.(e)}
 			>
-				{isLoading && <LoadingSpin />}
+				{isLoading && (
+					<a className="mr-2">
+						<LoadingSpin />
+					</a>
+				)}
 				{children}
 			</button>
 		</>

@@ -8,17 +8,35 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { store } from '../redux/redux.store';
 import BlockUpdater from '@components/BlockUpdater';
+import { PONDER_CLIENT } from '../app.config';
+import { ApolloProvider } from '@apollo/client';
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<ReduxProvider store={store}>
 			<Web3ModalProvider>
-				<BlockUpdater>
-					<ToastContainer position="bottom-right" hideProgressBar={false} rtl={false} theme="light" />
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</BlockUpdater>
+				<ApolloProvider client={PONDER_CLIENT}>
+					<BlockUpdater>
+						<ToastContainer
+							className="border-card-content-primary border-2 bg-card-body-primary rounded-xl"
+							toastClassName="bg-card-body-primary text-text-primary rounded-xl"
+							position="bottom-right"
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick={false}
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+							theme="light"
+						/>
+
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</BlockUpdater>
+				</ApolloProvider>
 			</Web3ModalProvider>
 		</ReduxProvider>
 	);

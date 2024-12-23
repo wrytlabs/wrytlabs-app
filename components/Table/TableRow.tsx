@@ -9,23 +9,25 @@ interface Props {
 	classNameMobile?: string;
 	headers?: string[];
 	subHeaders?: string[];
+	tab: string;
 }
 
 export default function TableRow({
 	colSpan,
 	children,
 	actionCol,
-	link, // @dev: unused for now.
+	link,
 	headers = [],
 	subHeaders = [],
+	tab = '',
 	className,
 	classNameMobile = '',
 }: Props) {
 	return (
 		<div
 			className={`${
-				className ?? 'bg-table-row-primary hover:bg-table-row-hover'
-			} cursor-default px-8  xl:px-12 py-4 first:border-t-0 sm:first:border-t border-t border-table-row-hover first:rounded-t-lg sm:first:rounded-t-none last:rounded-b-lg duration-300`}
+				className ?? 'bg-table-row-primary md:hover:bg-table-row-hover'
+			} cursor-default px-8  xl:px-12 py-4 border-t border-table-row-hover last:rounded-b-xl duration-300`}
 		>
 			<div className="flex sm:pl-8 flex-col justify-between gap-y-5 md:flex-row">
 				{/* @dev: this is desktop view */}
@@ -34,7 +36,7 @@ export default function TableRow({
 				</div>
 
 				{/* @dev: this is mobile view */}
-				<TableRowMobile headers={headers} subHeaders={subHeaders} className={classNameMobile}>
+				<TableRowMobile headers={headers} subHeaders={subHeaders} tab={tab} className={classNameMobile}>
 					{children}
 				</TableRowMobile>
 
@@ -49,10 +51,11 @@ interface TableRowMobileProps {
 	children: React.ReactElement[];
 	headers: string[];
 	subHeaders: string[];
+	tab: string;
 	className: string;
 }
 
-function TableRowMobile({ children, headers, subHeaders, className }: TableRowMobileProps) {
+function TableRowMobile({ children, headers, subHeaders, tab, className }: TableRowMobileProps) {
 	if (headers.length === 0) {
 		return <div className={`${className} md:hidden justify-items-center text-center gap-6 grid flex-grow grid-cols-1`}>{children}</div>;
 	} else {
@@ -60,19 +63,36 @@ function TableRowMobile({ children, headers, subHeaders, className }: TableRowMo
 			<div className={`${className} md:hidden gap-6 grid-cols-1 flex-1`}>
 				{children.map((c, idx) => (
 					<div className="mt-2 flex" key={c.key}>
-						<div className="flex-1 text-left">
-							{idx === 0 ? (
-								c
-							) : subHeaders.length === 0 ? (
-								headers[idx]
+						<div className="flex-1">
+							{/* TODO: adjust for idx === 0 overwrite element in new row */}
+							{/* {idx === 0 ? (
+								<div className={`${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
+									{c}
+								</div>
+							) :  */}
+							{subHeaders.length === 0 ? (
+								<div
+									className={`text-md ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}
+								>
+									{headers[idx]}
+								</div>
 							) : (
 								<div>
-									<div>{headers[idx]}</div>
+									<div
+										className={`text-md ${
+											headers[idx] == tab ? 'text-md text-text-primary font-semibold' : 'text-text-subheader'
+										}`}
+									>
+										{headers[idx]}
+									</div>
 									<div className="text-sm text-text-subheader">{subHeaders[idx]}</div>
 								</div>
 							)}
 						</div>
-						<div className="text-right">{idx === 0 ? '' : c}</div>
+						<div className={`text-right ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
+							{/* TODO: adjust for idx === 0 overwrite element in new row */}
+							{idx === 0 ? c : c}
+						</div>
 					</div>
 				))}
 			</div>

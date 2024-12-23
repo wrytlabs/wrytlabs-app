@@ -1,3 +1,5 @@
+'use client';
+
 import AppPage from '@components/AppPage';
 import SafeguardDeposit from '@components/SafeguardPage/Deposit';
 import SafeguardDepositTable from '@components/SafeguardPage/DepositTable';

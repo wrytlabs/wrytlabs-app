@@ -10,7 +10,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@apollo/client": "^3.8.0",
+		"@apollo/client": "^3.12.4",
 		"@fortawesome/fontawesome-svg-core": "^6.6.0",
 		"@fortawesome/free-brands-svg-icons": "^6.6.0",
 		"@fortawesome/free-solid-svg-icons": "^6.6.0",
@@ -19,13 +19,15 @@
 		"@heroicons/react": "^2.1.5",
 		"@tanstack/react-query": "^5.51.11",
 		"@web3modal/wagmi": "^5.0.7",
-		"graphql": "^16.8.1",
+		"@wrytlabs/manager-core": "^0.0.4",
+		"graphql": "^16.10.0",
 		"next": "14.2.5",
 		"react": "^18",
 		"react-dom": "^18",
 		"react-qr-code": "^2.0.15",
 		"react-redux": "^9.1.2",
-		"react-toastify": "^9.1.3",
+		"react-select": "^5.9.0",
+		"react-toastify": "^11.0.2",
 		"viem": "^2.17.8",
 		"wagmi": "^2.11.3"
 	},

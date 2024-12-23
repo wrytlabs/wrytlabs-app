@@ -54,10 +54,10 @@ export function SubmitIssue() {
 	return (
 		<ul className="flex items-center justify-center gap-8">
 			<li>
-				<FooterButton link={SOCIAL.Github_dapp_new_issue} text="Submit an Issue" icon={faGithub} />
+				<FooterButton link={SOCIAL.Github_app_new_issue} text="Submit an Issue" icon={faGithub} />
 			</li>
 			<li>
-				<FooterButton link={SOCIAL.Github_dapp} text={version} icon={faCodeCommit} />
+				<FooterButton link={SOCIAL.Github_app} text={version} icon={faCodeCommit} />
 			</li>
 		</ul>
 	);

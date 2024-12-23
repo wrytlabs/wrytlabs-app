@@ -31,23 +31,30 @@ import {
 	faUnlockKeyhole,
 	faVault,
 } from '@fortawesome/free-solid-svg-icons';
+import { SetStateAction } from 'react';
+
+export type NavBarTree = {
+	title: string;
+	items: (NavBarElement | NavBarElements)[];
+};
 
 export type NavBarElement = {
 	name: string;
-	to?: string;
-	icon: JSX.Element;
+	to: string;
+	external?: boolean;
+	icon?: JSX.Element;
 };
 
-export type NavBarTree = NavBarElement & {
-	childs?: NavBarElement[];
+export type NavBarElements = {
+	name: string;
+	icon: JSX.Element;
+	childs: NavBarElement[];
 };
 
 export const NavTree: NavBarTree[] = [
 	{
-		name: 'Home',
-		to: '/home',
-		icon: <FontAwesomeIcon icon={faHouse} className="cursor-pointer" size={'xl'} />,
-		childs: [
+		title: 'Overview',
+		items: [
 			{
 				name: 'Purpose',
 				to: '/home/purpose',
@@ -61,117 +68,77 @@ export const NavTree: NavBarTree[] = [
 		],
 	},
 	{
-		name: 'Stablecoin',
-		to: '/stablecoin',
-		icon: <FontAwesomeIcon icon={faCoins} className="cursor-pointer" size={'xl'} />,
-		childs: [
+		title: 'Management',
+		items: [
 			{
-				name: 'Mint',
-				to: '/stablecoin/mint',
-				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
+				name: 'Governance',
+				icon: <FontAwesomeIcon icon={faPeopleGroup} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/governance/list',
+					},
+					{
+						name: 'Details',
+						to: '/governance/details',
+					},
+					{
+						name: 'Create',
+						to: '/governance/create',
+					},
+					{
+						name: 'Edit',
+						to: '/governance/edit',
+					},
+				],
 			},
 			{
-				name: 'Auctions',
-				to: '/stablecoin/auctions',
-				icon: <FontAwesomeIcon icon={faGavel} className="cursor-pointer" />,
-			},
-			{
-				name: 'Makers',
-				to: '/stablecoin/makers',
-				icon: <FontAwesomeIcon icon={faCommentDollar} className="cursor-pointer" />,
-			},
-			{
-				name: 'Savings',
-				to: '/stablecoin/savings',
-				icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
-			},
-			{
-				name: 'Votes',
-				to: '/stablecoin/votes',
-				icon: <FontAwesomeIcon icon={faRankingStar} className="cursor-pointer" />,
-			},
-		],
-	},
-	{
-		name: 'Finance Tools',
-		to: '/finance',
-		icon: <FontAwesomeIcon icon={faBank} className="cursor-pointer" size={'xl'} />,
-		childs: [
-			{
-				name: 'Safeguard',
-				to: '/finance/safeguard',
-				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
-			},
-			{
-				name: 'Banking',
-				to: '/finance/banking',
-				icon: <FontAwesomeIcon icon={faMoneyBills} className="cursor-pointer" />,
-			},
-			{
-				name: 'Earn',
-				to: '/finance/earn',
-				icon: <FontAwesomeIcon icon={faSeedling} className="cursor-pointer" />,
-			},
-			{
-				name: 'Collect',
-				to: '/finance/collect',
-				icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
-			},
-			// {
-			// 	name: 'Commit',
-			// 	to: '/finance/commit',
-			// 	icon: <FontAwesomeIcon icon={faFileInvoice} className="cursor-pointer" />,
-			// },
-			{
-				name: 'Borrow',
-				to: '/finance/borrow',
-				icon: <FontAwesomeIcon icon={faMoneyBill1Wave} className="cursor-pointer" />,
+				name: 'Environment',
+				icon: <FontAwesomeIcon icon={faServer} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/environment/list',
+					},
+					{
+						name: 'Details',
+						to: '/environment/details',
+					},
+					{
+						name: 'Create',
+						to: '/environment/create',
+					},
+					{
+						name: 'Edit',
+						to: '/environment/edit',
+					},
+				],
 			},
 		],
-	},
-	{
-		name: 'Governance',
-		to: '/governance',
-		icon: <FontAwesomeIcon icon={faPeopleGroup} className="cursor-pointer" size={'xl'} />,
-		childs: [
-			{
-				name: 'Membership',
-				to: '/governance/membership',
-				icon: <FontAwesomeIcon icon={faUnlockKeyhole} className="cursor-pointer" />,
-			},
-			{
-				name: 'Voting',
-				to: '/governance/voting',
-				icon: <FontAwesomeIcon icon={faRankingStar} className="cursor-pointer" />,
-			},
-			{
-				name: 'Contribute',
-				to: '/governance/contribute',
-				icon: <FontAwesomeIcon icon={faHandHoldingHeart} className="cursor-pointer" />,
-			},
-		],
-	},
-	{
-		name: 'Partners',
-		to: '/partners',
-		icon: <FontAwesomeIcon icon={faHandshake} className="cursor-pointer" size={'xl'} />,
 	},
 ];
 
 export type NavElementTreeProps = {
 	tree?: NavBarTree[];
+	setIsNavBarOpen: (value: SetStateAction<boolean>) => void;
 };
 
-export default function NavElementTree({ tree }: NavElementTreeProps) {
+export default function NavElementTree({ tree, setIsNavBarOpen }: NavElementTreeProps) {
 	if (tree == undefined) tree = NavTree;
 	if (tree.length == 0) return null;
 
 	return (
 		<>
-			{tree.map((item) => (
-				<li className="flex flex-col" key={item.name}>
-					<NavElement item={item} />
-				</li>
+			{tree.map((root) => (
+				<div className="px-2" key={root.title}>
+					<div className="pl-2 text-sm font-semibold">{root.title.toUpperCase()}</div>
+
+					<li className="flex flex-col">
+						{root.items.map((item) => (
+							<NavElement item={item} key={item.name} setIsNavBarOpen={setIsNavBarOpen} />
+						))}
+					</li>
+				</div>
 			))}
 		</>
 	);

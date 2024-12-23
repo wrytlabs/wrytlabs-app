@@ -1,35 +1,20 @@
-import { useState } from 'react';
-import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
-import { Currency } from '@wrytlabs/deribit-api-client';
+'use client';
+
+import AppPage from '@components/AppPage';
+import AppTitle from '@components/AppTitle';
+import BorrowInteraction from '@components/BorrowPage/BorrowInteraction';
+import BorrowOverview from '@components/BorrowPage/BorrowOverview';
 
 export default function FinanceBorrowPage() {
-	const [tx, setTx] = useState<[]>([]);
-
-	const handleApiTransferResult = () => {
-		deribit.wallet
-			.getTransfers(
-				{
-					currency: Currency.BTC,
-				},
-				(d) => {
-					console.log(d);
-					return d.testnet;
-				}
-			)
-			.then((data) => {
-				console.log(data);
-			})
-			.catch(console.log);
-	};
-
 	return (
-		<div>
-			<h1>RPC Example</h1>
-			<button onClick={handleApiTransferResult}>Send Message</button>
+		<AppPage>
+			<AppTitle title="Borrow on your Assets">
+				<div className="text-text-secondary">Add description here</div>
+			</AppTitle>
 
-			{tx.map((t, idx) => (
-				<div key={`tx-${idx}`}>{JSON.stringify(t)}</div>
-			))}
-		</div>
+			<BorrowOverview />
+
+			<BorrowInteraction />
+		</AppPage>
 	);
 }

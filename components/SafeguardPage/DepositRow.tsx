@@ -1,26 +1,24 @@
 import TableRow from '../Table/TableRow';
 import { useRouter as useNavigation } from 'next/navigation';
 import { capLetter, formatCurrency, FormatType } from '../../utils/format';
-import AppBox from '@components/AppBox';
-import { Address } from 'viem';
-import { ResponseDepositUSDT } from '../../mock/ResponseDeposit';
-import Button from '@components/Button';
 import { TransactionLabel } from '@components/TransactionLabel';
 import TokenLogo from '@components/TokenLogo';
-import { PortfolioBalanceBox } from './PortfolioBalanceBox';
+import { WalletGetDepositsItem } from '@wrytlabs/deribit-api-client';
 
 interface Props {
 	headers: string[];
-	deposit: (typeof ResponseDepositUSDT.result.data)[0];
+	tab: string;
+	deposit: WalletGetDepositsItem;
 }
 
-export default function SafeguardDepositRow({ headers, deposit }: Props) {
+export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
 	const navigate = useNavigation();
 	const d = new Date(deposit.received_timestamp).toLocaleString();
 
 	return (
 		<TableRow
 			headers={headers}
+			tab={tab}
 			// actionCol={
 			// 	<Button className="h-10" >
 			// 		View

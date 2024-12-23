@@ -1,3 +1,5 @@
+'use client';
+
 import AppCard from '@components/AppCard';
 
 export default function PagePurpose() {

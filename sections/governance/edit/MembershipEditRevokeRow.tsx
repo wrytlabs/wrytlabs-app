@@ -6,6 +6,7 @@ import { useRouter as useNavigation } from 'next/navigation';
 import { MembershipPermission, MembershipRoles } from '../../../hooks/useMembershipPermission';
 import AddressLabel from '@components/AddressLabel';
 import { TransactionLabel } from '@components/TransactionLabel';
+import WalletConnectGuard from '@components/WalletConnectGuard';
 
 interface Props {
 	headers: string[];
@@ -25,7 +26,11 @@ export default function MembershipEditRow({ headers, tab, permission }: Props) {
 		<TableRow
 			headers={headers}
 			tab={tab}
-			actionCol={<AppButton onClick={() => navigate.push(`/governance/edit/${permission.address}`)}>Revoke</AppButton>}
+			actionCol={
+				<WalletConnectGuard>
+					<AppButton onClick={() => navigate.push(`/governance/edit/${permission.address}`)}>Revoke</AppButton>
+				</WalletConnectGuard>
+			}
 		>
 			<TransactionLabel
 				isTextRight={false}

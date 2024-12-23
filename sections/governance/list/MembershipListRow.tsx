@@ -6,6 +6,7 @@ import { useRouter as useNavigation } from 'next/navigation';
 import { MembershipPermission, MembershipRoles } from '../../../hooks/useMembershipPermission';
 import AddressLabel from '@components/AddressLabel';
 import { TransactionLabel } from '@components/TransactionLabel';
+import { TableRowEmptyRaw } from '@components/Table/TableRowEmpty';
 
 interface Props {
 	headers: string[];
@@ -24,17 +25,14 @@ export default function MembershipListRow({ headers, tab, permission, counter }:
 	// @dev: create new membership
 	if (permission.address === zeroAddress) {
 		return (
-			<TableRow
-				headers={headers}
-				tab={tab}
-				actionCol={<AppButton onClick={() => navigate.push('/governance/create')}>Create</AppButton>}
-			>
-				{[
-					<div key="create" className="text-left text-text-secondary">
-						Create a permission contract to manage roles and permissions
-					</div>,
-				]}
-			</TableRow>
+			<TableRowEmptyRaw>
+				<div key="create" className="flex flex-col gap-4 items-center justify-center text-center text-text-secondary">
+					<AppButton width="w-40" onClick={() => navigate.push('/governance/create')}>
+						Create
+					</AppButton>
+					<p>Create a permission contract to manage roles and permissions</p>
+				</div>
+			</TableRowEmptyRaw>
 		);
 	}
 

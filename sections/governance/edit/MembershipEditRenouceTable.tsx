@@ -3,20 +3,22 @@ import Table from '@components/Table';
 import TableHeader from '@components/Table/TableHead';
 import TableRowEmpty from '@components/Table/TableRowEmpty';
 import TableBody from '@components/Table/TableBody';
-import MembershipEditRow from './MembershipEditRevokeRow';
+import MembershipEditRow from './MembershipEditRenouceRow';
 import { Address, zeroAddress } from 'viem';
 import { MembershipPermission, useMembershipPermissionAccount } from '../../../hooks/useMembershipPermission';
 import { useAccount } from 'wagmi';
+import { useRouter as useNavigation } from 'next/navigation';
 
 interface Props {
 	membership: Address;
 }
 
 export default function MembershipEditTable({ membership }: Props) {
-	const headers: string[] = ['Granted Role', 'Since Date', 'Tx'];
+	const headers: string[] = ['Role', 'Date', 'Tx'];
 	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 
+	const navigate = useNavigation();
 	const { address } = useAccount();
 	const { loading: loadingPermission, membershipPermissionAccount } = useMembershipPermissionAccount(address ?? zeroAddress);
 
@@ -30,6 +32,7 @@ export default function MembershipEditTable({ membership }: Props) {
 	};
 
 	const filteredList: MembershipPermission[] = membershipPermissionAccount.filter((p) => {
+		if (membership == zeroAddress) navigate.replace(p.address);
 		return p.permission && p.address == membership;
 	});
 

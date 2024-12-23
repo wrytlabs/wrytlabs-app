@@ -25,7 +25,11 @@ export default function Button({ size = 'md', width, className, onClick, isLoadi
 				} ${width ?? 'w-full'} hover:bg-button-hover`}
 				onClick={(e) => !disabled && !isLoading && onClick?.(e)}
 			>
-				{isLoading && <LoadingSpin />}
+				{isLoading && (
+					<a className="mr-2">
+						<LoadingSpin />
+					</a>
+				)}
 				{children}
 			</button>
 		</>

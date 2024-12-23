@@ -26,8 +26,6 @@ export default function WalletConnectGuard(props: Props) {
 		}
 	}, [requestedChange, isCorrectChain, Web3Modal, Web3ModalState]);
 
-	console.log({ isCorrectChain });
-
 	// Check if wallet is disconnected
 	if (isDisconnected)
 		return (

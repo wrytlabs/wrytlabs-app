@@ -1,12 +1,10 @@
 import TableRow from '@components/Table/TableRow';
 import { shortenAddress, shortenHash } from '@utils';
 import { Hash, zeroAddress } from 'viem';
-import AppButton from '@components/AppButton';
 import { useRouter as useNavigation } from 'next/navigation';
 import { MembershipPermission, MembershipRoles } from '../../../hooks/useMembershipPermission';
-import AddressLabel from '@components/AddressLabel';
 import { TransactionLabel } from '@components/TransactionLabel';
-import WalletConnectGuard from '@components/WalletConnectGuard';
+import MembershipEditRenouceAction from './MembershipEditRenouceAction';
 
 interface Props {
 	headers: string[];
@@ -20,24 +18,16 @@ export default function MembershipEditRow({ headers, tab, permission }: Props) {
 	const roles = Object.keys(MembershipRoles);
 	const rolesHex = Object.values(MembershipRoles);
 	const roleIdx = rolesHex.findIndex((r) => r == permission.role);
+	const role = roleIdx < 0 ? shortenHash(permission.role as Hash) : roles[roleIdx];
 
 	// @dev: show permissions
 	return (
 		<TableRow
 			headers={headers}
 			tab={tab}
-			actionCol={
-				<WalletConnectGuard>
-					<AppButton onClick={() => navigate.push(`/governance/edit/${permission.address}`)}>Revoke</AppButton>
-				</WalletConnectGuard>
-			}
+			actionCol={<MembershipEditRenouceAction membership={permission.address} roleHex={rolesHex[roleIdx]} role={role} />}
 		>
-			<TransactionLabel
-				isTextRight={false}
-				hash={permission.role}
-				label={roleIdx < 0 ? shortenHash(permission.role as Hash) : roles[roleIdx]}
-				showCopy
-			/>
+			<TransactionLabel isTextRight={false} hash={permission.role} label={role} showCopy />
 
 			<div className="">{d.split(', ')[0]}</div>
 

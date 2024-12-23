@@ -27,6 +27,8 @@ export default function MembershipListTable() {
 
 	const uniqueContracts = new Map<Address, number>();
 	const filteredList: MembershipPermission[] = membershipPermissionAccount.filter((p) => {
+		if (!p.permission) return false;
+
 		const addr = p.address as Address;
 		const num = uniqueContracts.get(addr);
 		if (num === undefined) {

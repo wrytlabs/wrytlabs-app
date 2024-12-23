@@ -51,7 +51,7 @@ export default function MembershipListRow({ headers, tab, permission, counter }:
 
 			<div className="">{d.split(', ')[0]}</div>
 
-			<TransactionLabel hash={permission.txHash} label={shortenHash(permission.txHash as Hash)} showLink />
+			<TransactionLabel hash={permission.txHash} label={shortenHash(permission.txHash as Hash)} isTextRight={true} showLink />
 		</TableRow>
 	);
 }

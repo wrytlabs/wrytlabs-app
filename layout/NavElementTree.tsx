@@ -30,6 +30,7 @@ import {
 	faSliders,
 	faUnlockKeyhole,
 	faVault,
+	faBook,
 } from '@fortawesome/free-solid-svg-icons';
 import { SetStateAction } from 'react';
 
@@ -64,6 +65,11 @@ export const NavTree: NavBarTree[] = [
 				name: 'Goals',
 				to: '/home/goals',
 				icon: <FontAwesomeIcon icon={faLightbulb} className="cursor-pointer" />,
+			},
+			{
+				name: 'Docs',
+				to: '/docs',
+				icon: <FontAwesomeIcon icon={faBook} className="cursor-pointer" />,
 			},
 		],
 	},

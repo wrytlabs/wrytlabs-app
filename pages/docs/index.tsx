@@ -6,9 +6,10 @@ import * as path from 'path';
 import AppPage from '@components/AppPage';
 import AppTitle from '@components/AppTitle';
 import { useRouter as useNavigation } from 'next/navigation';
-import { useRouter } from 'next/router';
 import AppCard from '@components/AppCard';
 import AppBox from '@components/AppBox';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 interface DocsPageProps {
 	dirExists: boolean;
@@ -18,10 +19,10 @@ interface DocsPageProps {
 export default function DocsPage({ dirExists, dirContent }: DocsPageProps) {
 	return (
 		<AppPage>
-			<AppTitle title="Select a Docs Document">
+			<AppTitle title="Documentation Library">
 				<div className="text-text-secondary">
-					This page shows available documentation files in the `docs` directory. Choose any markdown file to view its formatted
-					contents in read-only mode.
+					Welcome to our documentation library. Browse through our collection of guides, tutorials, and reference materials.
+					Select any document to view its contents.
 				</div>
 			</AppTitle>
 
@@ -29,7 +30,7 @@ export default function DocsPage({ dirExists, dirContent }: DocsPageProps) {
 				dirContent.map((file) => <DocsFile key={file} filename={file} />)
 			) : (
 				<AppCard>
-					<div className="text-text-secondary">Directory for `docs` does not exist.</div>
+					<div className="text-text-secondary">Documentation library is currently unavailable.</div>
 				</AppCard>
 			)}
 		</AppPage>
@@ -41,12 +42,15 @@ interface DocsFileProps {
 }
 
 export function DocsFile({ filename }: DocsFileProps) {
-	const router = useRouter();
 	const navigate = useNavigation();
+	const name = filename.split('_').slice(1).join(' ');
 
 	return (
 		<div onClick={() => navigate.push('/docs/' + filename)}>
-			<AppBox className="cursor-pointer hover:bg-button-hover">{filename.split('_').join(' ')}</AppBox>
+			<AppBox className="cursor-pointer hover:bg-button-hover">
+				<FontAwesomeIcon icon={faFile} className="mr-4" />
+				<a>{name}</a>
+			</AppBox>
 		</div>
 	);
 }

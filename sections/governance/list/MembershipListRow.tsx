@@ -7,6 +7,7 @@ import { MembershipPermission, MembershipRoles } from '../../../hooks/useMembers
 import AddressLabel from '@components/AddressLabel';
 import { TransactionLabel } from '@components/TransactionLabel';
 import { TableRowEmptyRaw } from '@components/Table/TableRowEmpty';
+import Link from 'next/link';
 
 interface Props {
 	headers: string[];
@@ -26,11 +27,11 @@ export default function MembershipListRow({ headers, tab, permission, counter }:
 	if (permission.address === zeroAddress) {
 		return (
 			<TableRowEmptyRaw>
-				<div key="create" className="flex flex-col gap-4 items-center justify-center text-center text-text-secondary">
-					<AppButton width="w-40" onClick={() => navigate.push('/governance/create')}>
+				<div key="create" className="flex flex-col gap-4 items-center justify-center text-center">
+					<p className="text-text-secondary">Create a permission contract to manage roles and permissions</p>
+					<Link href="/governance/create" className="w-64 bg-button-disabled p-4 rounded-xl">
 						Create
-					</AppButton>
-					<p>Create a permission contract to manage roles and permissions</p>
+					</Link>
 				</div>
 			</TableRowEmptyRaw>
 		);

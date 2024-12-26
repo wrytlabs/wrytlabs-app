@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import Image from 'next/image';
 
 interface MarkdownProps {
 	content?: string | null;
@@ -9,6 +10,7 @@ interface MarkdownProps {
 export default function MarkdownContent({ content }: MarkdownProps) {
 	return (
 		<ReactMarkdown
+			className={`lg:p-4`}
 			remarkPlugins={[remarkGfm]}
 			rehypePlugins={[rehypeHighlight]}
 			components={{
@@ -20,8 +22,19 @@ export default function MarkdownContent({ content }: MarkdownProps) {
 				ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
 				ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
 				li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-				code: ({ node, ...props }) => <code className="bg-gray-100 rounded px-1" {...props} />,
-				pre: ({ node, ...props }) => <pre className="bg-gray-100 p-4 rounded mb-4 overflow-x-auto" {...props} />,
+				code: ({ node, ...props }) => <code className="bg-cyan-100 rounded px-1" {...props} />,
+				pre: ({ node, ...props }) => <pre className="bg-cyan-100 p-4 rounded-xl mb-4 overflow-x-auto" {...props} />,
+				img: ({ node, ...props }) => (
+					<div className="flex justify-center w-full max-md:my-2 md:my-8">
+						<Image
+							src={props?.src?.split('../public').join('') || ''}
+							alt={props.alt || ''}
+							width={1920}
+							height={1080}
+							className="rounded-xl w-full"
+						/>
+					</div>
+				),
 			}}
 		>
 			{content ?? ''}

@@ -38,3 +38,5 @@ This platform serves as a research and development environment for blockchain te
 -   Decentralized identity
 
 Ready to dive in? Choose a topic from our documentation to begin your journey.
+
+![alt text](../public/assets/wrytlabs01.png)

@@ -50,7 +50,7 @@ export default function MembershipListTable() {
 		permission: false,
 	};
 
-	const sortedList: MembershipPermission[] = [createMembership, ...filteredList];
+	const sortedList: MembershipPermission[] = [...filteredList, createMembership];
 
 	return (
 		<Table>

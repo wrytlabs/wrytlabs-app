@@ -5,44 +5,33 @@ import * as path from 'path';
 
 import AppPage from '@components/AppPage';
 import AppTitle from '@components/AppTitle';
-import { useRouter as useNavigation } from 'next/navigation';
-import { useRouter } from 'next/router';
 import AppCard from '@components/AppCard';
+import MarkdownContent from '@components/MarkdownContent';
 
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
-
-interface MarkdownDocsProps {
+interface DocsMarkdownFileProps {
 	fileExists: boolean;
 	fileName: string;
 	fileContent: string | null;
 }
 
-export default function MarkdownDocsPage({ fileExists, fileName, fileContent }: MarkdownDocsProps) {
-	const router = useRouter();
-	const navigate = useNavigation();
-
+export default function DocsMarkdownFilePage({ fileExists, fileName, fileContent }: DocsMarkdownFileProps) {
 	return (
 		<AppPage>
-			<AppTitle title="Load Markdown File">
-				<div className="text-text-secondary">
-					Confirm markdown file exists: <a className="font-semibold">{fileExists ? 'true' : 'false'}</a>
-				</div>
-
+			<AppTitle title="Load File from Docs">
 				<div className="text-text-secondary">
 					Confirm markdown file key: <a className="font-semibold">{fileName}</a>
+				</div>
+				<div className="text-text-secondary">
+					Confirm markdown file exists: <a className="font-semibold">{fileExists ? 'true' : 'false'}</a>
 				</div>
 			</AppTitle>
 
 			<AppCard>
 				{fileExists ? (
-					<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-						{fileContent}
-					</ReactMarkdown>
+					<MarkdownContent content={fileContent} />
 				) : (
 					<div className="text-text-secondary">
-						File with key: <a className="font-semibold">{fileName}</a> does not exist.
+						File with key: <a className="font-semibold">{fileName}</a> does not exist in the docs directory.
 					</div>
 				)}
 			</AppCard>
@@ -51,7 +40,7 @@ export default function MarkdownDocsPage({ fileExists, fileName, fileContent }: 
 }
 
 export async function getServerSideProps(context: { query: { [key: string]: string } }) {
-	const props: MarkdownDocsProps = {
+	const props: DocsMarkdownFileProps = {
 		fileExists: false,
 		fileName: context.query?.filename || '',
 		fileContent: null,

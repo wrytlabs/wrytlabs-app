@@ -23,7 +23,7 @@ export function FooterItem({ link, text, icon }: FooterItemProps) {
 export default function Footer() {
 	return (
 		<>
-			<ul className="mt-6 mb-4 flex items-center justify-center gap-8">
+			<ul className="flex items-center justify-center gap-8">
 				<li>
 					<FooterItem link={SOCIAL.Github_user} text="Github" icon={faGithub} />
 				</li>

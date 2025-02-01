@@ -5,6 +5,8 @@ interface Props {
 
 export default function AppCard({ className, children }: Props) {
 	return (
-		<section className={`bg-card-body-primary shadow-lg rounded-xl flex flex-col p-6 gap-y-6 ${className ?? ''}`}>{children}</section>
+		<section className={`bg-card-body-primary shadow-lg rounded-xl flex flex-col px-4 py-6 gap-y-6 ${className ?? ''}`}>
+			{children}
+		</section>
 	);
 }

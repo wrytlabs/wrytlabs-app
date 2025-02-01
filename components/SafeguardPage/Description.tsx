@@ -1,4 +1,5 @@
 import AppCard from '@components/AppCard';
+import AppTitle from '@components/AppTitle';
 import { faArrowUpRightFromSquare, faFingerprint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -6,13 +7,13 @@ import Link from 'next/link';
 
 export default function SafeguardDescription() {
 	return (
-		<AppCard>
-			<div className="">
+		<AppTitle title="Safeguard your assets">
+			<div className="text-text-secondary">
 				<span className="font-semibold">Safeguard your assets</span> in a segregated account under the custody of Deribit. This
 				secure approach ensures enhanced protection and management of your funds while relying on a trusted custodian.
 			</div>
 
-			<div className="">
+			<div className="text-text-secondary">
 				<Link href="https://www.deribit.com/kb/custody-options" target="_blank" className="underline cursor-pointer">
 					Learn more about Deribit Custody
 					<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="ml-2" />
@@ -32,6 +33,6 @@ export default function SafeguardDescription() {
 					</Link>
 				</div>
 			</div>
-		</AppCard>
+		</AppTitle>
 	);
 }

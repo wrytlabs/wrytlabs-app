@@ -1,9 +1,10 @@
 'use client';
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { cookieStorage, createConfig, createStorage, http } from '@wagmi/core';
-import { injected, coinbaseWallet, walletConnect } from '@wagmi/connectors';
-import { mainnet, polygon, Chain } from '@wagmi/core/chains';
+import { cookieStorage, createStorage, http } from '@wagmi/core';
+import { injected, coinbaseWallet, walletConnect, safe } from '@wagmi/connectors';
+import { mainnet, polygon, Chain } from '@reown/appkit/networks';
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { createDeribitClient, createDeribitClientPublic, GrantType } from '@wrytlabs/deribit-api-client';
 import axios from 'axios';
 
@@ -16,8 +17,19 @@ if (process.env.NEXT_PUBLIC_CLIENT_ID === undefined) throw new Error('NEXT_PUBLI
 if (process.env.NEXT_PUBLIC_CLIENT_SECRET === undefined) throw new Error('NEXT_PUBLIC_CLIENT_SECRET not available');
 
 // Config
-export type ConfigEnv = { landing: string; app: string; api: string; indexer: string; rpc: string; wagmiId: string; chain: Chain };
+export type ConfigEnv = {
+	verbose: boolean;
+	landing: string;
+	app: string;
+	api: string;
+	indexer: string;
+	rpc: string;
+	wagmiId: string;
+	chain: Chain;
+};
 export const CONFIG: ConfigEnv = {
+	verbose: false,
+
 	landing: process.env.NEXT_PUBLIC_LANDINGPAGE_URL || 'https://wrytlabs.io',
 	app: process.env.NEXT_PUBLIC_APP_URL || 'https://app.wrytlabs.io',
 	api: process.env.NEXT_PUBLIC_API_URL || 'https://api.wrytlabs.io',
@@ -30,8 +42,11 @@ export const CONFIG: ConfigEnv = {
 			: process.env.NEXT_PUBLIC_RPC_URL_POLYGON,
 };
 
-console.log('YOU ARE USING THIS CONFIG PROFILE:');
-console.log(CONFIG);
+// log only in verbose mode
+if (CONFIG.verbose) {
+	console.log('YOU ARE USING THIS CONFIG PROFILE:');
+	console.log(CONFIG);
+}
 
 // PONDER CLIENT
 export const PONDER_CLIENT = new ApolloClient({
@@ -62,8 +77,10 @@ export const WAGMI_METADATA = {
 	url: CONFIG.landing,
 	icons: [],
 };
-export const WAGMI_CONFIG = createConfig({
-	chains: [WAGMI_CHAIN],
+
+// WAGMI ADAPTER
+export const WAGMI_ADAPTER = new WagmiAdapter({
+	networks: [WAGMI_CHAIN],
 	transports: {
 		[CONFIG.chain.id]: http(CONFIG.rpc),
 	},
@@ -73,6 +90,9 @@ export const WAGMI_CONFIG = createConfig({
 		},
 	},
 	connectors: [
+		safe({
+			allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/, /dhedge.org$/],
+		}),
 		walletConnect({ projectId: CONFIG.wagmiId, metadata: WAGMI_METADATA, showQrModal: false }),
 		injected({ shimDisconnect: true }),
 		coinbaseWallet({
@@ -84,4 +104,8 @@ export const WAGMI_CONFIG = createConfig({
 	storage: createStorage({
 		storage: cookieStorage,
 	}),
+	projectId: CONFIG.wagmiId,
 });
+
+// WAGMI CONFIG
+export const WAGMI_CONFIG = WAGMI_ADAPTER.wagmiConfig;

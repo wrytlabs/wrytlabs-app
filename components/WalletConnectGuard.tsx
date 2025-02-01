@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { useWeb3Modal, useWeb3ModalState } from '@web3modal/wagmi/react';
+import { useAppKit, useAppKitState } from '@reown/appkit/react';
 import Button from '@components/AppButton';
 import { useIsConnectedToCorrectChain } from '../hooks/useWalletConnectStats';
 
@@ -13,9 +13,9 @@ interface Props {
 export default function WalletConnectGuard(props: Props) {
 	const [requestedChange, setRequestedChange] = useState(false);
 
-	const { isDisconnected } = useAccount();
-	const Web3Modal = useWeb3Modal();
-	const Web3ModalState = useWeb3ModalState();
+	const { isConnected } = useAccount();
+	const Web3Modal = useAppKit();
+	const Web3ModalState = useAppKitState();
 	const isCorrectChain = useIsConnectedToCorrectChain();
 
 	// to close modal after successful connection or change of chain
@@ -27,7 +27,7 @@ export default function WalletConnectGuard(props: Props) {
 	}, [requestedChange, isCorrectChain, Web3Modal, Web3ModalState]);
 
 	// Check if wallet is disconnected
-	if (isDisconnected)
+	if (!isConnected)
 		return (
 			<Button
 				className="h-10"

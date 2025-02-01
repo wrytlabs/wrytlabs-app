@@ -17,8 +17,10 @@
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@headlessui/react": "^2.1.2",
 		"@heroicons/react": "^2.1.5",
-		"@tanstack/react-query": "^5.51.11",
-		"@web3modal/wagmi": "^5.0.7",
+		"@reduxjs/toolkit": "^2.2.5",
+		"@reown/appkit": "^1.6.4",
+		"@reown/appkit-adapter-wagmi": "^1.6.4",
+		"@tanstack/react-query": "^5.64.2",
 		"@wrytlabs/deribit-api-client": "^1.0.1",
 		"@wrytlabs/manager-core": "^0.0.4",
 		"graphql": "^16.10.0",
@@ -32,8 +34,8 @@
 		"react-toastify": "^11.0.2",
 		"rehype-highlight": "^7.0.1",
 		"remark-gfm": "^4.0.0",
-		"viem": "^2.17.8",
-		"wagmi": "^2.11.3"
+		"viem": "^2.22.10",
+		"wagmi": "^2.14.8"
 	},
 	"devDependencies": {
 		"@reduxjs/toolkit": "^2.2.5",

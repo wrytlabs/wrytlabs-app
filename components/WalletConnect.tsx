@@ -1,30 +1,22 @@
-'use client';
-
-import { useWeb3Modal } from '@web3modal/wagmi/react';
-import { useEffect, useState } from 'react';
+import { useAppKit } from '@reown/appkit/react';
 import { useAccount } from 'wagmi';
 import Button from './AppButton';
 
 export default function WalletConnect() {
-	const [isLoaded, setLoaded] = useState<boolean>(false);
-	const Web3Modal = useWeb3Modal();
+	const AppKit = useAppKit();
 	const { isConnected } = useAccount();
 
-	useEffect(() => {
-		setLoaded(isConnected);
-	}, [isConnected]);
-
-	if (isLoaded) {
+	if (!isConnected) {
 		return (
-			<div className="flex items-center gap-2 font-bold">
-				<w3m-button balance="hide" />
-			</div>
+			<Button width="w-36" onClick={() => AppKit.open()}>
+				Connect Wallet
+			</Button>
 		);
 	} else {
 		return (
-			<Button width="w-36" onClick={() => Web3Modal.open()}>
-				Connect Wallet
-			</Button>
+			<div className="flex items-center gap-4">
+				<div className="flex items-center gap-2 font-bold">{<appkit-button balance="hide" />}</div>
+			</div>
 		);
 	}
 }

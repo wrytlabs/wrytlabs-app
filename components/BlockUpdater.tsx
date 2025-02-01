@@ -3,7 +3,7 @@ import { Address } from 'viem';
 import { useEffect, useState } from 'react';
 import { RootState, store } from '../redux/redux.store';
 import { useIsConnectedToCorrectChain } from '../hooks/useWalletConnectStats';
-import { WAGMI_CHAIN } from '../app.config';
+import { WAGMI_CHAIN, CONFIG } from '../app.config';
 import LoadingScreen from './LoadingScreen';
 
 let initializing: boolean = false;
@@ -62,12 +62,12 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Block update policy: EACH BLOCK
 		setLatestHeight(fetchedLatestHeight);
-		console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
+		CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
 		// ...
 
 		// Block update policy: EACH x BLOCKS
 		if (fetchedLatestHeight >= latestHeight10 + 30) {
-			console.log(`Policy [BlockUpdater]: EACH 30 BLOCKS ${fetchedLatestHeight}`);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH 30 BLOCKS ${fetchedLatestHeight}`);
 			// ...
 			setLatestHeight10(fetchedLatestHeight);
 		}
@@ -80,7 +80,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	// Connected to correct chain changes
 	useEffect(() => {
 		if (isConnectedToCorrectChain !== latestConnectedToChain) {
-			console.log(`Policy [BlockUpdater]: Connected to correct chain changed: ${isConnectedToCorrectChain}`);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Connected to correct chain changed: ${isConnectedToCorrectChain}`);
 			setLatestConnectedToChain(isConnectedToCorrectChain);
 		}
 	}, [isConnectedToCorrectChain, latestConnectedToChain]);
@@ -90,11 +90,11 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	useEffect(() => {
 		if (!address && latestAddress) {
 			setLatestAddress(undefined);
-			console.log(`Policy [BlockUpdater]: Address reset`);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Address reset`);
 			// ...
 		} else if (address && (!latestAddress || address != latestAddress)) {
 			setLatestAddress(address);
-			console.log(`Policy [BlockUpdater]: Address changed to: ${address}`);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Address changed to: ${address}`);
 			// ...
 		}
 	}, [address, latestAddress]);

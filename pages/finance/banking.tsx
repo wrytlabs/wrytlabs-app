@@ -1,7 +1,7 @@
 'use client';
 
 import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
-import { Currency, GetInstrumentKind, MarketGetDeliveryPricesNames } from '@wrytlabs/deribit-api-client';
+import { Currency, GetInstrumentKind, MarketGetDeliveryPricesNames, TransactionQuery } from '@wrytlabs/deribit-api-client';
 
 export default function FinanceBankingPage() {
 	return (
@@ -57,10 +57,31 @@ export default function FinanceBankingPage() {
 					});
 					if ('result' in response) {
 						console.log(response.result);
+					} else {
+						console.log(response);
 					}
 				}}
 			>
 				getTransfers
+			</button>
+
+			<button
+				className="bg-blue-400 p-5 rounded-2xl"
+				onClick={async () => {
+					const response = await deribit.account.getTransactionLog({
+						currency: Currency.USDT,
+						start_timestamp: 1704067200000,
+						end_timestamp: 1735313039595,
+						query: TransactionQuery.deposit,
+					});
+					if ('result' in response) {
+						console.log(response.result);
+					} else {
+						console.log(response);
+					}
+				}}
+			>
+				getTransactionLog
 			</button>
 		</div>
 	);

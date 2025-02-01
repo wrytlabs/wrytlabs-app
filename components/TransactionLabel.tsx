@@ -42,7 +42,7 @@ export function TransactionLabel({
 	return (
 		<div className="flex items-center">
 			<div className={`${isOverflow ? 'overflow-x-scroll max-md:w-52' : ''} ${isTextRight ? 'flex-1 text-right' : ''}`}>
-				<div className={showLink ? 'cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
+				<div className={showLink ? 'underline cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
 					{label ?? hash}
 				</div>
 			</div>

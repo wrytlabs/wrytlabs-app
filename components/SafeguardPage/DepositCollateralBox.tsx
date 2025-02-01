@@ -18,7 +18,7 @@ export function DepositCollateralBox({ address, blockchain }: DepositCollateralB
 					<div className="text-sm">{blockchain === 'bitcoin' ? '(Bitcoin Network)' : '(Ethereum Network)'}</div>
 				</div>
 
-				<AddressLabel label={address} address={address} blockchain={blockchain} showLink />
+				<AddressLabel label={address} address={address} blockchain={blockchain} showLink showCopy isOverflow />
 			</div>
 		</AppBox>
 	);

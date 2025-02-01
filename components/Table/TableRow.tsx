@@ -62,15 +62,16 @@ function TableRowMobile({ children, headers, subHeaders, tab, className }: Table
 		return (
 			<div className={`${className} md:hidden gap-6 grid-cols-1 flex-1`}>
 				{children.map((c, idx) => (
-					<div className="mt-2 flex" key={c.key}>
+					<div className="mt-2 flex" key={c.key ?? `TableRowMobile_${tab}_${idx}`}>
 						<div className="flex-1">
-							{/* TODO: adjust for idx === 0 overwrite element in new row */}
-							{/* {idx === 0 ? (
+							{idx === 0 ? (
 								<div className={`${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
-									{c}
+									<div className="flex">
+										<div className="flex-1 flex items-center">{headers[idx]}</div>
+										{c}
+									</div>
 								</div>
-							) :  */}
-							{subHeaders.length === 0 ? (
+							) : subHeaders.length === 0 ? (
 								<div
 									className={`text-md ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}
 								>
@@ -90,8 +91,7 @@ function TableRowMobile({ children, headers, subHeaders, tab, className }: Table
 							)}
 						</div>
 						<div className={`text-right ${headers[idx] == tab ? 'text-text-primary font-semibold' : 'text-text-subheader'}`}>
-							{/* TODO: adjust for idx === 0 overwrite element in new row */}
-							{idx === 0 ? c : c}
+							{idx === 0 ? '' : c}
 						</div>
 					</div>
 				))}

@@ -1,5 +1,8 @@
 import AppCard from '@components/AppCard';
+import { faArrowUpRightFromSquare, faFingerprint } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SafeguardDescription() {
 	return (
@@ -10,14 +13,15 @@ export default function SafeguardDescription() {
 			</div>
 
 			<div className="">
-				<a href="https://www.deribit.com/kb/custody-options" target="_blank" className="underline cursor-pointer">
-					Learn more about Deribit
-				</a>
+				<Link href="https://www.deribit.com/kb/custody-options" target="_blank" className="underline cursor-pointer">
+					Learn more about Deribit Custody
+					<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="ml-2" />
+				</Link>
 			</div>
 
 			<div className="relative w-full h-10">
 				<div className="absolute bottom-0 right-0 rounded-lg">
-					<a href="https://www.deribit.com/kb/about-us" target="_blank" className="underline cursor-pointer">
+					<Link href="https://www.deribit.com/kb/about-us" target="_blank" className="underline cursor-pointer">
 						<Image
 							className="rounded-lg opacity-90"
 							src="/assets/deribit.png"
@@ -25,7 +29,7 @@ export default function SafeguardDescription() {
 							height={100}
 							alt="Deribit Logo"
 						></Image>
-					</a>
+					</Link>
 				</div>
 			</div>
 		</AppCard>

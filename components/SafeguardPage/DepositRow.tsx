@@ -25,7 +25,7 @@ export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
 			// 	</Button>
 			// }
 		>
-			<div className="flex flex-1 max-md:justify-center max-md:items-center max-md:py-3 max-md:bg-card-content-primary max-md:rounded-xl">
+			<div className="flex flex-col gap-2 text-text-header">
 				<TokenLogo currency={deposit.currency} />
 				{/* <PortfolioBalanceBox currency={deposit.currency} amount={deposit.amount} /> */}
 			</div>
@@ -49,6 +49,7 @@ export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
 					label={capLetter(deposit.state)}
 					hash={deposit.transaction_id}
 					blockchain={deposit.currency === 'BTC' ? 'bitcoin' : 'ethereum'}
+					isTextRight={true}
 					showLink
 				/>
 			</div>

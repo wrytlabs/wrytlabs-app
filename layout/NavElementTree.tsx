@@ -57,14 +57,14 @@ export const NavTree: NavBarTree[] = [
 		title: 'Overview',
 		items: [
 			{
-				name: 'Purpose',
+				name: 'Dashboard',
 				to: '/home/purpose',
 				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
 			},
 			{
-				name: 'Goals',
-				to: '/home/goals',
-				icon: <FontAwesomeIcon icon={faLightbulb} className="cursor-pointer" />,
+				name: 'Vault',
+				to: '/finance/safeguard',
+				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
 			},
 			{
 				name: 'Docs',
@@ -117,6 +117,72 @@ export const NavTree: NavBarTree[] = [
 					{
 						name: 'Edit',
 						to: '/environment/edit',
+					},
+				],
+			},
+			{
+				name: 'Vault',
+				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/savings/list',
+					},
+					{
+						name: 'Details',
+						to: '/savings/details',
+					},
+					{
+						name: 'Create',
+						to: '/savings/create',
+					},
+					{
+						name: 'Edit',
+						to: '/savings/edit',
+					},
+				],
+			},
+			{
+				name: 'Savings',
+				icon: <FontAwesomeIcon icon={faPiggyBank} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/savings/list',
+					},
+					{
+						name: 'Details',
+						to: '/savings/details',
+					},
+					{
+						name: 'Create',
+						to: '/savings/create',
+					},
+					{
+						name: 'Edit',
+						to: '/savings/edit',
+					},
+				],
+			},
+			{
+				name: 'Invoice',
+				icon: <FontAwesomeIcon icon={faFileInvoice} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/invoice/list',
+					},
+					{
+						name: 'Details',
+						to: '/invoice/details',
+					},
+					{
+						name: 'Create',
+						to: '/invoice/create',
+					},
+					{
+						name: 'Edit',
+						to: '/invoice/edit',
 					},
 				],
 			},

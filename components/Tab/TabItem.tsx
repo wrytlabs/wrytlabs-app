@@ -11,7 +11,7 @@ export default function TabItem({ tab, label, setTab }: Props) {
 
 	return (
 		<div
-			className={`cursor-pointer rounded-2xl p-2 px-4 min-w-[8rem] md:min-w-[12rem] hover:bg-button-hover ${
+			className={`cursor-pointer rounded-2xl p-2 px-4 min-w-[8rem] md:min-w-[12rem] md:hover:bg-button-hover ${
 				isSelected && 'bg-card-content-primary font-semibold'
 			}`}
 			onClick={() => setTab(label)}

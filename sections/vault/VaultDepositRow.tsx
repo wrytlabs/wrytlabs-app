@@ -1,9 +1,9 @@
-import TableRow from '../Table/TableRow';
 import { useRouter as useNavigation } from 'next/navigation';
 import { capLetter, formatCurrency, FormatType } from '../../utils/format';
 import { TransactionLabel } from '@components/TransactionLabel';
 import TokenLogo from '@components/TokenLogo';
 import { WalletGetDepositsItem } from '@wrytlabs/deribit-api-client';
+import TableRow from '@components/Table/TableRow';
 
 interface Props {
 	headers: string[];
@@ -11,7 +11,7 @@ interface Props {
 	deposit: WalletGetDepositsItem;
 }
 
-export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
+export function VaultDepositRow({ headers, tab, deposit }: Props) {
 	const navigate = useNavigation();
 	const d = new Date(deposit.received_timestamp).toLocaleString();
 

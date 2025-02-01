@@ -1,10 +1,10 @@
 import AppCard from '@components/AppCard';
 import { ResponsePortfolio } from '../../mock/ResponsePortfolio';
 import { useState } from 'react';
-import { PortfolioBalanceBox } from './PortfolioBalanceBox';
+import { VaultPortfolioBox } from './VaultPortfolioBox';
 import AppTitle from '@components/AppTitle';
 
-export default function SafeguardPortfolio() {
+export function VaultPortfolioCard() {
 	const [portfolio, setPortfolio] = useState(ResponsePortfolio);
 
 	const currencies = ['btc', 'eth', 'usdt', 'usdc'];
@@ -17,7 +17,7 @@ export default function SafeguardPortfolio() {
 			<AppTitle className="pt-0" title="Your Safeguard Balance" />
 			<div className={`grid lg:grid-cols-2 gap-4`}>
 				{matching.map((p) => (
-					<PortfolioBalanceBox key={p.currency} currency={p.currency} amount={p.equity} />
+					<VaultPortfolioBox key={p.currency} currency={p.currency} amount={p.equity} />
 				))}
 			</div>
 		</AppCard>

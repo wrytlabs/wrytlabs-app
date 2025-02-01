@@ -7,7 +7,7 @@ export interface DepositCollateralBoxProps {
 	blockchain: 'bitcoin' | 'ethereum';
 }
 
-export function DepositCollateralBox({ address, blockchain }: DepositCollateralBoxProps) {
+export function VaultDepositQRBox({ address, blockchain }: DepositCollateralBoxProps) {
 	return (
 		<AppBox>
 			<div className="flex flex-col gap-4 justify-center items-center">

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import Table from '../Table';
-import TableHeader from '../Table/TableHead';
-import TableBody from '../Table/TableBody';
-import TableRowEmpty from '../Table/TableRowEmpty';
-import SafeguardDepositRow from './DepositRow';
+import Table from '@components/Table';
+import TableHeader from '@components/Table/TableHead';
+import TableBody from '@components/Table/TableBody';
+import TableRowEmpty from '@components/Table/TableRowEmpty';
 import { DERIBIT_WS_CLIENT as deribit } from '../../app.config';
 import { Currency, WalletGetDepositsItem } from '@wrytlabs/deribit-api-client';
+import { VaultDepositRow } from './VaultDepositRow';
 
-export default function SafeguardDepositTable() {
+export function VaultDepositTable() {
 	const headers: string[] = ['Collateral', 'Amount', 'Value', 'Date', 'Tx'];
 	const [tab, setTab] = useState<string>(headers[3]);
 	const [reverse, setReverse] = useState<boolean>(false);
@@ -40,7 +40,7 @@ export default function SafeguardDepositTable() {
 				{deposits.length == 0 ? (
 					<TableRowEmpty>{'There are no deposits yet.'}</TableRowEmpty>
 				) : (
-					deposits.map((d) => <SafeguardDepositRow headers={headers} tab={tab} deposit={d} key={d.transaction_id} />)
+					deposits.map((d) => <VaultDepositRow headers={headers} tab={tab} deposit={d} key={d.transaction_id} />)
 				)}
 			</TableBody>
 		</Table>

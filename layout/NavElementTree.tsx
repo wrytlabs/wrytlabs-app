@@ -63,7 +63,7 @@ export const NavTree: NavBarTree[] = [
 			},
 			{
 				name: 'Vault',
-				to: '/finance/safeguard',
+				to: '/finance/vault',
 				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
 			},
 			{

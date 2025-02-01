@@ -1,11 +1,10 @@
-import AppCard from '@components/AppCard';
 import AppTitle from '@components/AppTitle';
-import { faArrowUpRightFromSquare, faFingerprint } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function SafeguardDescription() {
+export function VaultDepositCard() {
 	return (
 		<AppTitle title="Safeguard your assets">
 			<div className="text-text-secondary">

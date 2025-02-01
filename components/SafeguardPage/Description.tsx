@@ -10,10 +10,7 @@ export default function SafeguardDescription() {
 		<AppTitle title="Safeguard your assets">
 			<div className="text-text-secondary">
 				<span className="font-semibold">Safeguard your assets</span> in a segregated account under the custody of Deribit. This
-				secure approach ensures enhanced protection and management of your funds while relying on a trusted custodian.
-			</div>
-
-			<div className="text-text-secondary">
+				secure approach ensures enhanced protection and management of your funds while relying on a trusted custodian.{' '}
 				<Link href="https://www.deribit.com/kb/custody-options" target="_blank" className="underline cursor-pointer">
 					Learn more about Deribit Custody
 					<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="ml-2" />

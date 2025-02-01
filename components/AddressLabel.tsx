@@ -1,9 +1,8 @@
 import { faArrowUpRightFromSquare, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address, zeroAddress } from 'viem';
-import { shortenAddress } from '../utils/format';
 import { useBitcoinUrl, useContractUrl } from '../hooks/useContractUrl';
-import { mainnet, polygon } from 'viem/chains';
+import { mainnet, polygon, Chain } from '@reown/appkit/networks';
 
 interface Props {
 	address: string;

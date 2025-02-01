@@ -2,7 +2,7 @@ import { Hash } from 'viem';
 import { useBitcoinTxUrl, useTxUrl } from '../hooks/useContractUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faCopy } from '@fortawesome/free-solid-svg-icons';
-import { mainnet, polygon } from 'viem/chains';
+import { mainnet, polygon } from '@reown/appkit/networks';
 
 type Props = {
 	hash: string;

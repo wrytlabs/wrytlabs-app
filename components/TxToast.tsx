@@ -63,7 +63,7 @@ export const TxToast = (props: {
 
 	return (
 		<div className="flex flex-col text-text-primary">
-			<div className="font-bold mb-2">{title}</div>
+			<div className="font-bold">{title}</div>
 			{rows.map((row, i) => {
 				if (row.value?.toString().includes('with the following reason')) reasonLine = i + 1;
 				return (

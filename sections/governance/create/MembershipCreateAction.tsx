@@ -7,17 +7,17 @@ import { useAccount } from 'wagmi';
 import WalletConnectGuard from '@components/WalletConnectGuard';
 import AppButton from '@components/AppButton';
 import { renderErrorTxToast, TxToast } from '@components/TxToast';
-import { Address, Hash } from 'viem';
-import { MembershipABI, ADDRESS } from '@wrytlabs/manager-core';
+import { Address } from 'viem';
+import { ADDRESS, MembershipFactoryABI } from '@wrytlabs/manager-core';
 
 interface Props {
-	membership: Address;
-	role?: string;
-	roleHex: Hash;
+	admin: Address;
+	executor: Address;
+	member: Address;
 	disabled?: boolean;
 }
 
-export default function MembershipEditRenouceAction({ membership, role = '', roleHex, disabled }: Props) {
+export default function MembershipCreateAction({ admin, executor, member, disabled }: Props) {
 	const [isAction, setAction] = useState<boolean>(false);
 	const [isHidden, setHidden] = useState<boolean>(false);
 	const { address } = useAccount();
@@ -30,20 +30,24 @@ export default function MembershipEditRenouceAction({ membership, role = '', rol
 			setAction(true);
 
 			const writeHash = await writeContract(WAGMI_CONFIG, {
-				address: membership,
-				abi: MembershipABI,
-				functionName: 'renounceRole',
-				args: [roleHex as Hash, address],
+				address: ADDRESS[CONFIG.chain.id].membershipFactory,
+				abi: MembershipFactoryABI,
+				functionName: 'createMembership',
+				args: [admin, executor, member],
 			});
 
 			const toastContent = [
 				{
-					title: `Membership: `,
-					value: shortenAddress(membership),
+					title: `Admin: `,
+					value: shortenAddress(admin),
 				},
 				{
-					title: `Renouncing role: `,
-					value: role,
+					title: `Executor: `,
+					value: shortenAddress(executor),
+				},
+				{
+					title: `Member: `,
+					value: shortenAddress(member),
 				},
 				{
 					title: 'Transaction: ',
@@ -53,10 +57,10 @@ export default function MembershipEditRenouceAction({ membership, role = '', rol
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: writeHash, confirmations: 1 }), {
 				pending: {
-					render: <TxToast title={`Renoucing role...`} rows={toastContent} />,
+					render: <TxToast title={`Creating Membership...`} rows={toastContent} />,
 				},
 				success: {
-					render: <TxToast title="Successfully renouced role" rows={toastContent} />,
+					render: <TxToast title="Successfully created Membership" rows={toastContent} />,
 				},
 			});
 
@@ -69,7 +73,7 @@ export default function MembershipEditRenouceAction({ membership, role = '', rol
 	};
 
 	return (
-		<WalletConnectGuard label={'Renouce'} disabled={isHidden || disabled}>
+		<WalletConnectGuard label={'Create'} disabled={isHidden || disabled}>
 			<div className="overflow-hidden">
 				<AppButton
 					className="h-10 scroll-nopeak"
@@ -77,7 +81,7 @@ export default function MembershipEditRenouceAction({ membership, role = '', rol
 					isLoading={isAction}
 					onClick={(e) => handleOnClick(e)}
 				>
-					{'Renouce'}
+					{'Create'}
 				</AppButton>
 			</div>
 		</WalletConnectGuard>

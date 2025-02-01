@@ -25,10 +25,7 @@ export default function SafeguardDepositRow({ headers, tab, deposit }: Props) {
 			// 	</Button>
 			// }
 		>
-			<div className="flex flex-col gap-2 text-text-header">
-				<TokenLogo currency={deposit.currency} />
-				{/* <PortfolioBalanceBox currency={deposit.currency} amount={deposit.amount} /> */}
-			</div>
+			<TokenLogo currency={deposit.currency} />
 
 			<div className="flex flex-col gap-2 text-text-header">
 				<div className="col-span-2 text-md">

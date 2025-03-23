@@ -1,4 +1,5 @@
-import { Chain, Hash } from 'viem';
+import { Hash } from 'viem';
+import { Chain } from '@reown/appkit/networks';
 import { WAGMI_CHAIN } from '../app.config';
 
 export const useContractUrl = (address: string, chain: Chain = WAGMI_CHAIN) => {

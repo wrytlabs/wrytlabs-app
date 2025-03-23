@@ -3,7 +3,7 @@ import { formatCurrency, FormatType } from '@utils';
 import TokenLogo from '@components/TokenLogo';
 import { ResponseGetIndexBTC, ResponseGetIndexETH } from '../../mock/ResponseGetIndex';
 
-export interface PortfolioBalanceBoxProps {
+export interface Props {
 	currency: string;
 	amount?: number;
 	deposit?: number;
@@ -12,7 +12,7 @@ export interface PortfolioBalanceBoxProps {
 	received?: number;
 }
 
-export function PortfolioBalanceBox({ currency, amount, deposit, withdrawal, sent, received }: PortfolioBalanceBoxProps) {
+export function VaultPortfolioBox({ currency, amount, deposit, withdrawal, sent, received }: Props) {
 	const prices: { [key: string]: number } = {
 		BTC: ResponseGetIndexBTC.result.BTC,
 		ETH: ResponseGetIndexETH.result.ETH,

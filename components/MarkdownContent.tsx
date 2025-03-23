@@ -23,7 +23,7 @@ export default function MarkdownContent({ content }: MarkdownProps) {
 				ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
 				li: ({ node, ...props }) => <li className="mb-1" {...props} />,
 				code: ({ node, ...props }) => <code className="bg-cyan-100 rounded px-1" {...props} />,
-				pre: ({ node, ...props }) => <pre className="bg-cyan-100 p-4 rounded-xl mb-4 overflow-x-auto" {...props} />,
+				pre: ({ node, ...props }) => <pre className="bg-cyan-100 p-4 rounded-xl mb-4 w-full overflow-x-scroll" {...props} />,
 				img: ({ node, ...props }) => (
 					<div className="flex justify-center w-full max-md:my-2 md:my-8">
 						<Image

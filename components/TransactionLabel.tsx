@@ -2,7 +2,7 @@ import { Hash } from 'viem';
 import { useBitcoinTxUrl, useTxUrl } from '../hooks/useContractUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faCopy } from '@fortawesome/free-solid-svg-icons';
-import { mainnet, polygon } from 'viem/chains';
+import { mainnet, polygon } from '@reown/appkit/networks';
 
 type Props = {
 	hash: string;
@@ -42,7 +42,7 @@ export function TransactionLabel({
 	return (
 		<div className="flex items-center">
 			<div className={`${isOverflow ? 'overflow-x-scroll max-md:w-52' : ''} ${isTextRight ? 'flex-1 text-right' : ''}`}>
-				<div className={showLink ? 'cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
+				<div className={showLink ? 'underline cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
 					{label ?? hash}
 				</div>
 			</div>

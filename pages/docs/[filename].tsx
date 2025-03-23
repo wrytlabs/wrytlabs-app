@@ -45,7 +45,7 @@ export default function DocsMarkdownFilePage({ fileExists, fileName, fileContent
 				</div>
 			</AppTitle>
 
-			<AppCard>
+			<AppCard className="w-full overflow-x-scroll">
 				{fileExists ? (
 					<MarkdownContent content={fileContent} />
 				) : (

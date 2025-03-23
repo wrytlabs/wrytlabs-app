@@ -1,9 +1,8 @@
 import { faArrowUpRightFromSquare, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address, zeroAddress } from 'viem';
-import { shortenAddress } from '../utils/format';
 import { useBitcoinUrl, useContractUrl } from '../hooks/useContractUrl';
-import { mainnet, polygon } from 'viem/chains';
+import { mainnet, polygon, Chain } from '@reown/appkit/networks';
 
 interface Props {
 	address: string;
@@ -47,9 +46,8 @@ export default function AddressLabel({
 				</div>
 			</div>
 
-			{showCopy && <FontAwesomeIcon icon={faCopy} className="w-3 ml-2 cursor-pointer" onClick={handleCopy} />}
-
 			{showLink && <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 ml-2 cursor-pointer" onClick={openExplorer} />}
+			{showCopy && <FontAwesomeIcon icon={faCopy} className="w-3 ml-2 cursor-pointer" onClick={handleCopy} />}
 		</div>
 	);
 }

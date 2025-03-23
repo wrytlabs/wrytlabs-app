@@ -31,6 +31,7 @@ import {
 	faUnlockKeyhole,
 	faVault,
 	faBook,
+	faArrowsUpToLine,
 } from '@fortawesome/free-solid-svg-icons';
 import { SetStateAction } from 'react';
 
@@ -117,6 +118,28 @@ export const NavTree: NavBarTree[] = [
 					{
 						name: 'Edit',
 						to: '/environment/edit',
+					},
+				],
+			},
+			{
+				name: 'Morpho: Scale',
+				icon: <FontAwesomeIcon icon={faArrowsUpToLine} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/morpho/scale/list',
+					},
+					{
+						name: 'Details',
+						to: '/morpho/scale/details',
+					},
+					{
+						name: 'Create',
+						to: '/morpho/scale/create',
+					},
+					{
+						name: 'Edit',
+						to: '/morpho/scale/edit',
 					},
 				],
 			},

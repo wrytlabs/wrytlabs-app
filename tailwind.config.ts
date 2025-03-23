@@ -14,6 +14,9 @@ const config: Config = {
 		},
 	],
 	theme: {
+		fontFamily: {
+			default: ['Avenir', 'Helvetica', 'sans-serif'],
+		},
 		extend: {
 			height: {
 				main: 'calc(100vh)',

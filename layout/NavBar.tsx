@@ -55,11 +55,11 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 								onClick={() => setIsNavBarOpen(false)}
 							></div>
 							<div
-								className={`fixed top-0 left-0 h-screen w-[20rem] transition-transform duration-200 overflow-y-auto overscroll-y-auto  ${
+								className={`fixed top-0 left-0 h-screen w-[20rem] transition-transform duration-200 ${
 									isNavBarOpen ? 'translate-x-0' : 'translate-x-full'
 								}`}
 							>
-								<div className="min-h-full w-full bg-card-body-primary px-6 pt-12 relative">
+								<div className="flex flex-col min-h-full max-h-screen w-full bg-card-body-primary pt-12 relative">
 									<Link className="grid justify-items-center" href={'/'}>
 										<Image className="rounded-xl" src="/assets/wrytlabs.png" alt="Logo" width={120} height={100} />
 									</Link>
@@ -77,7 +77,7 @@ export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 									</button>
 
 									<menu
-										className="grid grid-cols-1 gap-6 place-content-stretch mt-8"
+										className="flex-grow grid grid-cols-1 gap-6 place-content-stretch px-6 mt-8 overflow-y-auto"
 										//onClick={() => setIsNavBarOpen(false)}
 									>
 										<NavElementTree setIsNavBarOpen={setIsNavBarOpen} />

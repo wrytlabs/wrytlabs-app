@@ -49,7 +49,7 @@ export default function TableHeader({ headers, subHeaders, actionCol, colSpan, t
 			</div>
 			{actionCol && (
 				<div className="max-md:hidden">
-					<div className={`text-text-header text-right w-40 flex-shrink-0 ${subHeaders ? 'items-center' : ''}`}>Action</div>
+					<div className={`text-text-header text-right w-40 flex-shrink-0 ${subHeaders ? 'items-center' : ''}`}></div>
 					{subHeaders ? <span> </span> : null}
 				</div>
 			)}
@@ -70,7 +70,8 @@ interface TableHeadMobileProps {
 function TableHeadMobile({ headers, tab, reverse, tabOnChange }: TableHeadMobileProps) {
 	return (
 		<div className="md:hidden flex items-center">
-			<div className="flex-1 justify-start font-semibold text-text-subheader">Sort By</div>
+			<div className="flex-1 justify-start font-semibold text-text-secondary">Sort By</div>
+
 			<div className="flex justify-end">
 				<SortBySelect headers={headers} tab={tab} reverse={reverse} tabOnChange={tabOnChange} />
 			</div>

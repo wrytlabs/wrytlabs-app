@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { WAGMI_CONFIG } from '../../app.config';
 import { readContract } from 'wagmi/actions';
 import { formatUnits, Hash, parseUnits } from 'viem';
-import TokenLogo from '@components/TokenLogo';
 import AppBox from '@components/AppBox';
+import AppButton from '@components/AppButton';
+import Link from 'next/link';
+import CollateralTableItem from '@components/Display/CollateralTableItem';
 
 interface Props {
 	headers: string[];
@@ -112,26 +114,30 @@ export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
 
 	return (
 		<>
-			<TableRow headers={headers} tab={tab} actionCol={<div className="text-right">Action</div>}>
-				{/* Collateral */}
+			<TableRow
+				headers={headers}
+				tab={tab}
+				actionCol={
+					<Link href={`/morpho/scale/details/${instance.address.toLowerCase()}`}>
+						<AppButton>Details</AppButton>
+					</Link>
+				}
+			>
 				<div className="flex flex-col max-md:mb-5">
-					{/* desktop view */}
-					<div className="max-md:hidden flex flex-row items-center -ml-12">
-						<span className="mr-4 cursor-pointer">
-							<TokenLogo currency={instance.collateralSymbol} />
-						</span>
-						<span className={`col-span-2 text-md text-text-primary`}>{instance.collateralSymbol} </span>
-					</div>
-
-					{/* mobile view */}
-					<AppBox className="md:hidden flex flex-row items-center">
-						<div className="mr-4 cursor-pointer">
-							<TokenLogo currency={instance.collateralSymbol} />
-						</div>
-						<div className={`col-span-2 text-md ${headers[0] === tab ? 'text-text-primary' : ''} font-semibold`}>
-							{instance.collateralSymbol}{' '}
-						</div>
+					<AppBox className="md:hidden">
+						<CollateralTableItem
+							symbol={instance.collateralSymbol}
+							name={instance.collateralName}
+							address={instance.collateral}
+						/>
 					</AppBox>
+					<div className="max-md:hidden">
+						<CollateralTableItem
+							symbol={instance.collateralSymbol}
+							name={instance.collateralName}
+							address={instance.collateral}
+						/>
+					</div>
 				</div>
 
 				<div className="flex flex-col">
@@ -141,7 +147,7 @@ export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
 				<div className="flex flex-col">{`${formatCurrency(formatUnits(ltv, 18 - 2))}% / ${lltv}%`}</div>
 
 				<div className="flex flex-col">
-					{equity > 0 ? formatCurrency(formatUnits((loanBalance * parseUnits('1', 18)) / equity, 18)) : '-'}x{' '}
+					{equity > 0 ? formatCurrency(formatUnits((loanBalance * parseUnits('1', 18)) / equity, 18)) : '0'}x{' '}
 				</div>
 			</TableRow>
 		</>

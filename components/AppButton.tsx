@@ -11,7 +11,7 @@ interface Props {
 	width?: string;
 }
 
-export default function Button({ size = 'md', width, className, onClick, isLoading, children, disabled, error }: Props) {
+export default function AppButton({ size = 'md', width, className, onClick, isLoading, children, disabled, error }: Props) {
 	const sizeClass = size == 'sm' ? 'text-sm px-2 py-1 md:px-3 md:py-1' : 'px-2 py-2';
 
 	return (

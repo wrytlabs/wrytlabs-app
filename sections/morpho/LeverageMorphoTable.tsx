@@ -15,8 +15,6 @@ export default function LeverageMorphoTable() {
 	const { leverageMorphoFactory } = useLeverageMorphoFactory();
 	const sorted = leverageMorphoFactory;
 
-	console.log(leverageMorphoFactory);
-
 	useEffect(() => {
 		const idList = list.map((l) => l.address).join('_');
 		const idSorted = sorted.map((l) => l.address).join('_');

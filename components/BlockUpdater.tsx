@@ -47,7 +47,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	}, [initialized]);
 
 	// --------------------------------------------------------------------------------
-	// Bock update policies
+	// Block update policies
 	useEffect(() => {
 		if (!initialized) return;
 		if (loading) return;

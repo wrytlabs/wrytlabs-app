@@ -11,7 +11,7 @@ interface Props {
 
 export default function NavBar({ isNavBarOpen, setIsNavBarOpen }: Props) {
 	return (
-		<div className="fixed top-0 left-0 bottom-0 z-10 md:border-r-2 border-menu-separator bg-layout-primary">
+		<div className="fixed top-0 left-0 bottom-0 z-10 md:border-r-2 bg-white">
 			<header className="flex items-top py-2 md:py-4 px-4 md:gap-x-4 relative h-full w-[18rem] overflow-y-auto">
 				<ul className={`flex-col hidden flex-1 md:flex lg:gap-[2rem] scroll-auto mt-2`}>
 					<Link className="grid justify-items-center" href={'/'}>

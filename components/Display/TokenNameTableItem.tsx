@@ -15,7 +15,7 @@ interface Props {
 	bold?: boolean;
 }
 
-export default function CollateralTableItem({ bold = true, symbol, symbolTiny = '', name, address, className }: Props) {
+export default function TokenNameTableItem({ bold = true, symbol, symbolTiny = '', name, address, className }: Props) {
 	const url = useContractUrl(address || zeroAddress);
 
 	const openExplorer = (e: any) => {

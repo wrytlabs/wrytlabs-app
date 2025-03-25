@@ -5,6 +5,8 @@ import { RootState, store } from '../redux/redux.store';
 import { useIsConnectedToCorrectChain } from '../hooks/useWalletConnectStats';
 import { WAGMI_CHAIN, CONFIG } from '../app.config';
 import LoadingScreen from './LoadingScreen';
+import { fetchMorphoMarkets } from '../redux/slices/morpho.scale.slice';
+import { useSelector } from 'react-redux';
 
 let initializing: boolean = false;
 let initStart: number = 0;
@@ -21,8 +23,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false);
 	const [latestAddress, setLatestAddress] = useState<Address | undefined>(undefined);
 
-	// const loadedEcosystem: boolean = useSelector((state: RootState) => state.ecosystem.loaded);
-	// ...
+	const loadedMorphoScale: boolean = useSelector((state: RootState) => state.morphoScale.loaded);
 
 	// --------------------------------------------------------------------------------
 	// Init
@@ -33,18 +34,18 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		initStart = Date.now();
 
 		console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
-		// store.dispatch(fetchFunction());
+		store.dispatch(fetchMorphoMarkets());
 	}, [initialized]);
 
 	// --------------------------------------------------------------------------------
 	// Init done
 	useEffect(() => {
 		if (initialized) return;
-		if (/*loadedEcosystem*/ true) {
+		if (loadedMorphoScale) {
 			console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
 			setInitialized(true);
 		}
-	}, [initialized]);
+	}, [initialized, loadedMorphoScale]);
 
 	// --------------------------------------------------------------------------------
 	// Block update policies
@@ -63,7 +64,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH BLOCK
 		setLatestHeight(fetchedLatestHeight);
 		CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		// ...
+		store.dispatch(fetchMorphoMarkets());
 
 		// Block update policy: EACH x BLOCKS
 		if (fetchedLatestHeight >= latestHeight10 + 30) {

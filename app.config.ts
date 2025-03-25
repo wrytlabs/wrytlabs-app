@@ -23,6 +23,7 @@ export type ConfigEnv = {
 	app: string;
 	api: string;
 	indexer: string;
+	morphoGraph: string;
 	rpc: string;
 	wagmiId: string;
 	chain: Chain;
@@ -34,6 +35,7 @@ export const CONFIG: ConfigEnv = {
 	app: process.env.NEXT_PUBLIC_APP_URL || 'https://app.wrytlabs.io',
 	api: process.env.NEXT_PUBLIC_API_URL || 'https://api.wrytlabs.io',
 	indexer: process.env.NEXT_PUBLIC_INDEXER_URL || 'https://indexer.wrytlabs.io',
+	morphoGraph: process.env.NEXT_PUBLIC_MORPHOGRAPH_URL || 'https://blue-api.morpho.org/graphql',
 	chain: process.env.NEXT_PUBLIC_CHAIN_NAME === 'mainnet' ? mainnet : polygon,
 	wagmiId: process.env.NEXT_PUBLIC_WAGMI_ID,
 	rpc:
@@ -51,6 +53,11 @@ if (CONFIG.verbose) {
 // PONDER CLIENT
 export const PONDER_CLIENT = new ApolloClient({
 	uri: CONFIG.indexer,
+	cache: new InMemoryCache(),
+});
+
+export const MORPHOGRAPH_CLIENT = new ApolloClient({
+	uri: CONFIG.morphoGraph,
 	cache: new InMemoryCache(),
 });
 

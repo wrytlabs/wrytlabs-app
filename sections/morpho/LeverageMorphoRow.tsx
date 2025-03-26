@@ -26,7 +26,7 @@ export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
 				}
 			>
 				<div className="flex flex-col max-md:mb-5">
-					<AppBox className="md:hidden">
+					<AppBox className="md:hidden grid gap-2">
 						<TokenNameTableItem
 							symbol={instance.collateralSymbol}
 							name={instance.collateralName}

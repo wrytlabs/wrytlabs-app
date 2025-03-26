@@ -93,63 +93,68 @@ export const fetchMorphoMarkets = () => async (dispatch: Dispatch<DispatchBoolea
 		const modInstances: LeverageMorphoInstance[] = [];
 
 		for (const instance of fetchedInstances) {
-			const [supplyShares, borrowShares, collateral] = await readContract(WAGMI_CONFIG, {
-				address: CONTRACT.Morpho,
-				abi: MorphoABI,
-				functionName: 'position',
-				args: [instance.marketId as Hash, instance.address],
-			});
-
-			const [totalSupplyAssets, totalSupplyShares, totalBorrowAssets, totalBorrowShares, lastUpdate, fee] = await readContract(
-				WAGMI_CONFIG,
-				{
+			try {
+				const [supplyShares, borrowShares, collateral] = await readContract(WAGMI_CONFIG, {
 					address: CONTRACT.Morpho,
 					abi: MorphoABI,
-					functionName: 'market',
-					args: [instance.marketId as Hash],
-				}
-			);
+					functionName: 'position',
+					args: [instance.marketId as Hash, instance.address],
+				});
 
-			const oraclePrice = await readContract(WAGMI_CONFIG, {
-				address: instance.oracle,
-				abi: MorphoChainlinkOracleV2ABI,
-				functionName: 'price',
-			});
+				const [totalSupplyAssets, totalSupplyShares, totalBorrowAssets, totalBorrowShares, lastUpdate, fee] = await readContract(
+					WAGMI_CONFIG,
+					{
+						address: CONTRACT.Morpho,
+						abi: MorphoABI,
+						functionName: 'market',
+						args: [instance.marketId as Hash],
+					}
+				);
 
-			const oracleScale = await readContract(WAGMI_CONFIG, {
-				address: instance.oracle,
-				abi: MorphoChainlinkOracleV2ABI,
-				functionName: 'SCALE_FACTOR',
-			});
+				const oraclePrice = await readContract(WAGMI_CONFIG, {
+					address: instance.oracle,
+					abi: MorphoChainlinkOracleV2ABI,
+					functionName: 'price',
+				});
 
-			const price = (oraclePrice * parseUnits('1', 10)) / oracleScale;
-			const loanValue = (borrowShares * totalBorrowAssets) / totalBorrowShares;
-			const collateralValue = (collateral * price) / parseUnits('1', 18 + instance.collateralDecimals - instance.loanDecimals);
-			const equityValue = collateralValue - loanValue;
-			const ltv = collateralValue > 0 ? (loanValue * parseUnits('1', 18)) / collateralValue : 0n;
+				const oracleScale = await readContract(WAGMI_CONFIG, {
+					address: instance.oracle,
+					abi: MorphoChainlinkOracleV2ABI,
+					functionName: 'SCALE_FACTOR',
+				});
 
-			// create modified instances
-			modInstances.push({
-				...instance,
-				position: {
-					supplyShares,
-					borrowShares,
-					collateral,
-				},
-				market: {
-					totalSupplyAssets,
-					totalSupplyShares,
-					totalBorrowAssets,
-					totalBorrowShares,
-					lastUpdate,
-					fee,
-				},
-				loanValue,
-				collateralValue,
-				equityValue,
-				price,
-				ltv,
-			});
+				const price = (oraclePrice * parseUnits('1', 10)) / oracleScale;
+				const loanValue = (borrowShares * totalBorrowAssets) / totalBorrowShares;
+				const collateralValue = (collateral * price) / parseUnits('1', 18 + instance.collateralDecimals - instance.loanDecimals);
+				const equityValue = collateralValue - loanValue;
+				const ltv = collateralValue > 0 ? (loanValue * parseUnits('1', 18)) / collateralValue : 0n;
+
+				// create modified instances
+				modInstances.push({
+					...instance,
+					position: {
+						supplyShares,
+						borrowShares,
+						collateral,
+					},
+					market: {
+						totalSupplyAssets,
+						totalSupplyShares,
+						totalBorrowAssets,
+						totalBorrowShares,
+						lastUpdate,
+						fee,
+					},
+					loanValue,
+					collateralValue,
+					equityValue,
+					price,
+					ltv,
+				});
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
 		}
 
 		dispatch(slice.actions.setFactory(modInstances));

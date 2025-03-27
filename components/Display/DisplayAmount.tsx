@@ -1,9 +1,9 @@
-import { formatBigInt, formatCurrency } from "@utils";
-import dynamic from "next/dynamic";
-import { useContractUrl } from "../hooks/useContractUrl";
-import { formatUnits, zeroAddress } from "viem";
-import Link from "next/link";
-const TokenLogo = dynamic(() => import("./TokenLogo"), { ssr: false });
+import { formatCurrency } from '@utils';
+import dynamic from 'next/dynamic';
+import { useContractUrl } from '../../hooks/useContractUrl';
+import { formatUnits, zeroAddress } from 'viem';
+import Link from 'next/link';
+const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false });
 
 interface Props {
 	className?: string;
@@ -32,13 +32,13 @@ export default function DisplayAmount({
 }: Props) {
 	const url = useContractUrl(address || zeroAddress);
 	return (
-		<div className={className || "pt-2"}>
+		<div className={className || 'pt-2'}>
 			<div className="flex items-center gap-2">
 				{output != undefined ? (
-					<div className={`flex-1 text-text-primary ${bold && "font-medium"} ${big ? "text-lg" : ""}`}>{output}</div>
+					<div className={`flex-1 text-text-primary ${bold && 'font-medium'} ${big ? 'text-lg' : ''}`}>{output}</div>
 				) : (
-					<div className={`flex-1 text-text-primary ${bold && "font-medium"} ${big ? "text-lg" : ""}`}>
-						{amount ? formatCurrency(typeof amount === "number" ? amount : formatUnits(amount, Number(digits))) : "0.00"}
+					<div className={`flex-1 text-text-primary ${bold && 'font-medium'} ${big ? 'text-lg' : ''}`}>
+						{amount ? formatCurrency(typeof amount === 'number' ? amount : formatUnits(amount, Number(digits))) : '0.00'}
 					</div>
 				)}
 
@@ -57,7 +57,7 @@ export default function DisplayAmount({
 						</Link>
 					) : unit != undefined ? (
 						<>
-							{" "}
+							{' '}
 							<span>{unit}</span>
 						</>
 					) : null}

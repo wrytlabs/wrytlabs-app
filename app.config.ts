@@ -67,14 +67,14 @@ export const API_CLIENT = axios.create({
 });
 
 // DERIBIT WS API CLIENT
-// export const DERIBIT_WS_CLIENT = createDeribitClient({
-// 	type: GrantType.client_credentials,
-// 	baseUrl: 'wss://www.deribit.com/ws/api/v2',
-// 	clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-// 	clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
-// });
+export const DERIBIT_WS_CLIENT = createDeribitClient({
+	type: GrantType.client_credentials,
+	baseUrl: 'wss://www.deribit.com/ws/api/v2',
+	clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+	clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+});
 
-// export const DERIBIT_WS_CLIENT_PUBLIC = createDeribitClientPublic();
+export const DERIBIT_WS_CLIENT_PUBLIC = createDeribitClientPublic();
 
 // WAGMI CONFIG
 export const WAGMI_CHAIN = CONFIG.chain;

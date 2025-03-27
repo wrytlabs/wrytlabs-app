@@ -25,7 +25,7 @@ export default function MorphoScaleCreate() {
 	const [collName, setCollName] = useState<string>('');
 	const [oracleAddress, setOracleAddress] = useState<string>('');
 	const [irmAddress, setIrmAddress] = useState<string>('0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC');
-	const [lltv, setLltv] = useState<string>('86');
+	const [lltv, setLltv] = useState<string>(parseUnits('86', 16).toString());
 	const { address } = useAccount();
 
 	useEffect(() => {

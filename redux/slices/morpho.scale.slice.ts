@@ -132,6 +132,7 @@ export const fetchMorphoMarkets = () => async (dispatch: Dispatch<DispatchBoolea
 				// create modified instances
 				modInstances.push({
 					...instance,
+					lltv: BigInt(instance.lltv), // overwrite with type
 					position: {
 						supplyShares,
 						borrowShares,

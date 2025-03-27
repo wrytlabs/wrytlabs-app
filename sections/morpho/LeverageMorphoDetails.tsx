@@ -6,13 +6,14 @@ import DisplayOutputAlignedRight from '@components/Display/DisplayOutputAlignedR
 import { formatCurrency, shortenAddress } from '@utils';
 import AppLink from '@components/AppLink';
 import { useContractUrl } from '../../hooks/useContractUrl';
-import { formatUnits } from 'viem';
+import { formatUnits, parseUnits } from 'viem';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
 export default function LeverageMorphDetails({ instance }: Props) {
+	console.log(instance);
 	return (
 		<AppCard>
 			<div className={`grid md:grid-cols-4 max-md:grid-cols-1 gap-4`}>
@@ -26,28 +27,31 @@ export default function LeverageMorphDetails({ instance }: Props) {
 				</AppBox>
 
 				<AppBox>
-					<DisplayLabel label="Collateral Token" />
-					<DisplayOutputAlignedRight output={instance.collateralName} />
-				</AppBox>
-
-				<AppBox>
-					<DisplayLabel label="Loan Token" />
-					<DisplayOutputAlignedRight output={instance.loanName} />
-				</AppBox>
-
-				<AppBox>
-					<DisplayLabel label="Instance Address" />
-					<AppLink label={shortenAddress(instance.address)} href={useContractUrl(instance.address)} external={true} />
-				</AppBox>
-
-				{/* 2nd */}
-
-				<AppBox>
 					<DisplayLabel label="LTV / LLTV" />
 					<DisplayOutputAlignedRight
 						output={`${formatCurrency(formatUnits(instance.ltv, 18 - 2))}% / ${formatUnits(instance.lltv, 18 - 2)}%`}
 					/>
 				</AppBox>
+
+				<AppBox>
+					<DisplayLabel label="Liq. Price" />
+					<DisplayOutputAlignedRight
+						amount={
+							(instance.loanValue * parseUnits('1', 18 + instance.collateralDecimals)) /
+							instance.lltv /
+							instance.position.collateral
+						}
+						digits={instance.loanDecimals}
+						unit={instance.loanSymbol}
+					/>
+				</AppBox>
+
+				<AppBox>
+					<DisplayLabel label="Instance" />
+					<AppLink label={shortenAddress(instance.address)} href={useContractUrl(instance.address)} external={true} />
+				</AppBox>
+
+				{/* 2nd */}
 
 				<AppBox>
 					<DisplayLabel label="Collateral Value" />
@@ -60,12 +64,29 @@ export default function LeverageMorphDetails({ instance }: Props) {
 
 				<AppBox>
 					<DisplayLabel label="Loan Value" />
-					<DisplayOutputAlignedRight amount={instance.loanValue} digits={instance.loanDecimals} unit={instance.loanSymbol} />
+					<DisplayOutputAlignedRight
+						amount={instance.loanValue}
+						digits={instance.loanDecimals} // shown in the loan unit
+						unit={instance.loanSymbol} // shown in the loan unit
+					/>
 				</AppBox>
 
 				<AppBox>
-					<DisplayLabel label="Profit" />
-					<DisplayOutputAlignedRight amount={0n} digits={instance.loanDecimals} unit={instance.loanSymbol} />
+					<DisplayLabel label="Collateral Amount" />
+					<DisplayOutputAlignedRight
+						amount={instance.position.collateral}
+						digits={instance.collateralDecimals}
+						unit={instance.collateralSymbol}
+					/>
+				</AppBox>
+
+				<AppBox>
+					<DisplayLabel label="Profit Amount" />
+					<DisplayOutputAlignedRight
+						amount={instance.loanValue}
+						digits={instance.loanDecimals} // shown in the loan unit
+						unit={instance.loanSymbol} // shown in the loan unit
+					/>
 				</AppBox>
 			</div>
 		</AppCard>

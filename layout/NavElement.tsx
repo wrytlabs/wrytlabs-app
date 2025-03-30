@@ -64,7 +64,7 @@ export default function NavElement({ item, setIsNavBarOpen }: NavElementProps) {
 			<div className="py-1" onClick={() => setShowChilds(!showChilds)}>
 				<div
 					className={`flex flex-row items-center pl-4 py-2 gap-4 rounded-2xl cursor-pointer ${
-						showChilds ? 'bg-menu-active' : 'md:hover:bg-menu-hover text-menu-text'
+						showChilds ? 'bg-menu-openElement' : 'md:hover:bg-menu-hover text-menu-text'
 					}`}
 				>
 					<div className="w-[2rem] flex items-center justify-center">{elements.icon}</div>

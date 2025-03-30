@@ -5,11 +5,13 @@ import AppPage from '@components/AppPage';
 import Head from 'next/head';
 import { useRouter as useNavigation } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { Address, isAddress } from 'viem';
+import { Address, isAddress, zeroAddress } from 'viem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/redux.store';
 import LeverageMorphoNotFound from '../../../../sections/morpho/LeverageMorphoNotFound';
 import LeverageMorphDetails from '../../../../sections/morpho/LeverageMorphoDetails';
+import AppLink from '@components/AppLink';
+import LeverageMorphoLoanTable from '../../../../sections/morpho/details/LeverageMorphoLoanTable';
 
 export default function MorphoScaleDetails() {
 	const router = useRouter();
@@ -30,11 +32,33 @@ export default function MorphoScaleDetails() {
 
 			<AppTitle title="Leverage Morpho">
 				<div className="text-text-secondary">
-					<p>View leveraged position with detailed metrics on collateral, borrowed amounts and health factor.</p>
+					View leveraged position with detailed metrics on collateral, borrowed amounts and health factor.{' '}
+					<AppLink
+						label={'Edit this Position.'}
+						href={`/morpho/scale/edit/${address ?? zeroAddress}`}
+						external={false}
+						className=""
+					/>
 				</div>
 			</AppTitle>
 
 			{instance ? <LeverageMorphDetails instance={instance} /> : <LeverageMorphoNotFound address={address} />}
+
+			{instance ? (
+				<>
+					<AppTitle title="Loan Adjustments">
+						<div className="text-text-secondary">View borrow and repays. </div>
+					</AppTitle>
+
+					{/* balance chart / equity */}
+
+					<LeverageMorphoLoanTable instance={instance} />
+
+					{/* <LeverageMorphoCollateralTable instance={instance} /> */}
+
+					{/* <LeverageMorphoExecuteTable instance={instance} /> */}
+				</>
+			) : null}
 		</AppPage>
 	);
 }

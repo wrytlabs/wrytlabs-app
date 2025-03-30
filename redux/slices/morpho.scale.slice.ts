@@ -1,9 +1,15 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit';
 import {
-	DispatchBoolean,
+	DispatchCollateralArray,
+	DispatchExecuteArray,
 	DispatchInstanceArray,
+	DispatchLoaded,
+	DispatchLoanArray,
+	LeverageMorphoCollateralFlatRaw,
+	LeverageMorphoExecuteFlatRaw,
 	LeverageMorphoInstance,
 	LeverageMorphoInstanceRaw,
+	LeverageMorphoLoanFlatRaw,
 	MorphoScaleState,
 } from './morpho.scale.types';
 import { CONFIG, PONDER_CLIENT, WAGMI_CONFIG } from '../../app.config';
@@ -15,9 +21,17 @@ import { Hash, parseUnits } from 'viem';
 // --------------------------------------------------------------------------------
 
 export const initialState: MorphoScaleState = {
-	loaded: false,
+	loaded: {
+		factory: false,
+		loan: false,
+		collateral: false,
+		execute: false,
+	},
 
 	factory: [],
+	loan: [],
+	collateral: [],
+	execute: [],
 };
 
 // --------------------------------------------------------------------------------
@@ -32,14 +46,36 @@ export const slice = createSlice({
 		},
 
 		// SET LOADED
-		setLoaded: (state, action: { payload: boolean }) => {
-			state.loaded = action.payload;
+		setLoaded: (state, action: { payload: [keyof MorphoScaleState['loaded'], boolean] }) => {
+			state.loaded[action.payload[0]] = action.payload[1];
 		},
 
 		// -------------------------------------
 		// SET FACTORY
 		setFactory: (state, action: { payload: LeverageMorphoInstance[] }) => {
 			state.factory = action.payload;
+			state.loaded.factory = true;
+		},
+
+		// -------------------------------------
+		// SET LOAN
+		setLoan: (state, action: { payload: LeverageMorphoLoanFlatRaw[] }) => {
+			state.loan = action.payload;
+			state.loaded.loan = true;
+		},
+
+		// -------------------------------------
+		// SET Collateral
+		setCollateral: (state, action: { payload: LeverageMorphoCollateralFlatRaw[] }) => {
+			state.collateral = action.payload;
+			state.loaded.collateral = true;
+		},
+
+		// -------------------------------------
+		// SET execute
+		setExecute: (state, action: { payload: LeverageMorphoExecuteFlatRaw[] }) => {
+			state.execute = action.payload;
+			state.loaded.execute = true;
 		},
 	},
 });
@@ -48,8 +84,9 @@ export const reducer = slice.reducer;
 export const actions = slice.actions;
 
 // --------------------------------------------------------------------------------
-export const fetchMorphoMarkets = () => async (dispatch: Dispatch<DispatchBoolean | DispatchInstanceArray>) => {
-	CONFIG.verbose && console.log('Loading [REDUX]: Morpho: Scale');
+
+export const fetchMorphoFactory = () => async (dispatch: Dispatch<DispatchInstanceArray>) => {
+	CONFIG.verbose && console.log('Loading [REDUX]: Morpho: Scale - Factory');
 
 	// ---------------------------------------------------------------
 	// Fetch data and dispatch
@@ -59,6 +96,7 @@ export const fetchMorphoMarkets = () => async (dispatch: Dispatch<DispatchBoolea
 				items: LeverageMorphoInstanceRaw[];
 			};
 		}>({
+			fetchPolicy: 'no-cache',
 			query: gql`
 				{
 					leverageMorphoFactorys(orderBy: "createdAt", orderDirection: "DESC") {
@@ -162,8 +200,174 @@ export const fetchMorphoMarkets = () => async (dispatch: Dispatch<DispatchBoolea
 	} catch (error) {
 		console.error(error);
 	}
+};
+
+// --------------------------------------------------------------------------------
+
+export const fetchMorphoLoan = () => async (dispatch: Dispatch<DispatchLoanArray>) => {
+	CONFIG.verbose && console.log('Loading [REDUX]: Morpho: Scale - Loan');
 
 	// ---------------------------------------------------------------
-	// Finalizing, loaded set to true
-	dispatch(slice.actions.setLoaded(true));
+	// Fetch data and dispatch
+	const fetcher = async () => {
+		const { data } = await PONDER_CLIENT.query<{
+			leverageMorphoLoanFlats: {
+				items: LeverageMorphoLoanFlatRaw[];
+			};
+		}>({
+			fetchPolicy: 'no-cache',
+			query: gql`
+				{
+					leverageMorphoLoanFlats(orderBy: "count", orderDirection: "DESC") {
+						items {
+							id
+							count
+							address
+							createdAt
+							txHash
+							amount
+							direction
+						}
+					}
+				}
+			`,
+		});
+		return data.leverageMorphoLoanFlats.items;
+	};
+
+	try {
+		const fetched = await fetcher();
+		const mod: LeverageMorphoLoanFlatRaw[] = [];
+
+		for (const item of fetched) {
+			try {
+				// push modified
+				mod.push({
+					...item,
+				});
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
+		}
+
+		dispatch(slice.actions.setLoan(mod));
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+// --------------------------------------------------------------------------------
+
+export const fetchMorphoCollateral = () => async (dispatch: Dispatch<DispatchCollateralArray>) => {
+	CONFIG.verbose && console.log('Loading [REDUX]: Morpho: Scale - Collateral');
+
+	// ---------------------------------------------------------------
+	// Fetch data and dispatch
+	const fetcher = async () => {
+		const { data } = await PONDER_CLIENT.query<{
+			leverageMorphoCollateralFlats: {
+				items: LeverageMorphoCollateralFlatRaw[];
+			};
+		}>({
+			fetchPolicy: 'no-cache',
+			query: gql`
+				{
+					leverageMorphoCollateralFlats(orderBy: "count", orderDirection: "DESC") {
+						items {
+							id
+							count
+							address
+							createdAt
+							txHash
+							amount
+							direction
+						}
+					}
+				}
+			`,
+		});
+		return data.leverageMorphoCollateralFlats.items;
+	};
+
+	try {
+		const fetched = await fetcher();
+		const mod: LeverageMorphoCollateralFlatRaw[] = [];
+
+		for (const item of fetched) {
+			try {
+				// push modified
+				mod.push({
+					...item,
+				});
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
+		}
+
+		dispatch(slice.actions.setCollateral(mod));
+	} catch (error) {
+		console.error(error);
+	}
+};
+// --------------------------------------------------------------------------------
+
+export const fetchMorphoExecute = () => async (dispatch: Dispatch<DispatchExecuteArray>) => {
+	CONFIG.verbose && console.log('Loading [REDUX]: Morpho: Scale - Execute');
+
+	// ---------------------------------------------------------------
+	// Fetch data and dispatch
+	const fetcher = async () => {
+		const { data } = await PONDER_CLIENT.query<{
+			leverageMorphoExecuteFlats: {
+				items: LeverageMorphoExecuteFlatRaw[];
+			};
+		}>({
+			fetchPolicy: 'no-cache',
+			query: gql`
+				{
+					leverageMorphoExecuteFlats(orderBy: "count", orderDirection: "DESC") {
+						items {
+							id
+							count
+							address
+							createdAt
+							txHash
+							opcode
+							inputLoan
+							inputCollateral
+							flash
+							swapIn
+							swapOut
+							provided
+							price
+						}
+					}
+				}
+			`,
+		});
+		return data.leverageMorphoExecuteFlats.items;
+	};
+
+	try {
+		const fetched = await fetcher();
+		const mod: LeverageMorphoExecuteFlatRaw[] = [];
+
+		for (const item of fetched) {
+			try {
+				// push modified
+				mod.push({
+					...item,
+				});
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
+		}
+
+		dispatch(slice.actions.setExecute(mod));
+	} catch (error) {
+		console.error(error);
+	}
 };

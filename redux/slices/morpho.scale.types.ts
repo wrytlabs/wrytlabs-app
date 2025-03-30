@@ -2,9 +2,17 @@ import { Address } from 'viem';
 
 // --------------------------------------------------------------------------------
 export type MorphoScaleState = {
-	loaded: boolean;
+	loaded: {
+		factory: boolean;
+		loan: boolean;
+		collateral: boolean;
+		execute: boolean;
+	};
 
 	factory: LeverageMorphoInstance[];
+	loan: LeverageMorphoLoanFlatRaw[];
+	collateral: LeverageMorphoCollateralFlatRaw[];
+	execute: LeverageMorphoExecuteFlatRaw[];
 };
 
 // --------------------------------------------------------------------------------
@@ -28,6 +36,44 @@ export type LeverageMorphoInstanceRaw = {
 	irm: Address;
 	lltv: bigint;
 };
+
+export type LeverageMorphoLoanFlatRaw = {
+	id: string;
+	count: bigint;
+	address: Address;
+	createdAt: number;
+	txHash: string;
+	amount: bigint;
+	direction: boolean;
+};
+
+export type LeverageMorphoCollateralFlatRaw = {
+	id: string;
+	count: bigint;
+	address: Address;
+	createdAt: number;
+	txHash: string;
+	amount: bigint;
+	direction: boolean;
+};
+
+export type LeverageMorphoExecuteFlatRaw = {
+	id: string;
+	count: bigint;
+	address: Address;
+	createdAt: number;
+	txHash: string;
+	opcode: number;
+	inputLoan: bigint;
+	inputCollateral: bigint;
+	flash: bigint;
+	swapIn: bigint;
+	swapOut: bigint;
+	provided: bigint;
+	price: bigint;
+};
+
+// --------------------------------------------------------------------------------
 
 export type LeverageMorphoInstance = LeverageMorphoInstanceRaw & {
 	position: Position;
@@ -55,12 +101,27 @@ export type Position = {
 };
 
 // --------------------------------------------------------------------------------
-export type DispatchBoolean = {
+export type DispatchLoaded = {
 	type: string;
-	payload: Boolean;
+	payload: [keyof MorphoScaleState['loaded'], boolean];
 };
 
 export type DispatchInstanceArray = {
 	type: string;
 	payload: LeverageMorphoInstance[];
+};
+
+export type DispatchLoanArray = {
+	type: string;
+	payload: LeverageMorphoLoanFlatRaw[];
+};
+
+export type DispatchCollateralArray = {
+	type: string;
+	payload: LeverageMorphoCollateralFlatRaw[];
+};
+
+export type DispatchExecuteArray = {
+	type: string;
+	payload: LeverageMorphoExecuteFlatRaw[];
 };

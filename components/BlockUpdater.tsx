@@ -5,7 +5,7 @@ import { RootState, store } from '../redux/redux.store';
 import { useIsConnectedToCorrectChain } from '../hooks/useWalletConnectStats';
 import { WAGMI_CHAIN, CONFIG } from '../app.config';
 import LoadingScreen from './LoadingScreen';
-import { fetchMorphoMarkets } from '../redux/slices/morpho.scale.slice';
+import { fetchMorphoCollateral, fetchMorphoExecute, fetchMorphoFactory, fetchMorphoLoan } from '../redux/slices/morpho.scale.slice';
 import { useSelector } from 'react-redux';
 
 let initializing: boolean = false;
@@ -23,7 +23,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false);
 	const [latestAddress, setLatestAddress] = useState<Address | undefined>(undefined);
 
-	const loadedMorphoScale: boolean = useSelector((state: RootState) => state.morphoScale.loaded);
+	const loadedMorphoScale: boolean = useSelector((state: RootState) => state.morphoScale.loaded.factory);
 
 	// --------------------------------------------------------------------------------
 	// Init
@@ -34,7 +34,10 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		initStart = Date.now();
 
 		console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
-		store.dispatch(fetchMorphoMarkets());
+		store.dispatch(fetchMorphoFactory());
+		store.dispatch(fetchMorphoLoan());
+		store.dispatch(fetchMorphoCollateral());
+		store.dispatch(fetchMorphoExecute());
 	}, [initialized]);
 
 	// --------------------------------------------------------------------------------
@@ -64,7 +67,10 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH BLOCK
 		setLatestHeight(fetchedLatestHeight);
 		CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		store.dispatch(fetchMorphoMarkets());
+		store.dispatch(fetchMorphoFactory());
+		store.dispatch(fetchMorphoLoan());
+		store.dispatch(fetchMorphoCollateral());
+		store.dispatch(fetchMorphoExecute());
 
 		// Block update policy: EACH x BLOCKS
 		if (fetchedLatestHeight >= latestHeight10 + 30) {

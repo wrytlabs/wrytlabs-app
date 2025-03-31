@@ -5,23 +5,24 @@ import TableRowEmpty from '@components/Table/TableRowEmpty';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/redux.store';
-import { LeverageMorphoInstance, LeverageMorphoLoanFlatRaw } from '../../../redux/slices/morpho.scale.types';
+import { LeverageMorphoExecuteFlatRaw, LeverageMorphoInstance, LeverageMorphoLoanFlatRaw } from '../../../redux/slices/morpho.scale.types';
 import LeverageMorphoLoanRow from './LeverageMorphoLoanRow';
+import LeverageMorphoExecuteRow from './LeverageMorphoExecuteRow';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
-export default function LeverageMorphoLoanTable({ instance }: Props) {
-	const headers: string[] = ['Date', 'Amount', 'Kind', '---'];
+export default function LeverageMorphoExecuteTable({ instance }: Props) {
+	const headers: string[] = ['Kind', 'Supply', 'Swap', 'Price'];
 	const [tab, setTab] = useState<string>(headers[3]);
 	const [reverse, setReverse] = useState<boolean>(false);
-	const [list, setList] = useState<LeverageMorphoLoanFlatRaw[]>([]);
+	const [list, setList] = useState<LeverageMorphoExecuteFlatRaw[]>([]);
 
 	const { morphoScale } = useSelector((state: RootState) => state);
-	const loan = morphoScale.loan.filter((i) => i.address.toLowerCase() == instance.address.toLowerCase());
+	const execute = morphoScale.execute.filter((i) => i.address.toLowerCase() == instance.address.toLowerCase());
 
-	const sorted = loan;
+	const sorted = execute;
 
 	useEffect(() => {
 		const idList = list.map((l) => l.id).join('_');
@@ -46,10 +47,10 @@ export default function LeverageMorphoLoanTable({ instance }: Props) {
 					<TableRowEmpty>{'There are no loan adjustments yet.'}</TableRowEmpty>
 				) : (
 					sorted.map((i, idx) => (
-						<LeverageMorphoLoanRow
+						<LeverageMorphoExecuteRow
 							headers={headers}
 							tab={tab}
-							key={`LeverageMorphoLoanRow_${i.id}`}
+							key={`LeverageMorphoExecuteRow_${i.id}`}
 							instance={instance}
 							entry={i}
 						/>

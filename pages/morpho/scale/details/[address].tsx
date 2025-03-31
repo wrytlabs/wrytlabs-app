@@ -12,6 +12,8 @@ import LeverageMorphoNotFound from '../../../../sections/morpho/LeverageMorphoNo
 import LeverageMorphDetails from '../../../../sections/morpho/LeverageMorphoDetails';
 import AppLink from '@components/AppLink';
 import LeverageMorphoLoanTable from '../../../../sections/morpho/details/LeverageMorphoLoanTable';
+import LeverageMorphoCollateralTable from '../../../../sections/morpho/details/LeverageMorphoCollateralTable';
+import LeverageMorphoExecuteTable from '../../../../sections/morpho/details/LeverageMorphoExecuteTable';
 
 export default function MorphoScaleDetails() {
 	const router = useRouter();
@@ -46,17 +48,25 @@ export default function MorphoScaleDetails() {
 
 			{instance ? (
 				<>
+					{/* balance chart / equity */}
+
 					<AppTitle title="Loan Adjustments">
 						<div className="text-text-secondary">View borrow and repays. </div>
 					</AppTitle>
 
-					{/* balance chart / equity */}
-
 					<LeverageMorphoLoanTable instance={instance} />
 
-					{/* <LeverageMorphoCollateralTable instance={instance} /> */}
+					<AppTitle title="Collateral Adjustments">
+						<div className="text-text-secondary">View deposits and withdraws. </div>
+					</AppTitle>
 
-					{/* <LeverageMorphoExecuteTable instance={instance} /> */}
+					<LeverageMorphoCollateralTable instance={instance} />
+
+					<AppTitle title="Executions">
+						<div className="text-text-secondary">View executions. </div>
+					</AppTitle>
+
+					<LeverageMorphoExecuteTable instance={instance} />
 				</>
 			) : null}
 		</AppPage>

@@ -13,7 +13,6 @@ interface Props {
 }
 
 export default function LeverageMorphDetails({ instance }: Props) {
-	console.log(instance);
 	return (
 		<AppCard>
 			<div className={`grid md:grid-cols-4 max-md:grid-cols-1 gap-4`}>

@@ -22,33 +22,15 @@ export default function LeverageMorphoLoanRow({ headers, tab, instance, entry }:
 
 	return (
 		<>
-			<TableRow
-				headers={headers}
-				tab={tab}
-				actionCol={
-					<Link href={`/morpho/scale/details/${instance.address.toLowerCase()}`}>
-						<AppButton>Details</AppButton>
-					</Link>
-				}
-			>
-				<div className="flex flex-col max-md:mb-5">
-					<AppBox className="md:hidden grid gap-2">
-						<TokenNameTableItem symbol={instance.loanSymbol} name={instance.loanName} address={instance.loan} />
-					</AppBox>
-					<div className="max-md:hidden">
-						<TokenNameTableItem symbol={instance.loanSymbol} name={instance.loanName} address={instance.loan} />
-					</div>
-				</div>
+			<TableRow headers={headers} tab={tab}>
+				<AppLink className="md:text-left" label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
 
 				<div className="flex flex-col">
 					{formatCurrency(formatUnits(entry.amount, instance.loanDecimals))} {instance.loanSymbol}
 				</div>
 
 				<div className="flex flex-col">{entry.direction ? 'Repaid' : 'Borrowed'}</div>
-
-				<div className="flex flex-col">
-					<AppLink label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
-				</div>
+				<div className="flex flex-col"></div>
 			</TableRow>
 		</>
 	);

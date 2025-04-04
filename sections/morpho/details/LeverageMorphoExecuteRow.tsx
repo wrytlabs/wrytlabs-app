@@ -45,21 +45,15 @@ export default function LeverageMorphoExecuteRow({ headers, tab, instance, entry
 				</div>
 
 				<div className="flex flex-col">
-					<div>
-						{formatCurrency(formatUnits(entry.inputLoan, instance.loanDecimals))} {instance.loanSymbol}
-					</div>
-					<div>
-						{formatCurrency(formatUnits(entry.inputCollateral, instance.collateralDecimals))} {instance.collateralSymbol}
-					</div>
+					{formatCurrency(formatUnits(entry.inputLoan, instance.loanDecimals))} {instance.loanSymbol}
+					{' / '}
+					{formatCurrency(formatUnits(entry.inputCollateral, instance.collateralDecimals))} {instance.collateralSymbol}
 				</div>
 
 				<div className="flex flex-col">
-					<div>
-						{swapInAmount} {entry.opcode == 0 ? instance.loanSymbol : instance.collateralSymbol}
-					</div>
-					<div>
-						{swapOutAmount} {entry.opcode == 0 ? instance.collateralSymbol : instance.loanSymbol}
-					</div>
+					{swapInAmount} {entry.opcode == 0 ? instance.loanSymbol : instance.collateralSymbol}
+					{' / '}
+					{swapOutAmount} {entry.opcode == 0 ? instance.collateralSymbol : instance.loanSymbol}
 				</div>
 
 				<div className="flex flex-col">

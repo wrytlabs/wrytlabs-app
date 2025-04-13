@@ -16,7 +16,7 @@ import { CONFIG, PONDER_CLIENT, WAGMI_CONFIG } from '../../app.config';
 import { gql } from '@apollo/client';
 import { CONTRACT, MorphoABI, MorphoChainlinkOracleV2ABI } from '@utils';
 import { readContract } from '@wagmi/core/actions';
-import { Hash, parseUnits } from 'viem';
+import { formatUnits, Hash, parseUnits } from 'viem';
 
 // --------------------------------------------------------------------------------
 
@@ -161,7 +161,7 @@ export const fetchMorphoFactory = () => async (dispatch: Dispatch<DispatchInstan
 					functionName: 'SCALE_FACTOR',
 				});
 
-				const price = (oraclePrice * parseUnits('1', 10)) / oracleScale;
+				const price = oraclePrice / parseUnits('1', 36 - instance.collateralDecimals);
 				const loanValue = (borrowShares * totalBorrowAssets) / totalBorrowShares;
 				const collateralValue = (collateral * price) / parseUnits('1', 18 + instance.collateralDecimals - instance.loanDecimals);
 				const equityValue = collateralValue - loanValue;

@@ -20,7 +20,7 @@ export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
 				headers={headers}
 				tab={tab}
 				actionCol={
-					<Link href={`/morpho/scale/details/${instance.address.toLowerCase()}`}>
+					<Link href={`/morpho/scale/list/${instance.address.toLowerCase()}`}>
 						<AppButton>Details</AppButton>
 					</Link>
 				}

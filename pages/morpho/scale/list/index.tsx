@@ -1,7 +1,7 @@
 'use client';
 
 import AppTitle from '@components/AppTitle';
-import LeverageMorphoTable from '../../../sections/morpho/LeverageMorphoTable';
+import LeverageMorphoTable from '../../../../sections/morpho/LeverageMorphoTable';
 import AppPage from '@components/AppPage';
 import Head from 'next/head';
 import AppLink from '@components/AppLink';

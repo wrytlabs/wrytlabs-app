@@ -16,17 +16,17 @@ export default function LoadingScreen() {
 						<picture>
 							<Image className="h-20 rounded-xl" src="/assets/wrytlabs.png" alt="Logo" width={200} height={150} />
 						</picture>
-						<h1 className="mt-10">App is loading...</h1>
+						{/* <h1 className="mt-10">App is loading...</h1> */}
 					</div>
 
-					<div className="absolute bottom-[15%]">
-						<h1 className="px-8 text-center">
+					<div className="absolute bottom-[15%] w-full flex justify-center">
+						<h1 className="px-8 text-center max-w-2xl">
 							This website uses third-party cookies and certain features may not function properly if you choose to block
 							them.
 						</h1>
 					</div>
 
-					<div className="absolute bottom-10">
+					<div className="absolute bottom-10 w-full pb-0 pt-8 grid place-items-center">
 						<SubmitIssue />
 					</div>
 				</div>

@@ -155,12 +155,6 @@ export const fetchMorphoFactory = () => async (dispatch: Dispatch<DispatchInstan
 					functionName: 'price',
 				});
 
-				const oracleScale = await readContract(WAGMI_CONFIG, {
-					address: instance.oracle,
-					abi: MorphoChainlinkOracleV2ABI,
-					functionName: 'SCALE_FACTOR',
-				});
-
 				const price = oraclePrice / parseUnits('1', 36 - instance.collateralDecimals);
 				const loanValue = (borrowShares * totalBorrowAssets) / totalBorrowShares;
 				const collateralValue = (collateral * price) / parseUnits('1', 18 + instance.collateralDecimals - instance.loanDecimals);

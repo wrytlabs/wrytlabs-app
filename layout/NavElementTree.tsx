@@ -130,10 +130,6 @@ export const NavTree: NavBarTree[] = [
 						to: '/morpho/scale/list',
 					},
 					{
-						name: 'Details',
-						to: '/morpho/scale/details',
-					},
-					{
 						name: 'Create',
 						to: '/morpho/scale/create',
 					},

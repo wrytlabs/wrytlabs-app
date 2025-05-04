@@ -43,8 +43,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	// --------------------------------------------------------------------------------
 	// Init done
 	useEffect(() => {
-		if (initialized) return;
-		if (loadedMorphoScale) {
+		if (loadedMorphoScale && !initialized) {
 			console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
 			setInitialized(true);
 		}
@@ -67,15 +66,15 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH BLOCK
 		setLatestHeight(fetchedLatestHeight);
 		CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		store.dispatch(fetchMorphoFactory());
-		store.dispatch(fetchMorphoLoan());
-		store.dispatch(fetchMorphoCollateral());
-		store.dispatch(fetchMorphoExecute());
+		// ...
 
 		// Block update policy: EACH x BLOCKS
 		if (fetchedLatestHeight >= latestHeight10 + 30) {
 			CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH 30 BLOCKS ${fetchedLatestHeight}`);
-			// ...
+			store.dispatch(fetchMorphoFactory());
+			store.dispatch(fetchMorphoLoan());
+			store.dispatch(fetchMorphoCollateral());
+			store.dispatch(fetchMorphoExecute());
 			setLatestHeight10(fetchedLatestHeight);
 		}
 

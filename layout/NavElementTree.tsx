@@ -145,19 +145,19 @@ export const NavTree: NavBarTree[] = [
 				childs: [
 					{
 						name: 'List',
-						to: '/savings/list',
+						to: '/vault/list',
 					},
 					{
 						name: 'Details',
-						to: '/savings/details',
+						to: '/vault/details',
 					},
 					{
 						name: 'Create',
-						to: '/savings/create',
+						to: '/vault/create',
 					},
 					{
 						name: 'Edit',
-						to: '/savings/edit',
+						to: '/vault/edit',
 					},
 				],
 			},

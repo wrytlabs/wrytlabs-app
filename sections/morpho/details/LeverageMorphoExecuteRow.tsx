@@ -19,8 +19,6 @@ interface Props {
 export default function LeverageMorphoExecuteRow({ headers, tab, instance, entry }: Props) {
 	const link = useTxUrl(entry.txHash);
 
-	console.log(entry);
-
 	const swapInAmount = formatCurrency(formatUnits(entry.swapIn, entry.opcode == 0 ? instance.loanDecimals : instance.collateralDecimals));
 	const swapOutAmount = formatCurrency(
 		formatUnits(entry.swapOut, entry.opcode == 0 ? instance.collateralDecimals : instance.loanDecimals)
@@ -38,21 +36,16 @@ export default function LeverageMorphoExecuteRow({ headers, tab, instance, entry
 
 	return (
 		<>
-			<TableRow headers={headers} tab={tab}>
-				<div className="flex flex-col md:text-left">
-					<AppLink className="" label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
-					<div>Kind: {entry.opcode == 0 ? 'Increase' : entry.opcode == 1 ? 'Decrease' : 'Close'}</div>
-				</div>
+			<TableRow headers={headers} tab={tab} rawHeader={true}>
+				<AppLink className="md:text-left" label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
 
-				<div className="flex flex-col">
-					{formatCurrency(formatUnits(entry.inputLoan, instance.loanDecimals))} {instance.loanSymbol}
-					{' / '}
-					{formatCurrency(formatUnits(entry.inputCollateral, instance.collateralDecimals))} {instance.collateralSymbol}
-				</div>
+				<div className="flex flex-col">{entry.opcode == 0 ? 'Increase' : entry.opcode == 1 ? 'Decrease' : 'Close'}</div>
 
 				<div className="flex flex-col">
 					{swapInAmount} {entry.opcode == 0 ? instance.loanSymbol : instance.collateralSymbol}
-					{' / '}
+				</div>
+
+				<div className="flex flex-col">
 					{swapOutAmount} {entry.opcode == 0 ? instance.collateralSymbol : instance.loanSymbol}
 				</div>
 

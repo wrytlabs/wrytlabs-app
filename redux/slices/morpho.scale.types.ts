@@ -45,6 +45,7 @@ export type LeverageMorphoLoanFlatRaw = {
 	txHash: string;
 	amount: bigint;
 	direction: boolean;
+	oracle: bigint;
 };
 
 export type LeverageMorphoCollateralFlatRaw = {
@@ -55,6 +56,7 @@ export type LeverageMorphoCollateralFlatRaw = {
 	txHash: string;
 	amount: bigint;
 	direction: boolean;
+	oracle: bigint;
 };
 
 export type LeverageMorphoExecuteFlatRaw = {

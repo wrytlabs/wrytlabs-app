@@ -13,8 +13,8 @@ interface Props {
 }
 
 export default function LeverageMorphoLoanTable({ instance }: Props) {
-	const headers: string[] = ['Date', 'Amount', 'Kind', '---'];
-	const [tab, setTab] = useState<string>(headers[3]);
+	const headers: string[] = ['Date', 'Kind', 'Oracle', 'Amount'];
+	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 	const [list, setList] = useState<LeverageMorphoLoanFlatRaw[]>([]);
 

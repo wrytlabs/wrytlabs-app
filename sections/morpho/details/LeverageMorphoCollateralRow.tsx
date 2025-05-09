@@ -19,15 +19,25 @@ export default function LeverageMorphoCollateralRow({ headers, tab, instance, en
 
 	return (
 		<>
-			<TableRow headers={headers} tab={tab}>
+			<TableRow headers={headers} tab={tab} rawHeader={true}>
 				<AppLink className="md:text-left" label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
+
+				<div className="flex flex-col">{entry.direction ? 'Withdrawn' : 'Deposit'}</div>
+
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(entry.oracle, instance.loanDecimals))} {instance.loanSymbol}
+				</div>
 
 				<div className="flex flex-col">
 					{formatCurrency(formatUnits(entry.amount, instance.collateralDecimals))} {instance.collateralSymbol}
 				</div>
 
-				<div className="flex flex-col">{entry.direction ? 'Withdrawn' : 'Deposit'}</div>
-				<div className="flex flex-col"></div>
+				<div className="flex flex-col">
+					{formatCurrency(
+						formatUnits(BigInt(entry.oracle) * BigInt(entry.amount), instance.loanDecimals + instance.collateralDecimals)
+					)}{' '}
+					{instance.loanSymbol}
+				</div>
 			</TableRow>
 		</>
 	);

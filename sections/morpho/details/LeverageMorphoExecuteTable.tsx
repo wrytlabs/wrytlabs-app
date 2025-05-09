@@ -5,8 +5,7 @@ import TableRowEmpty from '@components/Table/TableRowEmpty';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/redux.store';
-import { LeverageMorphoExecuteFlatRaw, LeverageMorphoInstance, LeverageMorphoLoanFlatRaw } from '../../../redux/slices/morpho.scale.types';
-import LeverageMorphoLoanRow from './LeverageMorphoLoanRow';
+import { LeverageMorphoExecuteFlatRaw, LeverageMorphoInstance } from '../../../redux/slices/morpho.scale.types';
 import LeverageMorphoExecuteRow from './LeverageMorphoExecuteRow';
 
 interface Props {
@@ -14,8 +13,8 @@ interface Props {
 }
 
 export default function LeverageMorphoExecuteTable({ instance }: Props) {
-	const headers: string[] = ['Kind', 'Supply', 'Swap', 'Price'];
-	const [tab, setTab] = useState<string>(headers[3]);
+	const headers: string[] = ['Date', 'Kind', 'Swap In', 'Swap Out', 'Price'];
+	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 	const [list, setList] = useState<LeverageMorphoExecuteFlatRaw[]>([]);
 

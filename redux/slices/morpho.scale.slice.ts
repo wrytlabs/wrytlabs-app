@@ -221,6 +221,7 @@ export const fetchMorphoLoan = () => async (dispatch: Dispatch<DispatchLoanArray
 							txHash
 							amount
 							direction
+							oracle
 						}
 					}
 				}
@@ -276,6 +277,7 @@ export const fetchMorphoCollateral = () => async (dispatch: Dispatch<DispatchCol
 							txHash
 							amount
 							direction
+							oracle
 						}
 					}
 				}

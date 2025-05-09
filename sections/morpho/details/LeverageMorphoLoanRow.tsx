@@ -22,15 +22,18 @@ export default function LeverageMorphoLoanRow({ headers, tab, instance, entry }:
 
 	return (
 		<>
-			<TableRow headers={headers} tab={tab}>
+			<TableRow headers={headers} tab={tab} rawHeader={true}>
 				<AppLink className="md:text-left" label={new Date(entry.createdAt * 1000).toDateString()} href={link} external={true} />
+
+				<div className="flex flex-col">{entry.direction ? 'Repaid' : 'Borrowed'}</div>
+
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(entry.oracle, instance.loanDecimals))} {instance.loanSymbol}
+				</div>
 
 				<div className="flex flex-col">
 					{formatCurrency(formatUnits(entry.amount, instance.loanDecimals))} {instance.loanSymbol}
 				</div>
-
-				<div className="flex flex-col">{entry.direction ? 'Repaid' : 'Borrowed'}</div>
-				<div className="flex flex-col"></div>
 			</TableRow>
 		</>
 	);

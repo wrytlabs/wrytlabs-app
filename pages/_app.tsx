@@ -18,8 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				<ApolloProvider client={PONDER_CLIENT}>
 					<BlockUpdater>
 						<ToastContainer
-							className="border-card-content-primary border-2 bg-card-body-primary rounded-xl"
-							toastClassName="bg-card-body-primary text-text-primary rounded-xl"
+							toastClassName="bg-card-body-primary text-text-primary rounded-xl" // needs to be a function... (e) => "..."
 							position="bottom-right"
 							autoClose={5000}
 							hideProgressBar={false}

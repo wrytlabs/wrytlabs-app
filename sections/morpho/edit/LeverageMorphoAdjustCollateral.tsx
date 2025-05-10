@@ -14,12 +14,14 @@ import { formatCurrency } from '@utils';
 import { formatUnits, parseEther, parseUnits } from 'viem';
 import LeverageMorphoActionWithdrawCollateral from './LeverageMorphoActionWithdrawCollateral';
 import LeverageMorphoActionSupplyCollateral from './LeverageMorphoActionSupplyCollateral';
+import { useAccount } from 'wagmi';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
 export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
+	const { address } = useAccount();
 	const tokenData = useTokenData(instance.collateral, instance.address);
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
@@ -33,6 +35,8 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 	const minCollateral = (minCollateralRaw * parseEther('1.001')) / parseEther('1'); // give some tolerance e.g. 85.999% for 86% LLTV
 	const maxWithdraw = instance.position.collateral - minCollateral;
 
+	const isOwner = address != undefined && address.toLowerCase() == instance.owner.toLowerCase();
+
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
 		setAmount(valueBigInt);
@@ -45,6 +49,8 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 			);
 		} else if (direction && valueBigInt > tokenData.balance) {
 			setError(`Not enough ${instance.collateralSymbol} in your wallet.`);
+		} else if (!direction && !isOwner) {
+			setError('You are nor the owner of this position.');
 		} else {
 			setError('');
 		}

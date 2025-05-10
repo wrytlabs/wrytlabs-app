@@ -14,12 +14,14 @@ import { formatCurrency } from '@utils';
 import { formatUnits, parseEther } from 'viem';
 import LeverageMorphoActionRepay from './LeverageMorphoActionRepay';
 import LeverageMorphoActionBorrow from './LeverageMorphoActionBorrow';
+import { useAccount } from 'wagmi';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
 export default function LeverageMorphoAdjustLoan({ instance }: Props) {
+	const { address } = useAccount();
 	const tokenData = useTokenData(instance.loan, instance.address);
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
@@ -29,16 +31,20 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 	const maxBorrowRaw = (instance.collateralValue * instance.lltv) / parseEther('1') - instance.loanValue;
 	const maxBorrow = (maxBorrowRaw * parseEther('1')) / parseEther('1.001'); // give some tolerance e.g. 85.999% for 86% LLTV
 
+	const isOwner = address != undefined && address.toLowerCase() == instance.owner.toLowerCase();
+
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
 		setAmount(valueBigInt);
 
 		if (!direction && valueBigInt > maxBorrow) {
 			setError(
-				`You can not borrow more then ${formatCurrency(formatUnits(maxBorrow, instance.loanDecimals))} ${instance.loanSymbol}`
+				`You can not borrow more then ${formatCurrency(formatUnits(maxBorrow, instance.loanDecimals))} ${instance.loanSymbol}.`
 			);
 		} else if (direction && valueBigInt > tokenData.balance) {
 			setError(`Not enough ${instance.loanSymbol} in your wallet.`);
+		} else if (!direction && !isOwner) {
+			setError('You are nor the owner of this position.');
 		} else {
 			setError('');
 		}

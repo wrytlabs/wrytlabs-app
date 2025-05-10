@@ -4,7 +4,7 @@ import AppTitle from '@components/AppTitle';
 
 export default function PagePurpose() {
 	return (
-		<AppTitle title="Our Purpose at WRYT labs" className="pt-6">
+		<AppTitle title="Our Purpose at WRYT labs">
 			<div className="flex flex-col gap-8 mt-8">
 				<div>
 					Our mission is to push the boundaries of decentralized technologies by developing and integrating innovative tools. This

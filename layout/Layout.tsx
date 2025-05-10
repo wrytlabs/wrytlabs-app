@@ -19,14 +19,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			</Head>
 
 			{isHome ? (
-				<div className="h-main pt-32 max-md:pt-20">
+				<div className="h-main pt-24 max-md:pt-16">
 					<main className="block w-full min-h-[100%] p-4 xl:px-20">{children}</main>
 				</div>
 			) : (
 				<>
 					<MenuBar />
 
-					<div className="h-main pt-32 max-md:pt-20">
+					<div className="h-main pt-24 max-md:pt-16">
 						<main className="block w-full min-h-[100%] p-4 xl:px-20">{children}</main>
 
 						<div className="py-6">

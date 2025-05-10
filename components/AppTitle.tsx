@@ -7,7 +7,7 @@ interface Props {
 
 export default function AppTitle({ title, className, classNameTitle, children }: Props) {
 	return (
-		<div className={`${className}`}>
+		<div className={`${className} mt-4`}>
 			<span className={`${classNameTitle} font-bold text-xl`}>{title}</span>
 			{children ?? null}
 		</div>

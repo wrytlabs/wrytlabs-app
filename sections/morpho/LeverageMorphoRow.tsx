@@ -6,6 +6,7 @@ import Link from 'next/link';
 import TokenNameTableItem from '@components/Display/TokenNameTableItem';
 import { LeverageMorphoInstance } from '../../redux/slices/morpho.scale.types';
 import { formatCurrency } from '@utils';
+import { useAccount } from 'wagmi';
 
 interface Props {
 	headers: string[];
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
+	const { address } = useAccount();
+
 	return (
 		<>
 			<TableRow
@@ -21,7 +24,7 @@ export default function LeverageMorphoRow({ headers, tab, instance }: Props) {
 				tab={tab}
 				actionCol={
 					<Link href={`/morpho/scale/list/${instance.address.toLowerCase()}`}>
-						<AppButton>Details</AppButton>
+						<AppButton>{address && address.toLowerCase() == instance.owner.toLowerCase() ? 'Edit' : 'Details'}</AppButton>
 					</Link>
 				}
 			>

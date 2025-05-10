@@ -20,14 +20,14 @@ interface Props {
 }
 
 export default function LeverageMorphoAdjustLoan({ instance }: Props) {
-	const loanData = useTokenData(instance.loan, instance.address);
+	const tokenData = useTokenData(instance.loan, instance.address);
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState('');
 
 	const resultLTV = (BigInt(instance.loanValue + (direction ? -amount : amount)) * parseEther('1')) / BigInt(instance.collateralValue);
 	const maxBorrowRaw = (instance.collateralValue * instance.lltv) / parseEther('1') - instance.loanValue;
-	const maxBorrow = (maxBorrowRaw * parseEther('1')) / parseEther('1.0001'); // give some tolerance e.g. 85.999% for 86% LLTV
+	const maxBorrow = (maxBorrowRaw * parseEther('1')) / parseEther('1.001'); // give some tolerance e.g. 85.999% for 86% LLTV
 
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
@@ -37,7 +37,7 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 			setError(
 				`You can not borrow more then ${formatCurrency(formatUnits(maxBorrow, instance.loanDecimals))} ${instance.loanSymbol}`
 			);
-		} else if (direction && valueBigInt > loanData.balance) {
+		} else if (direction && valueBigInt > tokenData.balance) {
 			setError(`Not enough ${instance.loanSymbol} in your wallet.`);
 		} else {
 			setError('');
@@ -74,10 +74,10 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 					digit={instance.loanDecimals}
 					onChange={onChangeAmount}
 					limitLabel="Balance"
-					limit={loanData.balance}
+					limit={tokenData.balance}
 					limitDigit={instance.loanDecimals}
 					reset={0n}
-					max={direction ? loanData.balance : maxBorrow}
+					max={direction ? tokenData.balance : maxBorrow}
 					error={error}
 				/>
 
@@ -86,7 +86,7 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 						disabled={amount == 0n || error.length > 0}
 						instance={instance}
 						amount={amount}
-						allowance={loanData.allowance}
+						allowance={tokenData.allowance}
 					/>
 				) : (
 					<LeverageMorphoActionBorrow disabled={amount == 0n || error.length > 0} instance={instance} amount={amount} />

@@ -14,6 +14,8 @@ import AppLink from '@components/AppLink';
 import LeverageMorphoLoanTable from '../../../../sections/morpho/details/LeverageMorphoLoanTable';
 import LeverageMorphoCollateralTable from '../../../../sections/morpho/details/LeverageMorphoCollateralTable';
 import LeverageMorphoExecuteTable from '../../../../sections/morpho/details/LeverageMorphoExecuteTable';
+import LeverageMorphoAdjustLoan from '../../../../sections/morpho/edit/LeverageMorphoAdjustLoan';
+import LeverageMorphoAdjustCollateral from '../../../../sections/morpho/edit/LeverageMorphoAdjustCollateral';
 
 export default function MorphoScaleDetails() {
 	const router = useRouter();
@@ -54,11 +56,15 @@ export default function MorphoScaleDetails() {
 						<div className="text-text-secondary">View borrow and repays. </div>
 					</AppTitle>
 
+					<LeverageMorphoAdjustLoan instance={instance} />
+
 					<LeverageMorphoLoanTable instance={instance} />
 
 					<AppTitle title="Collateral Adjustments">
 						<div className="text-text-secondary">View deposits and withdraws. </div>
 					</AppTitle>
+
+					<LeverageMorphoAdjustCollateral instance={instance} />
 
 					<LeverageMorphoCollateralTable instance={instance} />
 

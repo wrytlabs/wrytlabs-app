@@ -33,6 +33,9 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 
 	const isOwner = address != undefined && address.toLowerCase() == instance.owner.toLowerCase();
 
+	const resultLoanStr = instance.loanValue + (direction ? -amount : amount);
+	const resultLTVStr = `${formatCurrency(formatUnits(resultLTV, 18 - 2))}%`;
+
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
 		setAmount(valueBigInt);
@@ -45,7 +48,7 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 		} else if (direction && amount > tokenData.balance) {
 			setError(`Not enough ${instance.loanSymbol} in your wallet.`);
 		} else if (!direction && !isOwner) {
-			setError('You are nor the owner of this position.');
+			setError('You are not the owner of this position.');
 		} else {
 			setError('');
 		}
@@ -87,6 +90,25 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 					max={direction ? tokenData.balance : maxBorrow}
 					error={error}
 				/>
+			</AppCard>
+
+			<AppCard>
+				<AppTitle title="Outcome" />
+
+				<AppBox>
+					<DisplayLabel label="Result Loan" />
+					<DisplayOutputAlignedRight
+						className="pt-2 font-semibold"
+						amount={resultLoanStr >= 0n ? resultLoanStr : 0n}
+						digits={instance.loanDecimals} // shown in the loan unit
+						unit={instance.loanSymbol} // shown in the loan unit
+					/>
+				</AppBox>
+
+				<AppBox>
+					<DisplayLabel label="Result LTV" />
+					<DisplayOutputAlignedRight className="pt-2 font-semibold" output={resultLTV >= 0 ? resultLTVStr : '0'} />
+				</AppBox>
 
 				{direction ? (
 					<LeverageMorphoActionRepay
@@ -98,28 +120,6 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 				) : (
 					<LeverageMorphoActionBorrow disabled={amount == 0n || error.length > 0} instance={instance} amount={amount} />
 				)}
-			</AppCard>
-
-			<AppCard>
-				<AppTitle title="Outcome" />
-
-				<AppBox>
-					<DisplayLabel label="Result Loan" />
-					<DisplayOutputAlignedRight
-						className="pt-2 font-semibold"
-						amount={instance.loanValue + (direction ? -amount : amount)}
-						digits={instance.loanDecimals} // shown in the loan unit
-						unit={instance.loanSymbol} // shown in the loan unit
-					/>
-				</AppBox>
-
-				<AppBox>
-					<DisplayLabel label="Result LTV" />
-					<DisplayOutputAlignedRight
-						className="pt-2 font-semibold"
-						output={`${formatCurrency(formatUnits(resultLTV, 18 - 2))}%`}
-					/>
-				</AppBox>
 			</AppCard>
 		</div>
 	);

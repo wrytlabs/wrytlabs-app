@@ -19,7 +19,7 @@ interface Props {
 	limitLabel?: string;
 	output?: string;
 	note?: string;
-	value?: string;
+	value?: string | bigint;
 	onChange?: (value: string) => void;
 	onMin?: () => void;
 	onMax?: () => void;
@@ -85,7 +85,7 @@ export default function TokenInput({
 								className={`w-full px-0 py-0 text-xl ${disabled ? 'bg-card-input-disabled' : ''}`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
-								value={value}
+								value={String(value)}
 								onChange={onChange}
 								autoFocus={autoFocus}
 								disabled={disabled}

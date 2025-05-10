@@ -49,7 +49,7 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 		} else if (direction && amount > tokenData.balance) {
 			setError(`Not enough ${instance.collateralSymbol} in your wallet.`);
 		} else if (!direction && !isOwner) {
-			setError('You are nor the owner of this position.');
+			setError('You are not the owner of this position.');
 		} else {
 			setError('');
 		}
@@ -91,21 +91,6 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 					max={direction ? tokenData.balance : maxWithdraw}
 					error={error}
 				/>
-
-				{direction ? (
-					<LeverageMorphoActionSupplyCollateral
-						disabled={amount == 0n || error.length > 0}
-						instance={instance}
-						amount={amount}
-						allowance={tokenData.allowance}
-					/>
-				) : (
-					<LeverageMorphoActionWithdrawCollateral
-						disabled={amount == 0n || error.length > 0}
-						instance={instance}
-						amount={amount}
-					/>
-				)}
 			</AppCard>
 
 			<AppCard>
@@ -128,6 +113,21 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 						output={`${formatCurrency(formatUnits(resultLTV, 18 - 2))}%`}
 					/>
 				</AppBox>
+
+				{direction ? (
+					<LeverageMorphoActionSupplyCollateral
+						disabled={amount == 0n || error.length > 0}
+						instance={instance}
+						amount={amount}
+						allowance={tokenData.allowance}
+					/>
+				) : (
+					<LeverageMorphoActionWithdrawCollateral
+						disabled={amount == 0n || error.length > 0}
+						instance={instance}
+						amount={amount}
+					/>
+				)}
 			</AppCard>
 		</div>
 	);

@@ -2,60 +2,61 @@ import AppCard from '@components/AppCard';
 import { LeverageMorphoInstance } from '../../../redux/slices/morpho.scale.types';
 import AppTitle from '@components/AppTitle';
 import TokenInput from '@components/Input/TokenInput';
-import AppButton from '@components/AppButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTokenData } from '../../../hooks/useTokenData';
 import DisplayLabel from '@components/Display/DisplayLabel';
 import DisplayOutputAlignedRight from '@components/Display/DisplayOutputAlignedRight';
 import AppBox from '@components/AppBox';
 import { formatCurrency } from '@utils';
-import { formatUnits, parseEther, parseUnits } from 'viem';
+import { Address, formatUnits, isAddress, parseEther, parseUnits } from 'viem';
 import { useAccount } from 'wagmi';
+import LeverageMorphoActionWithdrawCollateral from '../edit/LeverageMorphoActionWithdrawCollateral';
+import AddressInput from '@components/Input/AddressInput';
+import NormalInput from '@components/Input/NormalInput';
+import LeverageMorphoAdjustPath, { UniswapPath } from './LeverageMorphoAdjustPath';
+import TabsInput from '@components/Input/TabsInput';
+import AppButton from '@components/AppButton';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
 export default function LeverageMorphoAdjustExecution({ instance }: Props) {
-	const { address } = useAccount();
-	const tokenData = useTokenData(instance.collateral, instance.address);
+	const tabsSlippage = ['1%', '2%', '5%', '10%', '20%'];
+	const tabsExecution = ['Increase', 'Decrease', 'Close'];
+
+	const loanData = useTokenData(instance.loan, instance.address);
+	const collateralData = useTokenData(instance.collateral, instance.address);
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState('');
 	const [inputLoan, setInputLoan] = useState(0n);
 	const [inputCollateral, setInputCollateral] = useState(0n);
-	const [inputFlashloan, setInputFlashloan] = useState(0n);
+	const [inputFlashloan, setInputFlashloan] = useState(parseUnits('1000', instance.loanDecimals));
+	const [inputSlippage, setInputSlippage] = useState(tabsSlippage[0]);
+	const [inputExecution, setInputExecution] = useState(tabsExecution[0]);
+	const [inputTokenAddress, setInputTokenAddress] = useState('');
+	const [inputPoolFee, setInputPoolFee] = useState('100');
+
+	const [errorTokenAddress, setErrorTokenAddress] = useState('');
+
+	const [inputPath, setInputPath] = useState<UniswapPath>({
+		pools: [instance.loan],
+		fees: [],
+	});
+
+	// const [inputPath, setInputPath] = useState<UniswapPath>({
+	// 	pools: [
+	// 		'0xB58E61C3098d85632Df34EecfB899A1Ed80921cB',
+	// 		'0xdAC17F958D2ee523a2206206994597C13D831ec7',
+	// 		'0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+	// 	],
+	// 	fees: [100, 500],
+	// });
 
 	const resultCollateral = BigInt(instance.position.collateral) + (direction ? amount : -amount);
 	const resultLTV =
 		(BigInt(instance.loanValue) * parseUnits('1', 18 + instance.collateralDecimals)) / (resultCollateral * instance.price);
-	const minCollateralRaw =
-		(instance.loanValue * parseEther('1') * parseUnits('1', instance.collateralDecimals)) / instance.lltv / instance.price;
-	const minCollateral = (minCollateralRaw * parseEther('1.001')) / parseEther('1'); // give some tolerance e.g. 85.999% for 86% LLTV
-	const maxWithdraw = instance.position.collateral - minCollateral;
-
-	const isOwner = address != undefined && address.toLowerCase() == instance.owner.toLowerCase();
-
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value);
-		setAmount(valueBigInt);
-
-		if (!direction && valueBigInt > maxWithdraw) {
-			setError(
-				`You can not borrow more then ${formatCurrency(formatUnits(maxWithdraw, instance.collateralDecimals))} ${
-					instance.collateralSymbol
-				}`
-			);
-		} else if (direction && valueBigInt > tokenData.balance) {
-			setError(`Not enough ${instance.collateralSymbol} in your wallet.`);
-		} else if (!direction && !isOwner) {
-			setError('You are nor the owner of this position.');
-		} else {
-			setError('');
-		}
-	};
 
 	const onChangeLoan = (value: string) => {
 		const valueBigInt = BigInt(value);
@@ -69,80 +70,95 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 		const valueBigInt = BigInt(value);
 		setInputFlashloan(valueBigInt);
 	};
+	const onChangeAddPool = (token: Address, fee: number) => {
+		setInputPath({ pools: [...inputPath.pools, token], fees: [...inputPath.fees, fee] });
+	};
+
+	useEffect(() => {
+		if (!isAddress(inputTokenAddress) && inputTokenAddress != '') {
+			setErrorTokenAddress('Invalid Token Address');
+		} else {
+			setErrorTokenAddress('');
+		}
+	}, []);
 
 	return (
 		<div className="grid md:grid-cols-2 max-md:grid-cols-1 gap-2">
 			<AppCard>
-				<AppTitle title="Add Funds" />
+				<AppTitle title="Choose Execution" />
+
+				<TabsInput className="-mt-2" tabs={tabsExecution} tab={inputExecution} setTab={setInputExecution} />
+
+				<AppTitle title="Take Flashloan" />
+
+				<TokenInput
+					label="Flashloan Amount"
+					symbol={instance.loanSymbol}
+					value={inputFlashloan}
+					digit={instance.loanDecimals}
+					onChange={onChangeFlashloan}
+					reset={parseUnits('1000', instance.loanDecimals)}
+					min={parseUnits('1', instance.loanDecimals)}
+				/>
+
+				<AppTitle title="Set Uniswap" />
+
+				<LeverageMorphoAdjustPath path={inputPath} />
+
+				<TabsInput className="-mt-2" tabs={tabsSlippage} tab={inputSlippage} setTab={setInputSlippage} />
+
+				<AddressInput label="Token Address" value={inputTokenAddress} onChange={setInputTokenAddress} error={errorTokenAddress} />
+
+				<NormalInput label="Pool Fee" value={inputPoolFee} onChange={setInputPoolFee} digit={4} symbol="%" />
+
+				<AppButton
+					disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
+					onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
+				>
+					Add
+				</AppButton>
+			</AppCard>
+
+			<AppCard>
+				<AppTitle title="Optional Funds" />
 
 				<TokenInput
 					label="Provide Loan"
 					symbol={instance.loanSymbol}
-					value={String(inputLoan)}
+					value={inputLoan}
 					digit={instance.loanDecimals}
 					onChange={onChangeLoan}
+					max={loanData.balance}
+					reset={0n}
+					limit={loanData.balance}
+					limitDigit={instance.loanDecimals}
+					limitLabel="Balance"
 				/>
 
 				<TokenInput
 					label="Provide Collateral"
 					symbol={instance.collateralSymbol}
-					value={String(inputCollateral)}
+					value={inputCollateral}
 					digit={instance.collateralDecimals}
 					onChange={onChangeCollateral}
-				/>
-
-				<AppTitle title="Flashloan" />
-
-				<TokenInput
-					label="Flashloan Amount"
-					symbol={instance.loanSymbol}
-					value={String(inputFlashloan)}
-					digit={instance.loanDecimals}
-					onChange={onChangeFlashloan}
-				/>
-
-				{/* <div className="py-4 text-center z-0">
-					<AppButton className={`h-10 rounded-full`} width="w-10">
-						<FontAwesomeIcon
-							icon={direction ? faArrowUp : faArrowDown}
-							className="w-6 h-6"
-							onClick={() => setDirection(!direction)}
-						/>
-					</AppButton>
-				</div>
-
-				<TokenInput
-					symbol={instance.collateralSymbol}
-					label={direction ? 'Deposit' : 'Withdraw'}
-					value={String(amount)}
-					digit={instance.collateralDecimals}
-					onChange={onChangeAmount}
-					limitLabel="Balance"
-					limit={tokenData.balance}
-					limitDigit={instance.collateralDecimals}
+					max={collateralData.balance}
 					reset={0n}
-					max={direction ? tokenData.balance : maxWithdraw}
-					error={error}
-				/> */}
+					limit={collateralData.balance}
+					limitDigit={instance.collateralDecimals}
+					limitLabel="Balance"
+				/>
 
-				{/* {direction ? (
-					<LeverageMorphoActionSupplyCollateral
-						disabled={amount == 0n || error.length > 0}
-						instance={instance}
-						amount={amount}
-						allowance={tokenData.allowance}
-					/>
-				) : (
-					<LeverageMorphoActionWithdrawCollateral
-						disabled={amount == 0n || error.length > 0}
-						instance={instance}
-						amount={amount}
-					/>
-				)} */}
-			</AppCard>
-
-			<AppCard>
 				<AppTitle title="Outcome" />
+
+				<AppBox>
+					<DisplayLabel label="Result Loan" />
+					<DisplayOutputAlignedRight
+						className="pt-2 font-semibold"
+						amount={resultCollateral}
+						digits={instance.loanDecimals}
+						unit={instance.loanSymbol}
+					/>
+				</AppBox>
 
 				<AppBox>
 					<DisplayLabel label="Result Collateral" />
@@ -161,6 +177,13 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 						output={`${formatCurrency(formatUnits(resultLTV, 18 - 2))}%`}
 					/>
 				</AppBox>
+
+				<AppButton
+					disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
+					onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
+				>
+					{inputExecution}
+				</AppButton>
 			</AppCard>
 		</div>
 	);

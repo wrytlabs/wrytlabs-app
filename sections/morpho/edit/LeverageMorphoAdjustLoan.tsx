@@ -5,7 +5,7 @@ import TokenInput from '@components/Input/TokenInput';
 import AppButton from '@components/AppButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTokenData } from '../../../hooks/useTokenData';
 import DisplayLabel from '@components/Display/DisplayLabel';
 import DisplayOutputAlignedRight from '@components/Display/DisplayOutputAlignedRight';
@@ -36,19 +36,20 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
 		setAmount(valueBigInt);
+	};
 
-		if (!direction && valueBigInt > maxBorrow) {
-			setError(
-				`You can not borrow more then ${formatCurrency(formatUnits(maxBorrow, instance.loanDecimals))} ${instance.loanSymbol}.`
-			);
-		} else if (direction && valueBigInt > tokenData.balance) {
+	useEffect(() => {
+		if (!direction && amount > maxBorrow) {
+			const formatedStr = formatCurrency(formatUnits(maxBorrow, instance.loanDecimals));
+			setError(`You can not borrow more then ${formatedStr} ${instance.loanSymbol}.`);
+		} else if (direction && amount > tokenData.balance) {
 			setError(`Not enough ${instance.loanSymbol} in your wallet.`);
 		} else if (!direction && !isOwner) {
 			setError('You are nor the owner of this position.');
 		} else {
 			setError('');
 		}
-	};
+	}, [amount, direction, instance.loanDecimals, instance.loanSymbol, isOwner, maxBorrow, tokenData.balance]);
 
 	return (
 		<div className="grid md:grid-cols-2 max-md:grid-cols-1 gap-2">

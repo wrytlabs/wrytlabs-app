@@ -5,27 +5,28 @@ import TokenInput from '@components/Input/TokenInput';
 import AppButton from '@components/AppButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTokenData } from '../../../hooks/useTokenData';
 import DisplayLabel from '@components/Display/DisplayLabel';
 import DisplayOutputAlignedRight from '@components/Display/DisplayOutputAlignedRight';
 import AppBox from '@components/AppBox';
 import { formatCurrency } from '@utils';
 import { formatUnits, parseEther, parseUnits } from 'viem';
-import LeverageMorphoActionWithdrawCollateral from './LeverageMorphoActionWithdrawCollateral';
-import LeverageMorphoActionSupplyCollateral from './LeverageMorphoActionSupplyCollateral';
 import { useAccount } from 'wagmi';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
-export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
+export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 	const { address } = useAccount();
 	const tokenData = useTokenData(instance.collateral, instance.address);
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState('');
+	const [inputLoan, setInputLoan] = useState(0n);
+	const [inputCollateral, setInputCollateral] = useState(0n);
+	const [inputFlashloan, setInputFlashloan] = useState(0n);
 
 	const resultCollateral = BigInt(instance.position.collateral) + (direction ? amount : -amount);
 	const resultLTV =
@@ -40,35 +41,67 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
 		setAmount(valueBigInt);
-	};
 
-	useEffect(() => {
-		if (!direction && amount > maxWithdraw) {
-			const formatedStr = formatCurrency(formatUnits(maxWithdraw, instance.collateralDecimals));
-			setError(`You can not withdraw more then ${formatedStr} ${instance.collateralSymbol}`);
-		} else if (direction && amount > tokenData.balance) {
+		if (!direction && valueBigInt > maxWithdraw) {
+			setError(
+				`You can not borrow more then ${formatCurrency(formatUnits(maxWithdraw, instance.collateralDecimals))} ${
+					instance.collateralSymbol
+				}`
+			);
+		} else if (direction && valueBigInt > tokenData.balance) {
 			setError(`Not enough ${instance.collateralSymbol} in your wallet.`);
 		} else if (!direction && !isOwner) {
 			setError('You are nor the owner of this position.');
 		} else {
 			setError('');
 		}
-	}, [amount, direction, isOwner, instance.collateralDecimals, instance.collateralSymbol, maxWithdraw, tokenData.balance]);
+	};
+
+	const onChangeLoan = (value: string) => {
+		const valueBigInt = BigInt(value);
+		setInputLoan(valueBigInt);
+	};
+	const onChangeCollateral = (value: string) => {
+		const valueBigInt = BigInt(value);
+		setInputCollateral(valueBigInt);
+	};
+	const onChangeFlashloan = (value: string) => {
+		const valueBigInt = BigInt(value);
+		setInputFlashloan(valueBigInt);
+	};
 
 	return (
 		<div className="grid md:grid-cols-2 max-md:grid-cols-1 gap-2">
 			<AppCard>
-				<AppTitle title="Adjust Collateral" />
+				<AppTitle title="Add Funds" />
 
 				<TokenInput
-					symbol={instance.collateralSymbol}
-					label="Current Collateral"
-					disabled={true}
-					value={String(instance.position.collateral)}
-					digit={instance.collateralDecimals}
+					label="Provide Loan"
+					symbol={instance.loanSymbol}
+					value={String(inputLoan)}
+					digit={instance.loanDecimals}
+					onChange={onChangeLoan}
 				/>
 
-				<div className="py-4 text-center z-0">
+				<TokenInput
+					label="Provide Collateral"
+					symbol={instance.collateralSymbol}
+					value={String(inputCollateral)}
+					digit={instance.collateralDecimals}
+					onChange={onChangeCollateral}
+				/>
+
+				<AppTitle title="Flashloan" />
+
+				<TokenInput
+					label="Flashloan Amount"
+					symbol={instance.loanSymbol}
+					value={String(inputFlashloan)}
+					digit={instance.loanDecimals}
+					onChange={onChangeFlashloan}
+				/>
+
+				{/* <div className="py-4 text-center z-0">
 					<AppButton className={`h-10 rounded-full`} width="w-10">
 						<FontAwesomeIcon
 							icon={direction ? faArrowUp : faArrowDown}
@@ -90,9 +123,9 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 					reset={0n}
 					max={direction ? tokenData.balance : maxWithdraw}
 					error={error}
-				/>
+				/> */}
 
-				{direction ? (
+				{/* {direction ? (
 					<LeverageMorphoActionSupplyCollateral
 						disabled={amount == 0n || error.length > 0}
 						instance={instance}
@@ -105,7 +138,7 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 						instance={instance}
 						amount={amount}
 					/>
-				)}
+				)} */}
 			</AppCard>
 
 			<AppCard>

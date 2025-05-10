@@ -51,8 +51,8 @@ export const useTokenData = (addr: string, spender?: string) => {
 	const symbol = data && !data[1].error ? String(data[1].result) : 'NaN';
 	const decimals = data ? decodeBigIntCall(data[2]) : BigInt(0);
 	const balance = data ? decodeBigIntCall(data[3]) : BigInt(0);
-	const balanceSpender = data ? decodeBigIntCall(data[4]) : BigInt(0);
-	const allowance = data ? decodeBigIntCall(data[5]) : BigInt(0);
+	const balanceSpender = data && spender ? decodeBigIntCall(data[4]) : BigInt(0);
+	const allowance = data && spender ? decodeBigIntCall(data[5]) : BigInt(0);
 
 	return {
 		address: tokenAddress,

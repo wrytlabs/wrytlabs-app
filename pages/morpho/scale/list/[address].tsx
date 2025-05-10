@@ -16,6 +16,7 @@ import LeverageMorphoCollateralTable from '../../../../sections/morpho/details/L
 import LeverageMorphoExecuteTable from '../../../../sections/morpho/details/LeverageMorphoExecuteTable';
 import LeverageMorphoAdjustLoan from '../../../../sections/morpho/edit/LeverageMorphoAdjustLoan';
 import LeverageMorphoAdjustCollateral from '../../../../sections/morpho/edit/LeverageMorphoAdjustCollateral';
+import LeverageMorphoAdjustExecution from '../../../../sections/morpho/execution/LeverageMorphoAdjustExecution';
 
 export default function MorphoScaleDetails() {
 	const router = useRouter();
@@ -71,6 +72,8 @@ export default function MorphoScaleDetails() {
 					<AppTitle title="Executions">
 						<div className="text-text-secondary">View executions. </div>
 					</AppTitle>
+
+					<LeverageMorphoAdjustExecution instance={instance} />
 
 					<LeverageMorphoExecuteTable instance={instance} />
 				</>

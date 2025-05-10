@@ -1,6 +1,7 @@
 import { formatUnits } from 'viem';
 import { BigNumberInput } from './BigNumberInput';
 import dynamic from 'next/dynamic';
+import { useRef } from 'react';
 const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false });
 
 interface Props {
@@ -41,7 +42,7 @@ export default function TokenInput({
 	limitLabel,
 	output,
 	note,
-	value = '0',
+	value = '',
 	autoFocus,
 	disabled,
 	onChange = () => {},
@@ -50,6 +51,14 @@ export default function TokenInput({
 	onReset = () => {},
 	error,
 }: Props) {
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleClick = () => {
+		if (inputRef.current && !disabled) {
+			inputRef.current.focus();
+		}
+	};
+
 	return (
 		<div className="">
 			<div
@@ -58,6 +67,7 @@ export default function TokenInput({
 				} focus-within:!border-card-input-focus ${
 					error ? '!border-card-input-error' : ''
 				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? 'bg-card-input-disabled' : ''}`}
+				onClick={handleClick}
 			>
 				<div className="flex text-card-input-label my-1">{label}</div>
 
@@ -71,10 +81,11 @@ export default function TokenInput({
 							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
-								className={`w-full px-0 py-0 text-xl bg-transparent`}
+								inputRefChild={inputRef}
+								className={`w-full px-0 py-0 text-xl ${disabled ? 'bg-card-input-disabled' : ''}`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
-								value={value}
+								value={value || ''}
 								onChange={onChange}
 								autoFocus={autoFocus}
 								disabled={disabled}
@@ -83,7 +94,7 @@ export default function TokenInput({
 					</div>
 
 					<div className="mr-2">
-						<TokenLogo currency={symbol} size={6} />
+						<TokenLogo currency={symbol} size={24} />
 					</div>
 
 					<div className="text-card-input-label text-left">{symbol}</div>
@@ -102,7 +113,7 @@ export default function TokenInput({
 							)}
 						</div>
 
-						{!disabled && max != undefined && (
+						{!disabled && max != undefined && max != BigInt(value) && (
 							<div
 								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -115,7 +126,7 @@ export default function TokenInput({
 								Max
 							</div>
 						)}
-						{!disabled && min != undefined && (
+						{!disabled && min != undefined && min != BigInt(value) && min != max && (
 							<div
 								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -128,7 +139,7 @@ export default function TokenInput({
 								Min
 							</div>
 						)}
-						{!disabled && reset != undefined && reset != BigInt(value) && (
+						{!disabled && reset != undefined && reset != BigInt(value) && reset != min && reset != max && (
 							<div
 								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -145,7 +156,7 @@ export default function TokenInput({
 				) : null}
 			</div>
 
-			<div className="flex my-2 px-3.5 text-text-warning">{error}</div>
+			{error ? <div className="flex my-2 px-3.5 text-text-warning">{error}</div> : <div className="flex my-2 px-3.5">{note}</div>}
 		</div>
 	);
 }

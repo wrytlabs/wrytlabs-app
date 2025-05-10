@@ -34,9 +34,11 @@ export default function LeverageMorphDetails({ instance }: Props) {
 				<DisplayLabel label="LLTV Price" />
 				<DisplayOutputAlignedRight
 					amount={
-						(instance.loanValue * parseUnits('1', 18 + instance.collateralDecimals)) /
-						instance.lltv /
-						instance.position.collateral
+						instance.position.collateral > 0n
+							? (instance.loanValue * parseUnits('1', 18 + instance.collateralDecimals)) /
+							  instance.lltv /
+							  instance.position.collateral
+							: 0n
 					}
 					digits={instance.loanDecimals}
 					unit={instance.loanSymbol}
@@ -62,6 +64,7 @@ export default function LeverageMorphDetails({ instance }: Props) {
 			<AppCard>
 				<DisplayLabel label="Loan Value" />
 				<DisplayOutputAlignedRight
+					className="pt-2 font-semibold"
 					amount={instance.loanValue}
 					digits={instance.loanDecimals} // shown in the loan unit
 					unit={instance.loanSymbol} // shown in the loan unit
@@ -71,6 +74,7 @@ export default function LeverageMorphDetails({ instance }: Props) {
 			<AppCard>
 				<DisplayLabel label="Collateral Amount" />
 				<DisplayOutputAlignedRight
+					className="pt-2 font-semibold"
 					amount={instance.position.collateral}
 					digits={instance.collateralDecimals}
 					unit={instance.collateralSymbol}

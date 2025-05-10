@@ -1,9 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import ReactDatePicker from "react-datepicker";
-import { formatDate } from "@utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import ReactDatePicker from 'react-datepicker';
+import { formatDate } from '@utils';
+import { useRef } from 'react';
 
 interface Props {
+	className?: string;
 	label: string;
 	hideMax?: boolean;
 	min?: Date;
@@ -25,6 +27,7 @@ interface Props {
 }
 
 export default function DateInput({
+	className,
 	label,
 	min,
 	max,
@@ -43,35 +46,42 @@ export default function DateInput({
 	disabled,
 	error,
 }: Props) {
+	const datePickerRef = useRef<any>(null);
+
+	const handleClick = () => {
+		if (datePickerRef.current && !disabled) {
+			datePickerRef.current.setOpen(true);
+		}
+	};
+
 	return (
-		<div className="">
+		<div className={className}>
 			<div
 				className={`group border-card-input-border ${
-					disabled ? "" : "hover:border-card-input-hover"
+					disabled ? '' : 'hover:border-card-input-hover'
 				} focus-within:!border-card-input-focus ${
-					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? "bg-card-input-disabled" : ""}`}
+					error ? '!border-card-input-error' : ''
+				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? 'bg-card-input-disabled' : ''}`}
+				onClick={handleClick}
 			>
 				<div className="flex text-card-input-label my-1">{label}</div>
 
 				<div className="flex items-center">
 					<div
 						className={`flex-1 py-2 ${
-							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"
+							error ? 'text-card-input-error' : !!value ? 'text-text-primary' : 'placeholder:text-card-input-empty'
 						}`}
 					>
-						{output ? (
-							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
-						) : (
-							<ReactDatePicker
-								className="-ml-2 text-xl bg-transparent"
-								id="expiration-datepicker"
-								selected={value}
-								dateFormat={"yyyy-MM-dd"}
-								onChange={(e) => !disabled && onChange?.(e)}
-								disabled={disabled}
-							/>
-						)}
+						<ReactDatePicker
+							ref={datePickerRef}
+							className={`-ml-2 text-xl bg-transparent`}
+							id="expiration-datepicker"
+							selected={value}
+							dateFormat={'yyyy-MM-dd'}
+							onChange={(e) => !disabled && onChange?.(e)}
+							disabled={disabled}
+							value={output}
+						/>
 					</div>
 
 					<div className="mr-2">
@@ -88,7 +98,7 @@ export default function DateInput({
 							</div>
 						</div>
 
-						{!disabled && max != undefined && (
+						{!disabled && max != undefined && max.getDate() != value.getDate() && (
 							<div
 								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -101,7 +111,7 @@ export default function DateInput({
 								Max
 							</div>
 						)}
-						{!disabled && min != undefined && (
+						{!disabled && min != undefined && min.getDate() != value.getDate() && (
 							<div
 								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -114,7 +124,7 @@ export default function DateInput({
 								Min
 							</div>
 						)}
-						{!disabled && reset != undefined && reset != value && (
+						{!disabled && reset != undefined && reset != value && reset != min && reset != max && (
 							<div
 								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
 								onClick={() => {
@@ -131,7 +141,11 @@ export default function DateInput({
 				) : null}
 			</div>
 
-			<div className="flex my-2 px-3.5 text-text-warning">{error}</div>
+			{error ? (
+				<div className="flex my-2 px-3.5 text-text-warning">{error}</div>
+			) : (
+				<div className="flex my-2 px-3.5 text-text-secondary">{note}</div>
+			)}
 		</div>
 	);
 }

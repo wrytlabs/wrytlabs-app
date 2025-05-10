@@ -1,5 +1,5 @@
-import { formatUnits } from "viem";
-import { BigNumberInput } from "./BigNumberInput";
+import { useRef } from 'react';
+import { BigNumberInput } from './BigNumberInput';
 
 interface Props {
 	label?: string;
@@ -18,9 +18,9 @@ interface Props {
 }
 
 export default function NormalInput({
-	label = "Send",
-	placeholder = "Input Amount",
-	value = "",
+	label = 'Send',
+	placeholder = 'Input Amount',
+	value = '',
 	onChange,
 	error,
 	symbol,
@@ -30,29 +30,39 @@ export default function NormalInput({
 	autoFocus = false,
 	disabled = false,
 }: Props) {
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleClick = () => {
+		if (inputRef.current && !disabled) {
+			inputRef.current.focus();
+		}
+	};
+
 	return (
 		<div className="">
 			<div
 				className={`group border-card-input-border hover:border-card-input-hover focus-within:!border-card-input-focus ${
-					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? "bg-card-input-disabled" : ""}`}
+					error ? '!border-card-input-error' : ''
+				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? 'bg-card-input-disabled' : ''}`}
+				onClick={handleClick}
 			>
 				<div className="flex text-card-input-label py-1">{label}</div>
 
 				<div className="flex items-center gap-1">
 					<div
 						className={`flex-1 py-2 ${
-							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"
+							error ? 'text-card-input-error' : !!value ? 'text-text-primary' : 'placeholder:text-card-input-empty'
 						}`}
 					>
 						{output ? (
 							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
-								className={`w-full px-0 py-0 text-xl text-right`}
+								inputRefChild={inputRef}
+								className={`w-full px-0 py-0 text-xl text-right ${disabled ? 'bg-card-input-disabled' : ''}`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
-								value={value}
+								value={value || ''}
 								onChange={onChange}
 								autoFocus={autoFocus}
 								disabled={disabled}

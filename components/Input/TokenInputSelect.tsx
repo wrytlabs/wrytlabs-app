@@ -1,10 +1,11 @@
-import { BigNumberInput } from "./BigNumberInput";
-import dynamic from "next/dynamic";
-import { formatUnits } from "viem";
-import Select from "react-select";
-import { components } from "react-select";
+import { BigNumberInput } from './BigNumberInput';
+import dynamic from 'next/dynamic';
+import { formatUnits } from 'viem';
+import Select from 'react-select';
+import { components } from 'react-select';
+import { useRef } from 'react';
 
-const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
+const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false });
 
 interface Props {
 	label?: string;
@@ -34,8 +35,8 @@ interface Props {
 }
 
 export default function TokenInputSelect({
-	label = "Send",
-	placeholder = "Input Amount",
+	label = 'Send',
+	placeholder = 'Input Amount',
 	symbol,
 	symbolOptions,
 	symbolOnChange,
@@ -48,7 +49,7 @@ export default function TokenInputSelect({
 	limitLabel,
 	output,
 	note,
-	value = "0",
+	value = '0',
 	autoFocus,
 	disabled,
 	onChange = () => {},
@@ -57,6 +58,14 @@ export default function TokenInputSelect({
 	onReset = () => {},
 	error,
 }: Props) {
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleClick = () => {
+		if (inputRef.current && !disabled) {
+			inputRef.current.focus();
+		}
+	};
+
 	const options = symbolOptions.map((o) => {
 		return { value: o, label: o };
 	});
@@ -66,27 +75,29 @@ export default function TokenInputSelect({
 		<div className="">
 			<div
 				className={`group border-card-input-border ${
-					disabled ? "" : "hover:border-card-input-hover"
+					disabled ? '' : 'hover:border-card-input-hover'
 				} focus-within:!border-card-input-focus ${
-					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? "bg-card-input-disabled" : ""}`}
+					error ? '!border-card-input-error' : ''
+				} text-text-secondary border-2 rounded-lg px-3 py-1 ${disabled ? 'bg-card-input-disabled' : ''}`}
+				onClick={handleClick}
 			>
 				<div className="flex text-card-input-label my-1">{label}</div>
 
 				<div className="flex items-center pb-2">
 					<div
 						className={`flex-1 ${
-							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"
+							error ? 'text-card-input-error' : !!value ? 'text-text-primary' : 'placeholder:text-card-input-empty'
 						}`}
 					>
 						{output ? (
 							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
+								inputRefChild={inputRef}
 								className={`w-full px-0 py-0 text-xl bg-transparent`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
-								value={value || ""}
+								value={value || ''}
 								onChange={onChange}
 								autoFocus={autoFocus}
 								disabled={disabled}
@@ -94,7 +105,7 @@ export default function TokenInputSelect({
 						)}
 					</div>
 
-					<div className="px-3 items-center">
+					<div className="px-3 items-center" onClick={(e) => e.stopPropagation()}>
 						<Select
 							className="-mr-3"
 							options={options}
@@ -126,36 +137,36 @@ export default function TokenInputSelect({
 							}}
 							styles={{
 								indicatorSeparator: () => ({
-									display: "none",
+									display: 'none',
 								}),
 								dropdownIndicator: (baseStyles) => ({
 									...baseStyles,
-									color: "#272B38",
+									color: '#272B38',
 								}),
 								control: (baseStyles, state) => ({
 									...baseStyles,
-									backgroundColor: state.isFocused ? "#EAEBF0" : "#FFFFFF", // background of container
-									borderRadius: "0.5rem", // This makes the main control round
-									borderColor: state.isFocused ? "#DFE0E6" : "#F0F1F5",
-									borderWidth: "0.1rem",
-									boxShadow: "0 1px 4px rgba(0, 0, 0, 0.04)",
+									backgroundColor: state.isFocused ? '#EAEBF0' : '#FFFFFF', // background of container
+									borderRadius: '0.5rem', // This makes the main control round
+									borderColor: state.isFocused ? '#DFE0E6' : '#F0F1F5',
+									borderWidth: '0.1rem',
+									boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)',
 								}),
 								option: (baseStyles, state) => ({
 									...baseStyles,
-									backgroundColor: state.isFocused ? "#F5F6F9" : "transparent", // single option in option menu
-									color: state.isFocused ? "#092f62" : "#092f62", // text color from option menu
+									backgroundColor: state.isFocused ? '#F5F6F9' : 'transparent', // single option in option menu
+									color: state.isFocused ? '#092f62' : '#092f62', // text color from option menu
 								}),
 								singleValue: (baseStyles) => ({
 									...baseStyles,
-									color: "#272B38", // text color of selected value in control container
-									borderRadius: "0.5rem", // This makes the main control rounder
-									boxShadow: "2", // Remove the focus shadow
+									color: '#272B38', // text color of selected value in control container
+									borderRadius: '0.5rem', // This makes the main control rounder
+									boxShadow: '2', // Remove the focus shadow
 								}),
 								menu: (baseStyles) => ({
 									...baseStyles,
-									backgroundColor: "#FFFFFF",
-									borderRadius: "0.5rem", // This rounds the dropdown menu
-									overflow: "hidden", // This ensures the content doesn't overflow the rounded corners
+									backgroundColor: '#FFFFFF',
+									borderRadius: '0.5rem', // This rounds the dropdown menu
+									overflow: 'hidden', // This ensures the content doesn't overflow the rounded corners
 								}),
 							}}
 						/>

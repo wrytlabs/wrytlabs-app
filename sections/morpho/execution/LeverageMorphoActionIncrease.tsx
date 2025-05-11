@@ -42,7 +42,7 @@ export default function LeverageMorphoActionIncrease({
 
 	const swapIn = inputLoan + flash;
 	const calcOutRaw = (swapIn * parseUnits('1', instance.collateralDecimals)) / instance.price;
-	const calcOut = (calcOutRaw * BigInt(10_000 - slippage)) / BigInt(10_000);
+	const calcOut = (calcOutRaw * BigInt(1_000_000 - slippage * 100)) / BigInt(1_000_000);
 
 	const handleApprove = async (e: any) => {
 		e.preventDefault();

@@ -26,7 +26,7 @@ export default function LeverageMorphoActionClose({ instance, path, slippage, di
 
 	const swapIn = 0n;
 	const calcOutRaw = (swapIn * instance.price) / parseUnits('1', instance.collateralDecimals);
-	const calcOut = (calcOutRaw * BigInt(100 - slippage)) / BigInt(100);
+	const calcOut = (calcOutRaw * BigInt(1_000_000 - slippage * 100)) / BigInt(1_000_000);
 
 	const handleOnClick = async function (e: any) {
 		e.preventDefault();

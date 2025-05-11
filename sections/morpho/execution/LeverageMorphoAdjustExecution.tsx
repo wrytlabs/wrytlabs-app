@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default function LeverageMorphoAdjustExecution({ instance }: Props) {
-	const tabsSlippage = ['1%', '2%', '5%', '8%', '10%'];
+	const tabsSlippage = ['0.2%', '0.5%', '1%', '3%', '5%'];
 	const tabsExecution = ['Increase', 'Decrease', 'Close'];
 
 	const loanData = useTokenData(instance.loan, instance.address);
@@ -154,7 +154,7 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 					</AppButton>
 
 					<AppButton
-						disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
+						disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0 || isValidPath}
 						onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
 					>
 						Add

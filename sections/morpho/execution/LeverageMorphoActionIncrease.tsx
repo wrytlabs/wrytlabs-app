@@ -42,7 +42,9 @@ export default function LeverageMorphoActionIncrease({
 
 	const swapIn = inputLoan + flash;
 	const calcOutRaw = (swapIn * parseUnits('1', instance.collateralDecimals)) / instance.price;
-	const calcOut = (calcOutRaw * BigInt(1_000_000 - slippage * 100)) / BigInt(1_000_000);
+	const calcOut = (calcOutRaw * BigInt(10000 - slippage * 100)) / BigInt(10000);
+
+	console.log({ swapIn, calcOutRaw, calcOut, method: 'Increase' });
 
 	const handleApprove = async (e: any) => {
 		e.preventDefault();
@@ -138,14 +140,14 @@ export default function LeverageMorphoActionIncrease({
 
 		try {
 			setAction(true);
-			const inputs = [inputLoan, inputCollateral, flash, path.pools, path.fees, calcOut];
+			const inputs = [inputLoan, inputCollateral, flash, path.pools, path.fees, calcOut] as const;
 			console.log(inputs);
 
 			const writeHash = await writeContract(WAGMI_CONFIG, {
 				address: instance.address,
 				abi: LeverageMorphoABI,
 				functionName: 'increase',
-				args: [inputLoan, inputCollateral, flash, path.pools, path.fees, calcOut],
+				args: inputs,
 			});
 
 			const toastContent = [

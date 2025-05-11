@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function LeverageMorphoCollateralTable({ instance }: Props) {
-	const headers: string[] = ['Date', 'Kind', 'Oracle', 'Amount', 'Value'];
+	const headers: string[] = ['Date', 'Kind', 'Oracle', 'Value', 'Amount'];
 	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 	const [list, setList] = useState<LeverageMorphoCollateralFlatRaw[]>([]);

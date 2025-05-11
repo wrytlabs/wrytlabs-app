@@ -53,6 +53,14 @@ export default function MorphoScaleDetails() {
 				<>
 					{/* balance chart / equity */}
 
+					<AppTitle title="Executions">
+						<div className="text-text-secondary">View executions. </div>
+					</AppTitle>
+
+					<LeverageMorphoAdjustExecution instance={instance} />
+
+					<LeverageMorphoExecuteTable instance={instance} />
+
 					<AppTitle title="Loan Adjustments">
 						<div className="text-text-secondary">View borrow and repays. </div>
 					</AppTitle>
@@ -68,14 +76,6 @@ export default function MorphoScaleDetails() {
 					<LeverageMorphoAdjustCollateral instance={instance} />
 
 					<LeverageMorphoCollateralTable instance={instance} />
-
-					<AppTitle title="Executions">
-						<div className="text-text-secondary">View executions. </div>
-					</AppTitle>
-
-					<LeverageMorphoAdjustExecution instance={instance} />
-
-					<LeverageMorphoExecuteTable instance={instance} />
 				</>
 			) : null}
 		</AppPage>

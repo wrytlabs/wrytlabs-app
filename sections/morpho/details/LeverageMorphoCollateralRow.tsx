@@ -29,14 +29,14 @@ export default function LeverageMorphoCollateralRow({ headers, tab, instance, en
 				</div>
 
 				<div className="flex flex-col">
-					{formatCurrency(formatUnits(entry.amount, instance.collateralDecimals))} {instance.collateralSymbol}
-				</div>
-
-				<div className="flex flex-col">
 					{formatCurrency(
 						formatUnits(BigInt(entry.oracle) * BigInt(entry.amount), instance.loanDecimals + instance.collateralDecimals)
 					)}{' '}
 					{instance.loanSymbol}
+				</div>
+
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(entry.amount, instance.collateralDecimals))} {instance.collateralSymbol}
 				</div>
 			</TableRow>
 		</>

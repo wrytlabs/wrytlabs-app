@@ -9,20 +9,21 @@ import DisplayOutputAlignedRight from '@components/Display/DisplayOutputAlignedR
 import AppBox from '@components/AppBox';
 import { formatCurrency } from '@utils';
 import { Address, formatUnits, isAddress, parseEther, parseUnits } from 'viem';
-import { useAccount } from 'wagmi';
-import LeverageMorphoActionWithdrawCollateral from '../edit/LeverageMorphoActionWithdrawCollateral';
 import AddressInput from '@components/Input/AddressInput';
 import NormalInput from '@components/Input/NormalInput';
 import LeverageMorphoAdjustPath, { UniswapPath } from './LeverageMorphoAdjustPath';
 import TabsInput from '@components/Input/TabsInput';
 import AppButton from '@components/AppButton';
+import LeverageMorphoActionIncrease from './LeverageMorphoActionIncrease';
+import LeverageMorphoActionDecrease from './LeverageMorphoActionDecrease';
+import LeverageMorphoActionClose from './LeverageMorphoActionClose';
 
 interface Props {
 	instance: LeverageMorphoInstance;
 }
 
 export default function LeverageMorphoAdjustExecution({ instance }: Props) {
-	const tabsSlippage = ['1%', '2%', '5%', '10%', '20%'];
+	const tabsSlippage = ['1%', '2%', '5%', '8%', '10%'];
 	const tabsExecution = ['Increase', 'Decrease', 'Close'];
 
 	const loanData = useTokenData(instance.loan, instance.address);
@@ -30,6 +31,7 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 	const [direction, setDirection] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState('');
+	const [isValidPath, setIsValidPath] = useState(false);
 	const [inputLoan, setInputLoan] = useState(0n);
 	const [inputCollateral, setInputCollateral] = useState(0n);
 	const [inputFlashloan, setInputFlashloan] = useState(parseUnits('1000', instance.loanDecimals));
@@ -73,6 +75,9 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 	const onChangeAddPool = (token: Address, fee: number) => {
 		setInputPath({ pools: [...inputPath.pools, token], fees: [...inputPath.fees, fee] });
 	};
+	const onChangeRemovePool = () => {
+		setInputPath({ pools: [...inputPath.pools.slice(0, -1)], fees: [...inputPath.fees.slice(0, -1)] });
+	};
 
 	useEffect(() => {
 		if (!isAddress(inputTokenAddress) && inputTokenAddress != '') {
@@ -81,6 +86,28 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 			setErrorTokenAddress('');
 		}
 	}, []);
+
+	useEffect(() => {
+		if (inputExecution == 'Close') {
+			setInputFlashloan(0n);
+			setInputLoan(0n);
+			setInputCollateral(0n);
+		}
+	}, [inputExecution]);
+
+	useEffect(() => {
+		const p = inputPath.pools;
+		const p0 = p.at(0);
+		const p1 = p.at(-1);
+
+		if (p.length < 2 || p0 == undefined || p1 == undefined) {
+			setIsValidPath(false);
+		} else if (p0.toLowerCase() == instance.loan.toLowerCase() && p1.toLowerCase() == instance.collateral.toLowerCase()) {
+			setIsValidPath(true);
+		} else {
+			setIsValidPath(false);
+		}
+	}, [inputPath]);
 
 	return (
 		<div className="grid md:grid-cols-2 max-md:grid-cols-1 gap-2">
@@ -93,30 +120,46 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 
 				<TokenInput
 					label="Flashloan Amount"
-					symbol={instance.loanSymbol}
+					symbol={inputExecution == 'Increase' ? instance.loanSymbol : instance.collateralSymbol}
 					value={inputFlashloan}
-					digit={instance.loanDecimals}
+					digit={inputExecution == 'Increase' ? instance.loanDecimals : instance.collateralDecimals}
 					onChange={onChangeFlashloan}
-					reset={parseUnits('1000', instance.loanDecimals)}
-					min={parseUnits('1', instance.loanDecimals)}
+					min={parseUnits('1', inputExecution == 'Increase' ? instance.loanDecimals : instance.collateralDecimals)}
+					disabled={inputExecution == 'Close'}
 				/>
 
 				<AppTitle title="Set Uniswap" />
 
-				<LeverageMorphoAdjustPath path={inputPath} />
+				<LeverageMorphoAdjustPath instance={instance} path={inputPath} />
 
 				<TabsInput className="-mt-2" tabs={tabsSlippage} tab={inputSlippage} setTab={setInputSlippage} />
 
-				<AddressInput label="Token Address" value={inputTokenAddress} onChange={setInputTokenAddress} error={errorTokenAddress} />
+				<AddressInput
+					label="Token Address"
+					value={inputTokenAddress}
+					onChange={setInputTokenAddress}
+					error={errorTokenAddress}
+					disabled={isValidPath}
+				/>
 
-				<NormalInput label="Pool Fee" value={inputPoolFee} onChange={setInputPoolFee} digit={4} symbol="%" />
+				<NormalInput label="Pool Fee" value={inputPoolFee} onChange={setInputPoolFee} digit={4} symbol="%" disabled={isValidPath} />
 
-				<AppButton
-					disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
-					onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
-				>
-					Add
-				</AppButton>
+				<div className="grid md:grid-cols-2 gap-4">
+					<AppButton
+						className={inputPath.pools.length > 1 ? 'bg-red-500' : ''}
+						disabled={inputPath.pools.length < 2}
+						onClick={onChangeRemovePool}
+					>
+						Remove
+					</AppButton>
+
+					<AppButton
+						disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
+						onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
+					>
+						Add
+					</AppButton>
+				</div>
 			</AppCard>
 
 			<AppCard>
@@ -133,6 +176,7 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 					limit={loanData.balance}
 					limitDigit={instance.loanDecimals}
 					limitLabel="Balance"
+					disabled={inputExecution == 'Close'}
 				/>
 
 				<TokenInput
@@ -146,6 +190,7 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 					limit={collateralData.balance}
 					limitDigit={instance.collateralDecimals}
 					limitLabel="Balance"
+					disabled={inputExecution == 'Close'}
 				/>
 
 				<AppTitle title="Outcome" />
@@ -178,12 +223,35 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 					/>
 				</AppBox>
 
-				<AppButton
-					disabled={!isAddress(inputTokenAddress) || Number(inputPoolFee) == 0}
-					onClick={() => onChangeAddPool(inputTokenAddress as Address, Number(inputPoolFee))}
-				>
-					{inputExecution}
-				</AppButton>
+				{inputExecution == 'Increase' && (
+					<LeverageMorphoActionIncrease
+						instance={instance}
+						inputLoan={inputLoan}
+						inputCollateral={inputCollateral}
+						flash={inputFlashloan}
+						path={inputPath}
+						slippage={Number(inputSlippage.slice(0, -1))}
+						allowanceLoan={loanData.allowance}
+						allowanceCollateral={collateralData.allowance}
+					/>
+				)}
+
+				{inputExecution == 'Decrease' && (
+					<LeverageMorphoActionDecrease
+						instance={instance}
+						inputLoan={inputLoan}
+						inputCollateral={inputCollateral}
+						flash={inputFlashloan}
+						path={inputPath}
+						slippage={Number(inputSlippage.slice(0, -1))}
+						allowanceLoan={loanData.allowance}
+						allowanceCollateral={collateralData.allowance}
+					/>
+				)}
+
+				{inputExecution == 'Close' && (
+					<LeverageMorphoActionClose instance={instance} path={inputPath} slippage={Number(inputSlippage.slice(0, -1))} />
+				)}
 			</AppCard>
 		</div>
 	);

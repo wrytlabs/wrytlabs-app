@@ -27,7 +27,10 @@ export default function LeverageMorphoAdjustLoan({ instance }: Props) {
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState('');
 
-	const resultLTV = (BigInt(instance.loanValue + (direction ? -amount : amount)) * parseEther('1')) / BigInt(instance.collateralValue);
+	const resultLTV =
+		instance.collateralValue > 0n
+			? (BigInt(instance.loanValue + (direction ? -amount : amount)) * parseEther('1')) / BigInt(instance.collateralValue)
+			: 0n;
 	const maxBorrowRaw = (instance.collateralValue * instance.lltv) / parseEther('1') - instance.loanValue;
 	const maxBorrow = (maxBorrowRaw * parseEther('1')) / parseEther('1.001'); // give some tolerance e.g. 85.999% for 86% LLTV
 

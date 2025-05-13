@@ -58,7 +58,9 @@ export default function LeverageMorphoAdjustExecution({ instance }: Props) {
 
 	const resultCollateral = BigInt(instance.position.collateral) + (direction ? amount : -amount);
 	const resultLTV =
-		(BigInt(instance.loanValue) * parseUnits('1', 18 + instance.collateralDecimals)) / (resultCollateral * instance.price);
+		resultCollateral > 0n
+			? (instance.loanValue * parseUnits('1', 18 + instance.collateralDecimals)) / (resultCollateral * instance.price)
+			: 0n;
 
 	const onChangeLoan = (value: string) => {
 		const valueBigInt = BigInt(value);

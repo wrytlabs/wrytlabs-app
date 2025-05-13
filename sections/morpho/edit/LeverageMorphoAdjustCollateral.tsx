@@ -29,7 +29,9 @@ export default function LeverageMorphoAdjustCollateral({ instance }: Props) {
 
 	const resultCollateral = BigInt(instance.position.collateral) + (direction ? amount : -amount);
 	const resultLTV =
-		(BigInt(instance.loanValue) * parseUnits('1', 18 + instance.collateralDecimals)) / (resultCollateral * instance.price);
+		resultCollateral > 0n
+			? (BigInt(instance.loanValue) * parseUnits('1', 18 + instance.collateralDecimals)) / (resultCollateral * instance.price)
+			: 0n;
 	const minCollateralRaw =
 		(instance.loanValue * parseEther('1') * parseUnits('1', instance.collateralDecimals)) / instance.lltv / instance.price;
 	const minCollateral = (minCollateralRaw * parseEther('1.001')) / parseEther('1'); // give some tolerance e.g. 85.999% for 86% LLTV

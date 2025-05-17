@@ -2,23 +2,32 @@ import { useAccount } from 'wagmi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import AppButton from './AppButton';
-import { Address, zeroAddress } from 'viem';
-import { API_CLIENT, WAGMI_CHAIN } from '../app.config';
+import { zeroAddress } from 'viem';
+import { API_CLIENT } from '../app.config';
 import { useSignMessage } from 'wagmi';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { TxToast } from './TxToast';
+import { Id, toast } from 'react-toastify';
+import { shortenAddress } from '@utils';
 
 export default function ApiConnect() {
 	const { address, status } = useAccount();
 	const [isToken, setIsToken] = useState(false);
 	const [message, setMessage] = useState('');
 	const [signature, setSignature] = useState('');
+	const [toastId, setToastId] = useState<Id>(0);
 
-	const { signMessage, isPending, isIdle, error } = useSignMessage({
+	const { signMessage, isPending } = useSignMessage({
 		mutation: {
 			async onSuccess(data) {
 				setSignature(data);
+			},
+			async onError(error) {
+				toast.update(toastId, {
+					render: `Failed to sign in: ${error}`,
+					type: 'error',
+					isLoading: false,
+					autoClose: 3000,
+				});
 			},
 		},
 	});
@@ -27,24 +36,11 @@ export default function ApiConnect() {
 		if (address == undefined) return;
 
 		const response = await API_CLIENT.post('/auth/message', { address });
+		const toastId = toast.loading(`Signing in as ${shortenAddress(address)}...`);
+
 		setMessage(response.data);
 		signMessage({ message: response.data });
-
-		const toastContent = [
-			{
-				title: `SignIn `,
-				value: address,
-			},
-		];
-
-		// await toast.promise(signIn, {
-		// 	pending: {
-		// 		render: <TxToast title={`Creating new Position`} rows={toastContent} />,
-		// 	},
-		// 	success: {
-		// 		render: <TxToast title="Successfully Created" rows={toastContent} />,
-		// 	},
-		// });
+		setToastId(toastId);
 	};
 
 	useEffect(() => {
@@ -57,29 +53,41 @@ export default function ApiConnect() {
 	}, [status, isToken, address]);
 
 	useEffect(() => {
-		if (message.length == 0 || signature.length == 0 || address == zeroAddress) return;
+		if (message.length == 0 || signature.length == 0 || address == zeroAddress || address == undefined) return;
 
 		const fetcher = async () => {
-			const signIn = API_CLIENT.post('/auth/signIn', { message, signature });
+			try {
+				const signIn = API_CLIENT.post('/auth/signIn', { message, signature });
+				const { accessToken } = (await signIn).data;
 
-			const { accessToken } = (await signIn).data;
-			console.log({ accessToken });
+				if (accessToken) {
+					localStorage.setItem('accessToken', accessToken);
+					setIsToken(true);
+				}
 
-			if (accessToken) {
-				localStorage.setItem('accessToken', accessToken);
-				setIsToken(true);
+				toast.update(toastId, {
+					render: `Signed in as ${shortenAddress(address)}`,
+					type: 'success',
+					isLoading: false,
+					autoClose: 3000,
+				});
+			} catch (error: any) {
+				toast.update(toastId, {
+					render: `Failed to sign in: ${error?.response?.data?.message}`,
+					type: 'error',
+					isLoading: false,
+					autoClose: 3000,
+				});
+			} finally {
+				setMessage('');
+				setSignature('');
 			}
-
-			setMessage('');
-			setSignature('');
 		};
 
 		fetcher();
-	}, [message, signature, address, isToken]);
+	}, [message, signature, address, isToken, toastId]);
 
 	const disabled = address == undefined || address == zeroAddress || isPending;
-
-	console.log({ isToken, disabled });
 
 	return (
 		<AppButton

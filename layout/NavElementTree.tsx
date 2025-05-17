@@ -160,22 +160,22 @@ export const NavTree: NavBarTree[] = [
 				name: 'Storage',
 				icon: <FontAwesomeIcon icon={faFileZipper} className="cursor-pointer" />,
 				childs: [
+					// {
+					// 	name: 'List',
+					// 	to: '/storage/list',
+					// },
+					// {
+					// 	name: 'Details',
+					// 	to: '/storage/details',
+					// },
 					{
-						name: 'List',
-						to: '/storage/list',
+						name: 'Upload',
+						to: '/storage',
 					},
-					{
-						name: 'Details',
-						to: '/storage/details',
-					},
-					{
-						name: 'Create',
-						to: '/storage/create',
-					},
-					{
-						name: 'Edit',
-						to: '/storage/edit',
-					},
+					// {
+					// 	name: 'Edit',
+					// 	to: '/storage/edit',
+					// },
 				],
 			},
 			{

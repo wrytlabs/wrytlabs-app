@@ -1,22 +1,25 @@
 import { useAppKit } from '@reown/appkit/react';
 import { useAccount } from 'wagmi';
-import Button from './AppButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import AppButton from './AppButton';
+import { useEffect } from 'react';
 
 export default function WalletConnect() {
 	const AppKit = useAppKit();
-	const { isConnected } = useAccount();
+	const { isConnected, status } = useAccount();
 
-	if (!isConnected) {
-		return (
-			<Button width="w-36" onClick={() => AppKit.open()}>
-				Connect Wallet
-			</Button>
-		);
-	} else {
-		return (
-			<div className="flex items-center gap-4">
-				<div className="flex items-center gap-2 font-bold">{<appkit-button balance="hide" />}</div>
-			</div>
-		);
-	}
+	useEffect(() => {
+		console.log({ status, storage: localStorage.getItem('accessToken') });
+		if (status == 'disconnected') {
+			localStorage.removeItem('accessToken');
+			console.warn('removed access token from local storage');
+		}
+	}, [status]);
+
+	return (
+		<AppButton className={`${isConnected ? 'bg-button-disabled' : undefined}`} width={'w-12'} onClick={() => AppKit.open()}>
+			<FontAwesomeIcon className={`${isConnected ? 'text-button-default' : undefined}`} icon={faWallet} width={32} height={32} />
+		</AppButton>
+	);
 }

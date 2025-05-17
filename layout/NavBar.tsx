@@ -2,7 +2,6 @@ import Link from 'next/link';
 import NavElementTree from './NavElementTree';
 import { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
-import { CONFIG } from '../app.config';
 
 interface Props {
 	isNavBarOpen: boolean;

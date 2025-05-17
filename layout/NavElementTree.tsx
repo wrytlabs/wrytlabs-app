@@ -32,6 +32,7 @@ import {
 	faVault,
 	faBook,
 	faArrowsUpToLine,
+	faFileZipper,
 } from '@fortawesome/free-solid-svg-icons';
 import { SetStateAction } from 'react';
 
@@ -70,6 +71,26 @@ export const NavTree: NavBarTree[] = [
 			{
 				name: 'Docs',
 				to: '/docs',
+				icon: <FontAwesomeIcon icon={faBook} className="cursor-pointer" />,
+			},
+		],
+	},
+	{
+		title: 'Governance',
+		items: [
+			{
+				name: 'Access Manager',
+				to: '/asdf',
+				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
+			},
+			{
+				name: 'Vault',
+				to: '/asdf/vault',
+				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
+			},
+			{
+				name: 'Docs',
+				to: '/asdf',
 				icon: <FontAwesomeIcon icon={faBook} className="cursor-pointer" />,
 			},
 		],
@@ -136,25 +157,47 @@ export const NavTree: NavBarTree[] = [
 				],
 			},
 			{
+				name: 'Storage',
+				icon: <FontAwesomeIcon icon={faFileZipper} className="cursor-pointer" />,
+				childs: [
+					{
+						name: 'List',
+						to: '/storage/list',
+					},
+					{
+						name: 'Details',
+						to: '/storage/details',
+					},
+					{
+						name: 'Create',
+						to: '/storage/create',
+					},
+					{
+						name: 'Edit',
+						to: '/storage/edit',
+					},
+				],
+			},
+			{
 				name: 'Vault',
 				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
 				childs: [
 					{
 						name: 'List',
-						to: '/vault/list',
+						to: '/finance/vault',
 					},
-					{
-						name: 'Details',
-						to: '/vault/details',
-					},
-					{
-						name: 'Create',
-						to: '/vault/create',
-					},
-					{
-						name: 'Edit',
-						to: '/vault/edit',
-					},
+					// {
+					// 	name: 'Details',
+					// 	to: '/vault/details',
+					// },
+					// {
+					// 	name: 'Create',
+					// 	to: '/vault/create',
+					// },
+					// {
+					// 	name: 'Edit',
+					// 	to: '/vault/edit',
+					// },
 				],
 			},
 			{

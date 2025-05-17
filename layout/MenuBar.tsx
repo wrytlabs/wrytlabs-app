@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NavBar from './NavBar';
 import WalletConnect from '@components/WalletConnect';
+import ApiConnect from '@components/ApiConnect';
 
 export default function MenuBar() {
 	const [isNavBarOpen, setIsNavBarOpen] = useState<boolean>(false);
@@ -22,7 +23,8 @@ export default function MenuBar() {
 							</svg>
 						</div>
 
-						<div className="flex flex-1 justify-end">
+						<div className="flex flex-1 justify-end gap-2">
+							<ApiConnect />
 							<WalletConnect />
 						</div>
 					</div>

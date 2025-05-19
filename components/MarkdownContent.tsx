@@ -22,8 +22,8 @@ export default function MarkdownContent({ content }: MarkdownProps) {
 				ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
 				ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
 				li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-				code: ({ node, ...props }) => <code className="bg-cyan-100 rounded px-1" {...props} />,
-				pre: ({ node, ...props }) => <pre className="bg-cyan-100 p-4 rounded-xl mb-4 w-full overflow-x-scroll" {...props} />,
+				code: ({ node, ...props }) => <code className="bg-gray-200 rounded px-1" {...props} />,
+				pre: ({ node, ...props }) => <pre className="bg-gray-200 p-4 rounded-xl mb-4 w-full overflow-x-scroll" {...props} />,
 				img: ({ node, ...props }) => (
 					<div className="flex justify-center w-full max-md:my-2 md:my-8">
 						<Image

@@ -72,6 +72,7 @@ export default function ApiConnect() {
 					autoClose: 3000,
 				});
 			} catch (error: any) {
+				console.error(error);
 				toast.update(toastId, {
 					render: `Failed to sign in: ${error?.response?.data?.message}`,
 					type: 'error',

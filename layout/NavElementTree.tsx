@@ -63,34 +63,14 @@ export const NavTree: NavBarTree[] = [
 				to: '/home/purpose',
 				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
 			},
-			{
-				name: 'Vault',
-				to: '/finance/vault',
-				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
-			},
+			// {
+			// 	name: 'Vault',
+			// 	to: '/finance/vault',
+			// 	icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
+			// },
 			{
 				name: 'Docs',
 				to: '/docs',
-				icon: <FontAwesomeIcon icon={faBook} className="cursor-pointer" />,
-			},
-		],
-	},
-	{
-		title: 'Governance',
-		items: [
-			{
-				name: 'Access Manager',
-				to: '/asdf',
-				icon: <FontAwesomeIcon icon={faFingerprint} className="cursor-pointer" />,
-			},
-			{
-				name: 'Vault',
-				to: '/asdf/vault',
-				icon: <FontAwesomeIcon icon={faVault} className="cursor-pointer" />,
-			},
-			{
-				name: 'Docs',
-				to: '/asdf',
 				icon: <FontAwesomeIcon icon={faBook} className="cursor-pointer" />,
 			},
 		],

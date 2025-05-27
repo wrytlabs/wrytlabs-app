@@ -18,8 +18,11 @@ export default function WalletConnect() {
 	}, [status]);
 
 	return (
-		<AppButton className={`${isConnected ? 'bg-button-disabled' : undefined}`} width={'w-12'} onClick={() => AppKit.open()}>
-			<FontAwesomeIcon className={`${isConnected ? 'text-button-default' : undefined}`} icon={faWallet} width={32} height={32} />
+		<AppButton className={`${isConnected ? 'bg-button-disabled' : undefined}`} width={'w-20'} onClick={() => AppKit.open()}>
+			<div className="flex flex-row items-center justify-center gap-1 -ml-2">
+				<FontAwesomeIcon className={`${isConnected ? 'text-button-default' : undefined}`} icon={faWallet} width={32} height={32} />
+				<div className={`${isConnected ? 'text-button-default px-2' : undefined}`}>0x</div>
+			</div>
 		</AppButton>
 	);
 }

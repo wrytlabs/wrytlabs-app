@@ -93,11 +93,14 @@ export default function ApiConnect() {
 	return (
 		<AppButton
 			className={`${isToken ? 'bg-button-disabled text-button-textdisabled' : undefined}`}
-			width={'w-12'}
+			width={'w-20'}
 			onClick={handleClick}
 			disabled={disabled}
 		>
-			<FontAwesomeIcon className={`${isToken ? 'text-button-default' : undefined}`} icon={faLink} width={32} height={32} />
+			<div className="flex flex-row items-center justify-center gap-1 -ml-1">
+				<FontAwesomeIcon className={`${isToken ? 'text-button-default' : undefined}`} icon={faLink} width={32} height={32} />
+				<div className={`${isToken ? 'text-button-default px-2' : undefined}`}>API</div>
+			</div>
 		</AppButton>
 	);
 }

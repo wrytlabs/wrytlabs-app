@@ -96,17 +96,17 @@ export const WAGMI_ADAPTER = new WagmiAdapter({
 			wait: 200,
 		},
 	},
-	connectors: [
-		safe({
-			allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/, /dhedge.org$/],
-		}),
-		walletConnect({ projectId: CONFIG.wagmiId, metadata: WAGMI_METADATA, showQrModal: false }),
-		injected({ shimDisconnect: true }),
-		coinbaseWallet({
-			appName: WAGMI_METADATA.name,
-			appLogoUrl: WAGMI_METADATA.icons[0],
-		}),
-	],
+	// connectors: [
+	// 	safe({
+	// 		allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/, /dhedge.org$/],
+	// 	}),
+	// 	walletConnect({ projectId: CONFIG.wagmiId, metadata: WAGMI_METADATA, showQrModal: false }),
+	// 	injected({ shimDisconnect: true }),
+	// 	coinbaseWallet({
+	// 		appName: WAGMI_METADATA.name,
+	// 		appLogoUrl: WAGMI_METADATA.icons[0],
+	// 	}),
+	// ],
 	ssr: true,
 	storage: createStorage({
 		storage: cookieStorage,
